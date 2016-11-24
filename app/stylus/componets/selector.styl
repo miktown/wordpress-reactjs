@@ -1,0 +1,119 @@
+#informesappria
+	#informes_wrapper
+		.headerInformes
+			.informeInformes
+				position relative
+				display inline-block
+				width 150px
+				height 35px
+				margin-bottom -29px
+				user-select none
+				.selector.selector_informe
+					transition all .7s ease-in-out
+					display block
+					background #2B3033
+					border-radius 50px
+					color white
+					font-weight 400
+					box-shadow 0 1px 3px rgba(0, 0, 0, 0.28)
+					cursor pointer
+					position relative
+					margin 0
+					text-align center
+					.selector_opcion
+						display none
+						padding .5em 1.5em
+					.selector_opcion.selected
+						display inline-block
+				.selector.selector_informe:hover
+					transition all .2s linear
+					border-radius 0px
+					width 150px
+					display block
+					overflow hidden
+					position absolute
+					cursor default
+					.selector_opcion
+						background white
+						color #666
+						position relative
+						display block
+						cursor pointer
+					.selector_opcion:not(.selected)
+						border-bottom 1px solid rgba(0, 0, 0, 0.05)
+					.firstNext
+						margin-top 33px
+					.selector_opcion:hover
+						background #509bff
+						color white
+					.selector_opcion.selected
+						background #2B3033
+						color white
+						cursor default
+						text-align center
+						width 108px
+						position absolute
+						top 0
+			.informeZonas
+				position relative
+				display inline-block
+				width 150px
+				height 35px
+				margin-bottom -29px
+				user-select none
+				.selector.selector_informe
+					transition all .7s ease-in-out
+					display block
+					background white
+					border-radius 50px
+					color #2B3033
+					font-weight 800
+					cursor pointer
+					position relative
+					margin 0
+					text-align center
+					.selector_opcion
+						display none
+						padding .5em 1.5em
+					.selector_opcion.selected
+						display inline-block
+				.selector.selector_informe::before
+					content ''
+					background-image url('../../assets/lugar.png')
+					background-repeat no-repeat
+					background-size contain
+					position absolute
+					margin-bottom -10px
+					margin-top 6px
+					height 20px
+					width 20px
+				.selector.selector_informe:hover
+					transition all .2s linear
+					border-radius 0px
+					width 150px
+					display block
+					overflow hidden
+					box-shadow 0 1px 3px rgba(0, 0, 0, 0.28)
+					position absolute
+					cursor default
+					.selector_opcion
+						background white
+						color #666
+						position relative
+						display block
+						cursor pointer
+					.selector_opcion:not(.selected)
+						border-bottom 1px solid rgba(0, 0, 0, 0.05)
+					.firstNext
+						margin-top 33px
+					.selector_opcion:hover
+						background #509bff
+						color white
+					.selector_opcion.selected
+						background #2B3033
+						color white
+						cursor default
+						text-align center
+						width 108px
+						position absolute
+						top 0

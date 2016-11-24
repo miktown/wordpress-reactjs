@@ -1,0 +1,106 @@
+$keyframe-name = pulse
+$keyframe-text-blue = textPulse
+$keyframe-text-green = textPulse
+
+$green = #c4ffa1
+$blue = #a1feff
+
+#informesappria
+	.informesPreview
+		.titleInformes
+			font-weight 800
+			font-size 25px
+			margin 0
+			padding 0
+			margin-bottom .5em
+			padding-left 2em
+			 text-shadow 0 1px 3px #333
+			.infoDoing
+				font-size .6em
+				font-weight 300
+				margin-left 2em
+			.infoDoing.blue
+				color $blue
+				// animation $keyframe-text-blue 1.2s infinite linear
+				@keyframes {$keyframe-text-blue} {
+				  0%{
+				    opacity:1;
+				    text-shadow 0 0 4px $blue
+
+				  }
+				  50%{
+				    opacity:.7;
+				    text-shadow 0 0 4px transparent
+				  }
+				  100% {
+				    opacity:1;
+				    text-shadow 0 0 4px $blue
+				  }
+				}
+			.infoDoing.green
+				color $green
+				// animation $keyframe-text-green 2s infinite linear
+				@keyframes {$keyframe-text-green} {
+				  0%{
+				    opacity:1;
+				    text-shadow 0 0 3px $green
+
+				  }
+				  50%{
+				    opacity:.9;
+				    text-shadow 0 0 4px transparent
+				  }
+				  100% {
+				    opacity:1;
+				    text-shadow 0 0 3px $green
+				  }
+				}
+		.informesLoader
+			opacity .8
+			height 1em
+			width 2em
+			margin 0 auto
+			position absolute
+			margin-top -5.5em
+			@keyframes {$keyframe-name} {
+			  0%{
+			    box-shadow: 0 0;
+			    height: 4em;
+			  }
+			  40% {
+			    box-shadow: 0 -2em;
+			    height: 5em;
+			  }
+			  80%{
+			    box-shadow: 0 0;
+			    height: 4em;
+			  }
+			  100% {
+			    box-shadow: 0 0;
+			    height: 4em;
+			  }
+			}
+			.loader,.loader:before,.loader:after
+				background #ffffff
+				animation $keyframe-name 1s infinite ease-in-out
+				width 1em
+				height 4em
+			.loader
+				color #ffffff
+				text-indent -9999em
+				margin 88px auto
+				position relative
+				font-size 11px
+				transform translateZ(0)
+				animation-delay -0.16s
+			.loader:before, .loader:after
+				position absolute
+				top 0
+				content ''
+			.loader:before
+				left -1.5em
+				animation-delay -0.32s
+			.loader:after
+				left 1.5em
+			.loader
+				font-size .3em
