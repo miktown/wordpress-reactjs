@@ -21743,11 +21743,11 @@
 
 	var _infoview2 = _interopRequireDefault(_infoview);
 
-	var _updated = __webpack_require__(309);
+	var _updated = __webpack_require__(310);
 
 	var _updated2 = _interopRequireDefault(_updated);
 
-	var _preview = __webpack_require__(330);
+	var _preview = __webpack_require__(331);
 
 	var _preview2 = _interopRequireDefault(_preview);
 
@@ -35256,6 +35256,8 @@
 	  value: true
 	});
 
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(10);
@@ -35270,6 +35272,10 @@
 
 	var _sindatos2 = _interopRequireDefault(_sindatos);
 
+	var _profesores = __webpack_require__(309);
+
+	var _profesores2 = _interopRequireDefault(_profesores);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -35281,10 +35287,10 @@
 	var InformeView = function (_React$Component) {
 	  _inherits(InformeView, _React$Component);
 
-	  function InformeView() {
+	  function InformeView(props) {
 	    _classCallCheck(this, InformeView);
 
-	    return _possibleConstructorReturn(this, (InformeView.__proto__ || Object.getPrototypeOf(InformeView)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (InformeView.__proto__ || Object.getPrototypeOf(InformeView)).call(this, props));
 	  }
 
 	  _createClass(InformeView, [{
@@ -35310,9 +35316,12 @@
 	    key: 'handlerInformes',
 	    value: function handlerInformes() {
 	      var informe = this.getInformeSelected().name;
+	      var zona = this.getZonaSelected().name;
 	      switch (informe) {
 	        case 'Informe':
 	          return _react2.default.createElement(_sinseleccion2.default, null);
+	        case 'Profesores':
+	          return _react2.default.createElement(_profesores2.default, _extends({ zona: zona }, this.props));
 	        default:
 	          return _react2.default.createElement(_sindatos2.default, { informe: informe });
 	      }
@@ -35441,6 +35450,81 @@
 /* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(10);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _moment = __webpack_require__(189);
+
+	var _moment2 = _interopRequireDefault(_moment);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var InformeProfesores = function (_React$Component) {
+	  _inherits(InformeProfesores, _React$Component);
+
+	  function InformeProfesores() {
+	    _classCallCheck(this, InformeProfesores);
+
+	    return _possibleConstructorReturn(this, (InformeProfesores.__proto__ || Object.getPrototypeOf(InformeProfesores)).apply(this, arguments));
+	  }
+
+	  _createClass(InformeProfesores, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      console.log(this.props.workData.profesores);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'viewInformes' },
+	        'Datos de profesores de ',
+	        _react2.default.createElement(
+	          'strong',
+	          null,
+	          this.props.zona
+	        ),
+	        ' desde el ',
+	        _react2.default.createElement(
+	          'strong',
+	          null,
+	          (0, _moment2.default)(this.props.inicio).format('DD/MM/Y')
+	        ),
+	        ' hasta el ',
+	        _react2.default.createElement(
+	          'strong',
+	          null,
+	          (0, _moment2.default)(this.props.fin).format('DD/MM/Y')
+	        )
+	      );
+	    }
+	  }]);
+
+	  return InformeProfesores;
+	}(_react2.default.Component);
+
+	exports.default = InformeProfesores;
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -35463,10 +35547,10 @@
 
 	if (!global.Intl) {
 	  // polyfill for `Intl`
-	  global.Intl = __webpack_require__(310);
+	  global.Intl = __webpack_require__(311);
 	}
 
-	var IntlRelativeFormat = __webpack_require__(313);
+	var IntlRelativeFormat = __webpack_require__(314);
 	// require('intl-relativeformat/dist/locale-data/es.js')
 	// español
 	IntlRelativeFormat.__addLocaleData({ 'locale': 'es', 'pluralRuleFunction': function pluralRuleFunction(n, ord) {
@@ -35535,17 +35619,17 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
 
 	// Expose `IntlPolyfill` as global to add locale data into runtime later on.
-	global.IntlPolyfill = __webpack_require__(311);
+	global.IntlPolyfill = __webpack_require__(312);
 
 	// Require all locale data for `Intl`. This module will be
 	// ignored when bundling for the browser with Browserify/Webpack.
-	__webpack_require__(312);
+	__webpack_require__(313);
 
 	// hack to export the polyfill as global Intl if needed
 	if (!global.Intl) {
@@ -35558,7 +35642,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -39915,24 +39999,24 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* jshint node:true */
 
 	'use strict';
 
-	var IntlRelativeFormat = __webpack_require__(314)['default'];
+	var IntlRelativeFormat = __webpack_require__(315)['default'];
 
 	// Add all locale data to `IntlRelativeFormat`. This module will be ignored when
 	// bundling for the browser with Browserify/Webpack.
-	__webpack_require__(329);
+	__webpack_require__(330);
 
 	// Re-export `IntlRelativeFormat` as the CommonJS default exports with all the
 	// locale data registered, and with English set as the default locale. Define
@@ -39941,15 +40025,15 @@
 	exports['default'] = exports;
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* jslint esnext: true */
 
 	"use strict";
 
-	var src$core$$ = __webpack_require__(315),
-	    src$en$$ = __webpack_require__(328);
+	var src$core$$ = __webpack_require__(316),
+	    src$en$$ = __webpack_require__(329);
 
 	src$core$$["default"].__addLocaleData(src$en$$["default"]);
 	src$core$$["default"].defaultLocale = 'en';
@@ -39959,7 +40043,7 @@
 	//# sourceMappingURL=main.js.map
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -39972,9 +40056,9 @@
 
 	"use strict";
 
-	var intl$messageformat$$ = __webpack_require__(316),
-	    src$diff$$ = __webpack_require__(326),
-	    src$es5$$ = __webpack_require__(327);
+	var intl$messageformat$$ = __webpack_require__(317),
+	    src$diff$$ = __webpack_require__(327),
+	    src$es5$$ = __webpack_require__(328);
 	exports["default"] = RelativeFormat;
 
 	// -----------------------------------------------------------------------------
@@ -40237,18 +40321,18 @@
 	//# sourceMappingURL=core.js.map
 
 /***/ },
-/* 316 */
+/* 317 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* jshint node:true */
 
 	'use strict';
 
-	var IntlMessageFormat = __webpack_require__(317)['default'];
+	var IntlMessageFormat = __webpack_require__(318)['default'];
 
 	// Add all locale data to `IntlMessageFormat`. This module will be ignored when
 	// bundling for the browser with Browserify/Webpack.
-	__webpack_require__(325);
+	__webpack_require__(326);
 
 	// Re-export `IntlMessageFormat` as the CommonJS default exports with all the
 	// locale data registered, and with English set as the default locale. Define
@@ -40257,15 +40341,15 @@
 	exports['default'] = exports;
 
 /***/ },
-/* 317 */
+/* 318 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* jslint esnext: true */
 
 	"use strict";
 
-	var src$core$$ = __webpack_require__(318),
-	    src$en$$ = __webpack_require__(324);
+	var src$core$$ = __webpack_require__(319),
+	    src$en$$ = __webpack_require__(325);
 
 	src$core$$["default"].__addLocaleData(src$en$$["default"]);
 	src$core$$["default"].defaultLocale = 'en';
@@ -40275,7 +40359,7 @@
 	//# sourceMappingURL=main.js.map
 
 /***/ },
-/* 318 */
+/* 319 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -40288,10 +40372,10 @@
 
 	"use strict";
 
-	var src$utils$$ = __webpack_require__(319),
-	    src$es5$$ = __webpack_require__(320),
-	    src$compiler$$ = __webpack_require__(321),
-	    intl$messageformat$parser$$ = __webpack_require__(322);
+	var src$utils$$ = __webpack_require__(320),
+	    src$es5$$ = __webpack_require__(321),
+	    src$compiler$$ = __webpack_require__(322),
+	    intl$messageformat$parser$$ = __webpack_require__(323);
 	exports["default"] = MessageFormat;
 
 	// -- MessageFormat --------------------------------------------------------
@@ -40545,7 +40629,7 @@
 	//# sourceMappingURL=core.js.map
 
 /***/ },
-/* 319 */
+/* 320 */
 /***/ function(module, exports) {
 
 	/*
@@ -40588,7 +40672,7 @@
 	//# sourceMappingURL=utils.js.map
 
 /***/ },
-/* 320 */
+/* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -40601,7 +40685,7 @@
 
 	"use strict";
 
-	var src$utils$$ = __webpack_require__(319);
+	var src$utils$$ = __webpack_require__(320);
 
 	// Purposely using the same implementation as the Intl.js `Intl` polyfill.
 	// Copyright 2013 Andy Earnshaw, MIT License
@@ -40645,7 +40729,7 @@
 	//# sourceMappingURL=es5.js.map
 
 /***/ },
-/* 321 */
+/* 322 */
 /***/ function(module, exports) {
 
 	/*
@@ -40851,16 +40935,16 @@
 	//# sourceMappingURL=compiler.js.map
 
 /***/ },
-/* 322 */
+/* 323 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	exports = module.exports = __webpack_require__(323)['default'];
+	exports = module.exports = __webpack_require__(324)['default'];
 	exports['default'] = exports;
 
 /***/ },
-/* 323 */
+/* 324 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -42291,7 +42375,7 @@
 	//# sourceMappingURL=parser.js.map
 
 /***/ },
-/* 324 */
+/* 325 */
 /***/ function(module, exports) {
 
 	// GENERATED FILE
@@ -42308,13 +42392,13 @@
 	//# sourceMappingURL=en.js.map
 
 /***/ },
-/* 325 */
+/* 326 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports) {
 
 	/*
@@ -42365,7 +42449,7 @@
 	//# sourceMappingURL=diff.js.map
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports) {
 
 	/*
@@ -42447,7 +42531,7 @@
 	//# sourceMappingURL=es5.js.map
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports) {
 
 	// GENERATED FILE
@@ -42464,13 +42548,13 @@
 	//# sourceMappingURL=en.js.map
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports) {
 
 	/* (ignored) */
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

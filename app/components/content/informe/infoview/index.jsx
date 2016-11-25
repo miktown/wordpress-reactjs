@@ -4,7 +4,13 @@ import React from 'react'
 import NoInformeSelected from './sinseleccion'
 import SinDatos from './sindatos'
 
+import InformeProfesores from './profesores'
+
 class InformeView extends React.Component {
+
+  constructor (props) {
+    super(props)
+  }
 
   componentWillMount () {
     this.handlerInformes()
@@ -20,8 +26,10 @@ class InformeView extends React.Component {
 
   handlerInformes () {
     let informe = this.getInformeSelected().name
+    let zona = this.getZonaSelected().name
     switch (informe) {
       case 'Informe': return <NoInformeSelected />
+      case 'Profesores': return <InformeProfesores zona={zona} {...this.props} />
       default: return <SinDatos informe={informe} />
     }
   }
