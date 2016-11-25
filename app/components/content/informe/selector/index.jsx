@@ -13,7 +13,11 @@ class Selector extends React.Component {
     let isFirst = true
     let isNextFirstClass = ''
 
-    this.props.datosMenu.forEach((value, i) => {
+    this.props.datosMenu.filter(value => {
+
+      return value.name === 'Informe' ? value.selected : true;
+
+    }).map((value, i) => {
       let isSelected = value.selected === true ? ' selected' : ''
       if (isFirst === true && value.selected !== true) {
         isNextFirstClass = ' firstNext'

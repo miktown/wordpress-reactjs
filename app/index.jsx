@@ -2,12 +2,17 @@
 
 import React from 'react'
 import {render} from 'react-dom'
-import AppWrapper from './containers/app'
-console.log('empezamosss')
+import AppWrapper from './components/wrapper'
+
 class App extends React.Component {
 
+  constructor (props) {
+    super(props)
+    this.url = window.location.protocol + "//" + window.location.host
+  }
+
   render () {
-    return <AppWrapper />
+    return <AppWrapper url={this.url} />
   }
 }
 

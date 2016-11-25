@@ -10,32 +10,41 @@ import InformeView from './infoview'
 import UpdatedInfo from '../updated'
 import Preview from './preview'
 
+
+// ...this.props
+// updatedMsg={this.state.updatedMsg}
+// updated={this.state.updated}
+// workData={this.state.workData}
+// onClick={this.doActualizar.bind(this)}
+
 class Informe extends React.Component {
 
   constructor (props) {
     super(props)
     this.state = {
-      dataWork: this.props.datos || false,
       dateStart: moment().subtract(1, 'month').date(1),
       dateEnd: moment().subtract(1, 'month').endOf('month')
     }
   }
 
+  componentWillMount () {
+    // let a = JSON.parse(this.props.workData)
+    //  console.log(typeof this.props.workData)
+  }
+
   selectorHandle (seleccionado, target) {
-    this.state.dataWork[target].map((item) => {
-      item.selected = item.name === seleccionado
-    })
-    this.setState({
-      dataWork: this.state.dataWork
-    })
+    this.props.workData[target].map(item => {
+        item.selected = item.name === seleccionado
+      })
+    this.props.selectorMenu(this.props.workData)
   }
 
   selectorInformeHandle (seleccionado) {
-    this.selectorHandle(seleccionado, 'infromesMenu')
+    this.selectorHandle(seleccionado, 'informesMenu')
   }
 
   selectorZonaHandle (seleccionado) {
-    this.selectorHandle(seleccionado, 'informesZonas')
+    this.selectorHandle(seleccionado, 'zonas')
   }
 
   changeDateHandle (startDate, endDate) {
@@ -46,16 +55,16 @@ class Informe extends React.Component {
   }
 
   render () {
-    return this.props.informesList
+    return this.props.updated
       ? <div id='informes_wrapper'>
         <header className='headerInformes'>
           <Selector
             claseWrap='informeZonas'
-            datosMenu={this.state.dataWork.informesZonas}
+            datosMenu={this.props.workData.zonas}
             onChangeCallback={this.selectorZonaHandle.bind(this)} />
           <Selector
             claseWrap='informeInformes'
-            datosMenu={this.state.dataWork.infromesMenu}
+            datosMenu={this.props.workData.informesMenu}
             onChangeCallback={this.selectorInformeHandle.bind(this)} />
           <Filtros
             filtros={false}
@@ -72,7 +81,7 @@ class Informe extends React.Component {
           filtros={false}
           {...this.props} />
         <UpdatedInfo {...this.props} />
-      </div> : <Preview />
+      </div> : <Preview {...this.props}/>
   }
 }
 

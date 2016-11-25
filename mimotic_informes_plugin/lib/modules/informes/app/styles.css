@@ -122,7 +122,7 @@
   -ms-transition: all 0.7s ease-in-out;
   transition: all 0.7s ease-in-out;
   display: block;
-  background: #fff;
+  background: #f1f1f1;
   border-radius: 50px;
   color: #2b3033;
   font-weight: 800;
@@ -316,7 +316,7 @@
   -ms-transition: all 0.7s ease-in-out;
   transition: all 0.7s ease-in-out;
   display: block;
-  background: #fff;
+  background: #f1f1f1;
   border-radius: 50px;
   color: #2b3033;
   font-weight: 800;

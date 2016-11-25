@@ -16,7 +16,7 @@ class Mimotic_appStart{
 	/**
 	 * @var array
 	 */
-	private $libs;
+	private $libs = array();
 
 	/**
 	 * @var string
@@ -68,8 +68,6 @@ class Mimotic_appStart{
 	 * @return void
 	 */
 	private function start($loadMore = ""){
-		$this->setDefaultDeps();
-
 		if($loadMore !== "")
 			$this->libs = array_merge($this->libs, $loadMore);
 

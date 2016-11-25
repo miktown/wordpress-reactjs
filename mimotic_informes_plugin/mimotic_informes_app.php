@@ -37,7 +37,8 @@ if ( ! class_exists('Mimotic_appStart', false) && file_exists( __DIR__ . '/lib/M
 	  require_once  __DIR__ . '/lib/MimoticApp.php';
 
 $mimoticInformes_deps = array(
-	"lib/modules/informes/init"
+	"lib/modules/informes/init",
+	"lib/modules/informes/model/init"
 );
 
 new Mimotic_appStart($mimoticInformes_deps);
