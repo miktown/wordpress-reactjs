@@ -13,7 +13,6 @@ class AppWrapper extends React.Component {
       workData: false,
       updatedMsg: 'Comprobando si existen datos...'
     }
-
   }
 
   componentWillMount () {
@@ -28,7 +27,7 @@ class AppWrapper extends React.Component {
   }
 
   getDataStored (key) {
-    return JSON.parse( window.localStorage.getItem(key) ) || false
+    return JSON.parse(window.localStorage.getItem(key)) || false
   }
 
   setDataStored (key, data) {
@@ -41,7 +40,7 @@ class AppWrapper extends React.Component {
   }
 
   doActualizar () {
-    if(this.state.updated !== 0) this.setState({ updated: 0 })
+    if (this.state.updated !== 0) this.setState({ updated: 0 })
     this.getDataFromWp()
   }
 
@@ -68,7 +67,7 @@ class AppWrapper extends React.Component {
     let self = this
 
     this.setState({
-      updatedMsg: 'Sincronizando datos...'
+      updatedMsg: 'Sincronizando con base datos...'
     })
 
     window.jQuery.ajax({
@@ -92,7 +91,7 @@ class AppWrapper extends React.Component {
       updatedMsg={this.state.updatedMsg}
       updated={this.state.updated}
       workData={this.state.workData}
-      selectorMenu = {this.selectorMenu.bind(this)}
+      selectorMenu={this.selectorMenu.bind(this)}
       onClick={this.doActualizar.bind(this)} />
   }
 

@@ -10,13 +10,6 @@ import InformeView from './infoview'
 import UpdatedInfo from '../updated'
 import Preview from './preview'
 
-
-// ...this.props
-// updatedMsg={this.state.updatedMsg}
-// updated={this.state.updated}
-// workData={this.state.workData}
-// onClick={this.doActualizar.bind(this)}
-
 class Informe extends React.Component {
 
   constructor (props) {
@@ -27,15 +20,10 @@ class Informe extends React.Component {
     }
   }
 
-  componentWillMount () {
-    // let a = JSON.parse(this.props.workData)
-    //  console.log(typeof this.props.workData)
-  }
-
   selectorHandle (seleccionado, target) {
     this.props.workData[target].map(item => {
-        item.selected = item.name === seleccionado
-      })
+      item.selected = item.name === seleccionado
+    })
     this.props.selectorMenu(this.props.workData)
   }
 
@@ -77,11 +65,11 @@ class Informe extends React.Component {
         <InformeView
           inicio={this.state.dateStart}
           fin={this.state.dateEnd}
-          informe={false}
+          workData={this.props.workData}
           filtros={false}
           {...this.props} />
         <UpdatedInfo {...this.props} />
-      </div> : <Preview {...this.props}/>
+      </div> : <Preview {...this.props} />
   }
 }
 

@@ -8,7 +8,7 @@ class App extends React.Component {
 
   constructor (props) {
     super(props)
-    this.url = window.location.protocol + "//" + window.location.host
+    this.url = window.location.protocol + '//' + window.location.host
   }
 
   render () {

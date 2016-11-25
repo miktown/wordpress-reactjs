@@ -5,7 +5,6 @@ import React from 'react'
 class Preview extends React.Component {
 
   render () {
-
     return <div className='informesPreview'>
 
       <div className='informesLoader'>

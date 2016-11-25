@@ -1,25 +1,33 @@
 'use strict'
 
 import React from 'react'
+import NoInformeSelected from './sinseleccion'
+import SinDatos from './sindatos'
 
 class InformeView extends React.Component {
 
-  constructor (props) {
-    super(props)
+  componentWillMount () {
+    this.handlerInformes()
+  }
 
-    this.state = {
-      informeName: this.props.false
+  getZonaSelected () {
+    return this.props.workData.zonas.filter(zona => zona.selected)[0]
+  }
+
+  getInformeSelected () {
+    return this.props.workData.informesMenu.filter(zona => zona.selected)[0]
+  }
+
+  handlerInformes () {
+    let informe = this.getInformeSelected().name
+    switch (informe) {
+      case 'Informe': return <NoInformeSelected />
+      default: return <SinDatos informe={informe} />
     }
   }
 
-  componentWillMount () {
-
-  }
-
   render () {
-    return <main className='viewInformes'>
-        aquí mostramos el informe, neng
-    </main>
+    return <main className='viewInformes'>{this.handlerInformes()}</main>
   }
 }
 
