@@ -35287,10 +35287,10 @@
 	var InformeView = function (_React$Component) {
 	  _inherits(InformeView, _React$Component);
 
-	  function InformeView(props) {
+	  function InformeView() {
 	    _classCallCheck(this, InformeView);
 
-	    return _possibleConstructorReturn(this, (InformeView.__proto__ || Object.getPrototypeOf(InformeView)).call(this, props));
+	    return _possibleConstructorReturn(this, (InformeView.__proto__ || Object.getPrototypeOf(InformeView)).apply(this, arguments));
 	  }
 
 	  _createClass(InformeView, [{

@@ -8,10 +8,6 @@ import InformeProfesores from './profesores'
 
 class InformeView extends React.Component {
 
-  constructor (props) {
-    super(props)
-  }
-
   componentWillMount () {
     this.handlerInformes()
   }
