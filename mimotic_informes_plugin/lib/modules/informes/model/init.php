@@ -13,7 +13,6 @@ if ( ! defined( 'WPINC' ) ) die;
 
 Class RobotsInformesDataGenerator {
 
-
     /**
     * response
     * @var array
@@ -44,14 +43,10 @@ Class RobotsInformesDataGenerator {
     */
     private $profesores;
 
-
-
     public function __construct () {
         if (is_admin())
             add_action( 'wp_ajax_robots_informes_ajax_request', array( $this, 'robots_informes_ajax_request' ) );
     }
-
-
 
     private function get_user_role () {
         global $current_user;
@@ -74,7 +69,7 @@ Class RobotsInformesDataGenerator {
     }
 
     private function set_user_data () {
-        $this->userId = get_current_user_id();
+        $this->userId = get_current_user_id(); // wp->fn
         $this->userRoles = $this->get_user_role();
         $this->userZonas = $this->get_user_zonas();
     }
@@ -151,6 +146,51 @@ Class RobotsInformesDataGenerator {
         $this->response['profesores'] = $this->get_informe_profesores();
     }
 
+    private function clases_to_teachers_reorder ($data) {
+
+        $profesores_list = array();
+        $profesores_en_la_clase = array();
+
+        foreach ($data as $key => $clase) {
+
+            $datos_clase = $clase['clase'];
+
+            $profesores_en_la_clase = $clase['profesores'];
+            $sustitutos_en_la_clase = $clase['sustitutos'];
+
+            foreach ($profesores_en_la_clase as $key => $profesor_en_la_clase) {
+
+                if( (int) $profesor_en_la_clase['id'] < 1) continue;
+
+                if( !isset($profesores_list[$profesor_en_la_clase['id']]) ){
+                    $profesores_list[$profesor_en_la_clase['id']] = array(
+                            'meta_profe' => $profesor_en_la_clase
+                        );
+                }
+                $profesores_list[$profesor_en_la_clase['id']]['clases'][$datos_clase['id']] = $datos_clase;
+
+            }
+
+            foreach ($sustitutos_en_la_clase as $key => $sustituto_en_la_clase) {
+
+                if( (int) $sustituto_en_la_clase['id'] < 1) continue;
+
+                if( !isset($profesores_list[$sustituto_en_la_clase['id']]) ){
+                    $profesores_list[$sustituto_en_la_clase['id']] = array(
+                            'meta_profe' => $sustituto_en_la_clase
+                        );
+                }
+                $profesores_list[$sustituto_en_la_clase['id']]['sustituciones'][$sustituto_en_la_clase['fecha']][$datos_clase['id']] = $datos_clase;
+                $profesores_list[$sustituto_en_la_clase['id']]['sustituciones'][$sustituto_en_la_clase['fecha']][$datos_clase['id']]['fecha'] = $sustitutos_en_la_clase;
+
+            }
+
+            // ...
+        }
+
+        return $profesores_list;
+    }
+
     private function get_informe_profesores () {
 
         $response = array();
@@ -169,18 +209,34 @@ Class RobotsInformesDataGenerator {
             $colegio_id = (int) $clase_meta_bruta['clase_colegio'][0];
             $clase_inicio = $clase_meta_bruta['_clase_inicio'][0];
             $clase_fin = $clase_meta_bruta['_clase_fin'][0];
-            $clase_dias_sin_clase = $clase_meta_bruta['_clase_dias_sin_clase'];
+            $clase_dias_sin_clase = $clase_meta_bruta['_clase_dias_sin_clase_colegio'];
             $clase_coste = $clase_meta_bruta['_clase_coste'][0];
 
 
-
-
-
-
-
+            $colegio_meta_bruta = get_post_meta( $colegio_id );
 
             $colegio_nombre = get_the_title($colegio_id);
             $colegio_zona = wp_get_post_terms( $colegio_id, 'tax_zonas', array("fields" => "all") );
+
+            $colegio_calendarios = $colegio_meta_bruta['clase_calendarios'];
+            $calendarios_fechas = array();
+
+            if ( is_array($colegio_calendarios) ){
+                foreach ($colegio_calendarios as $key => $calendario) {
+
+                    $calendario_id = explode("opt_", $calendario);
+                    $calendario_id = (int) $calendario_id[1];
+
+                    if($calendario_id > 0){
+                        $title_calendario = get_the_title($calendario_id);
+                        $calendarios_fechas[$title_calendario] = get_post_meta($calendario_id, 'fecha_calendario', false);
+                    }
+
+                }
+            }
+
+
+            $colegio_dias_sin_clase = $colegio_meta_bruta['_clase_dias_sin_clase_colegio'];
 
             $clase_dias_recurrentes = maybe_unserialize($clase_meta_bruta['clase_semana'][0]);
             $clase_dias_recurrentes_output = array();
@@ -213,9 +269,14 @@ Class RobotsInformesDataGenerator {
                 $zona_profe = get_term( $zona_profe_id, 'tax_zonas');
                 $zona_profe_nombre = get_user_meta($profe, 'first_name', true);
                 $zona_profe_apellidos = get_user_meta($profe, 'last_name', true);
+                $zona_profe_bajas = get_user_meta($profe, '_profesor_no_asistencia', false);
+
+
+
                 $profesores_output[] = array(
-                    'id' => $profe,
+                    'id' => (int) $profe,
                     'nombre' => $zona_profe_nombre . ' ' . $zona_profe_apellidos,
+                    'bajas' => $zona_profe_bajas ,
                     'zona' => array(
                                 'id' => (int) $zona_profe->term_id,
                                 'nombre' => $zona_profe->name,
@@ -232,9 +293,11 @@ Class RobotsInformesDataGenerator {
                 $zona_profe = get_term( $zona_profe_id, 'tax_zonas');
                 $zona_profe_nombre = get_user_meta($profe, 'first_name', true);
                 $zona_profe_apellidos = get_user_meta($profe, 'last_name', true);
+                $zona_profe_bajas = get_user_meta($profe, '_profesor_no_asistencia', false);
                 $profesores_sustitutos_output[] = array(
                     'id' => (int) $sustituto['profesor'],
                     'nombre' => $zona_profe_nombre . ' ' . $zona_profe_apellidos,
+                    'bajas' => $zona_profe_bajas ,
                     'fecha' => $sustituto['fecha'],
                     'zona' => array(
                                 'id' => (int) $zona_profe->term_id,
@@ -254,6 +317,8 @@ Class RobotsInformesDataGenerator {
                                 'name' => $clase->post_title,
                                 'colegio_id' => $colegio_id,
                                 'colegio_name' => $colegio_nombre,
+                                'colegio_calendarios' => $calendarios_fechas,
+                                'colegio_dias_sin_clase' => $colegio_dias_sin_clase,
                                 'colegio_zona' => array(
                                         'id' => (int) $colegio_zona[0]->term_id,
                                         'nombre' => $colegio_zona[0]->name,
@@ -270,36 +335,15 @@ Class RobotsInformesDataGenerator {
                         'sustitutos' => $profesores_sustitutos_output
                    );
 
-            $profesores_list = array();
-
-            foreach ($temp as $key => $clase) {
-                $profesores_clase = $clase['profesores'];
-
-                foreach ($profesores_clase as $key => $profesor) {
-                   if( $profesores_list[$profesor['id']] ){
-
-                   }else{
-                       $profesores_list[$profesor['id']] = array(
-                               'meta_profe' => $profesor,
-                               'clase' => $clase['clase']
-                           );
-                   }
-                }
-
-                // ...
-            }
 
 
 
-            array_push($response,$temp);
+
+           array_push($response,$temp);
         }
 
-        return $response;
+        return $this->clases_to_teachers_reorder($response);
     }
-
-
-
-
 
   //...
 }
