@@ -63,6 +63,7 @@ class Informe extends React.Component {
             onChangeDate={this.changeDateHandle.bind(this)} />
         </header>
         <InformeView
+          moment={moment}
           inicio={this.state.dateStart}
           fin={this.state.dateEnd}
           workData={this.props.workData}

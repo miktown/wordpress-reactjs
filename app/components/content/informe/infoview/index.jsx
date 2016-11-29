@@ -9,7 +9,7 @@ import InformeProfesores from './profesores'
 class InformeView extends React.Component {
 
   componentWillMount () {
-    this.handlerInformes()
+    this.whatInforme()
   }
 
   getZonaSelected () {
@@ -20,7 +20,7 @@ class InformeView extends React.Component {
     return this.props.workData.informesMenu.filter(zona => zona.selected)[0]
   }
 
-  handlerInformes () {
+  whatInforme () {
     let informe = this.getInformeSelected().name
     let zona = this.getZonaSelected().name
     switch (informe) {
@@ -31,7 +31,7 @@ class InformeView extends React.Component {
   }
 
   render () {
-    return <main className='viewInformes'>{this.handlerInformes()}</main>
+    return <main className='viewInformes'>{this.whatInforme()}</main>
   }
 }
 

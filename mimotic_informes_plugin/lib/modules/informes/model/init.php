@@ -128,8 +128,6 @@ Class RobotsInformesDataGenerator {
     }
 
     private function informes_for_current_user () {
-        // 1. comprobar role y dependiendo ver unos u otros
-        // 2. comprobar zonas de este user
 
         //zonas
         if($this->userZonas) $this->response['zonas'] = $this->userZonas;
@@ -151,14 +149,14 @@ Class RobotsInformesDataGenerator {
         $profesores_list = array();
         $profesores_en_la_clase = array();
 
-        foreach ($data as $key => $clase) {
+        foreach ($data as $clase) {
 
             $datos_clase = $clase['clase'];
 
             $profesores_en_la_clase = $clase['profesores'];
             $sustitutos_en_la_clase = $clase['sustitutos'];
 
-            foreach ($profesores_en_la_clase as $key => $profesor_en_la_clase) {
+            foreach ($profesores_en_la_clase as $profesor_en_la_clase) {
 
                 if( (int) $profesor_en_la_clase['id'] < 1) continue;
 
@@ -171,7 +169,7 @@ Class RobotsInformesDataGenerator {
 
             }
 
-            foreach ($sustitutos_en_la_clase as $key => $sustituto_en_la_clase) {
+            foreach ($sustitutos_en_la_clase as $sustituto_en_la_clase) {
 
                 if( (int) $sustituto_en_la_clase['id'] < 1) continue;
 
@@ -185,10 +183,33 @@ Class RobotsInformesDataGenerator {
 
             }
 
+            $profes_output = array();
+
+            foreach ($profesores_list as $profesor) {
+                $clases_profe = array();
+                $sustituciones_profe = array();
+
+                foreach ($profesor['clases'] as $clase) {
+                    $clases_profe[] = $clase;
+                }
+
+                foreach ($profesor['sustituciones'] as $key => $sustituciones) {
+                    foreach ($sustituciones as $sustituciones_clase) {
+                        $sustituciones_clase['fecha'] = $key;
+                        $clases_profe[] = $sustituciones_clase;
+                    }
+                }
+
+                $profesor['clases'] = $clases_profe;
+                unset($profesor['sustituciones']);
+                $profes_output[] = $profesor;
+
+            }
+
             // ...
         }
 
-        return $profesores_list;
+        return $profes_output;
     }
 
     private function get_informe_profesores () {
@@ -209,7 +230,7 @@ Class RobotsInformesDataGenerator {
             $colegio_id = (int) $clase_meta_bruta['clase_colegio'][0];
             $clase_inicio = $clase_meta_bruta['_clase_inicio'][0];
             $clase_fin = $clase_meta_bruta['_clase_fin'][0];
-            $clase_dias_sin_clase = $clase_meta_bruta['_clase_dias_sin_clase_colegio'];
+            $clase_dias_sin_clase = $clase_meta_bruta['_clase_dias_sin_clase'];
             $clase_coste = $clase_meta_bruta['_clase_coste'][0];
 
 
@@ -229,7 +250,7 @@ Class RobotsInformesDataGenerator {
 
                     if($calendario_id > 0){
                         $title_calendario = get_the_title($calendario_id);
-                        $calendarios_fechas[$title_calendario] = get_post_meta($calendario_id, 'fecha_calendario', false);
+                        $calendarios_fechas[] = get_post_meta($calendario_id, 'fecha_calendario', false);
                     }
 
                 }
@@ -243,9 +264,9 @@ Class RobotsInformesDataGenerator {
 
             foreach ($clase_dias_recurrentes as $key => $recurrentes) {
                 $clase_dias_recurrentes_output[] = array(
-                    'inicio' => $recurrentes['clase_semana_dias'][0],
-                    'fin' => $recurrentes['clase_semana_ini'][0],
-                    'dia' => $recurrentes['clase_semana_end'][0]
+                    'dia' => $recurrentes['clase_semana_dias'][0],
+                    'inicio' => $recurrentes['clase_semana_ini'][0],
+                    'fin' => $recurrentes['clase_semana_end'][0]
                 );
             }
 
@@ -254,9 +275,9 @@ Class RobotsInformesDataGenerator {
 
             foreach ($clase_extra_lectivos as $key => $extra) {
                 $clase_extra_lectivos_output[] = array(
-                    'inicio' => $extra['fecha'],
-                    'fin' => $extra['clase_semana_ini'],
-                    'dia' => $extra['clase_semana_end']
+                    'dia' => $extra['fecha'],
+                    'inicio' => $extra['clase_semana_ini'],
+                    'fin' => $extra['clase_semana_end']
                 );
             }
 
@@ -289,11 +310,11 @@ Class RobotsInformesDataGenerator {
             $profesores_sustitutos_output = array();
 
             foreach ($profesores_sustitutos as $key => $sustituto) {
-                $zona_profe_id = get_user_meta($sustituto['profesor'], '_user_zona_asignada', true);
-                $zona_profe = get_term( $zona_profe_id, 'tax_zonas');
-                $zona_profe_nombre = get_user_meta($profe, 'first_name', true);
-                $zona_profe_apellidos = get_user_meta($profe, 'last_name', true);
-                $zona_profe_bajas = get_user_meta($profe, '_profesor_no_asistencia', false);
+                $zona_sustituto_id = get_user_meta($sustituto['profesor'], '_user_zona_asignada', true);
+                $zona_profe = get_term( $zona_sustituto_id, 'tax_zonas');
+                $zona_profe_nombre = get_user_meta($sustituto['profesor'], 'first_name', true);
+                $zona_profe_apellidos = get_user_meta($sustituto['profesor'], 'last_name', true);
+                $zona_profe_bajas = get_user_meta($sustituto['profesor'], '_profesor_no_asistencia', false);
                 $profesores_sustitutos_output[] = array(
                     'id' => (int) $sustituto['profesor'],
                     'nombre' => $zona_profe_nombre . ' ' . $zona_profe_apellidos,
