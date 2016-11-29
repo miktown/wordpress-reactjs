@@ -7,7 +7,7 @@ import 'moment/locale/es'
 class InformeProfesores extends React.Component {
 
   componentWillMount () {
-    //console.log('dataInit', this.props.workData.profesores)
+    // console.log('dataInit', this.props.workData.profesores)
   }
 
   getDayNumber (dayStr) {
@@ -132,7 +132,7 @@ class InformeProfesores extends React.Component {
     let output = {}
     output.bajas = []
     output.lectivos = []
-    //bajasProfesor.map(baja => output.bajas.push(baja))
+    // bajasProfesor.map(baja => output.bajas.push(baja))
 
     clases.map((clase) => {
       if (!clase.hasOwnProperty('fecha')) {
@@ -153,10 +153,8 @@ class InformeProfesores extends React.Component {
         }
         self.calculateDias(clase.clase_fin, clase.clase_ini, clase.clase_precio, clase.clase_recurrentes).map(dia => output.lectivos.push(dia))
       } else {
-
         let inClaseExtra = false
         clase.clases_extra_lectivos.map(claseExtra => {
-
           if (claseExtra.dia === clase.fecha) {
             claseExtra.precio = clase.clase_precio
             output.lectivos.push(claseExtra)
@@ -165,7 +163,6 @@ class InformeProfesores extends React.Component {
         })
 
         if (!inClaseExtra) {
-
           clase.clase_recurrentes.map(claseRecurrenteTal => {
             if (self.translateDay(claseRecurrenteTal.dia) === moment(clase.fecha, 'DD/MM/Y').format('dddd').toLowerCase()) {
               output.lectivos.push({

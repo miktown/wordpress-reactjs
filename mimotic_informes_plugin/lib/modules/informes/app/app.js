@@ -39309,7 +39309,7 @@
 	  _createClass(InformeProfesores, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      console.log('dataInit', this.props.workData.profesores);
+	      // console.log('dataInit', this.props.workData.profesores)
 	    }
 	  }, {
 	    key: 'getDayNumber',
@@ -39441,7 +39441,7 @@
 	      var output = {};
 	      output.bajas = [];
 	      output.lectivos = [];
-	      //bajasProfesor.map(baja => output.bajas.push(baja))
+	      // bajasProfesor.map(baja => output.bajas.push(baja))
 
 	      clases.map(function (clase) {
 	        if (!clase.hasOwnProperty('fecha')) {
@@ -39468,10 +39468,8 @@
 	            return output.lectivos.push(dia);
 	          });
 	        } else {
-
 	          var inClaseExtra = false;
 	          clase.clases_extra_lectivos.map(function (claseExtra) {
-
 	            if (claseExtra.dia === clase.fecha) {
 	              claseExtra.precio = clase.clase_precio;
 	              output.lectivos.push(claseExtra);
@@ -39480,10 +39478,7 @@
 	          });
 
 	          if (!inClaseExtra) {
-
 	            clase.clase_recurrentes.map(function (claseRecurrenteTal) {
-	              console.log('claseRecurrenteTal.dia', claseRecurrenteTal.dia);
-	              console.log('moment', (0, _moment2.default)(clase.fecha, 'DD/MM/Y').format('dddd').toLowerCase());
 	              if (self.translateDay(claseRecurrenteTal.dia) === (0, _moment2.default)(clase.fecha, 'DD/MM/Y').format('dddd').toLowerCase()) {
 	                output.lectivos.push({
 	                  dia: clase.fecha,
