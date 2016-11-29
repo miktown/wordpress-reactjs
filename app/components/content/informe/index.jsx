@@ -2,6 +2,8 @@
 
 import React from 'react'
 import moment from 'moment'
+var esES = require('moment/locale/es.js')
+moment.locale('es', esES)
 
 import Selector from './selector'
 import Filtros from './filtros'
@@ -63,7 +65,6 @@ class Informe extends React.Component {
             onChangeDate={this.changeDateHandle.bind(this)} />
         </header>
         <InformeView
-          moment={moment}
           inicio={this.state.dateStart}
           fin={this.state.dateEnd}
           workData={this.props.workData}

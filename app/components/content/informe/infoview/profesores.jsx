@@ -1,19 +1,18 @@
 'use strict'
 
 import React from 'react'
+import Moment from 'moment'
+var esES = require('moment/locale/es.js')
+Moment.locale('es', esES)
 
 class InformeProfesores extends React.Component {
 
-  constructor (props) {
-    super(props)
-    this.Moment = this.props.moment
-  }
-
   componentWillMount () {
-    console.log(this.props.workData.profesores)
+    console.log('dataInit', this.props.workData.profesores)
   }
 
   getDayNumber (dayStr) {
+    console.log('dayStr-prev', dayStr)
     var day = 1
     switch (dayStr.toLowerCase()) {
       case 'sunday':
@@ -42,21 +41,42 @@ class InformeProfesores extends React.Component {
         break
     }
 
+    console.log('dayStr-prev-number', day)
+
     return day
   }
 
-  getFirstDayFromDate (dateStart, dayStr) {
-    let dateIni = this.Moment(dateStart, 'DD/MM/Y').day(dayStr.toLowerCase).format('DD/MM/Y')
-    let dateIniA = this.Moment(dateIni, 'DD/MM/Y').format('DD/MM/Y')
-    let dateClassB = this.Moment(dateStart, 'DD/MM/Y').format('DD/MM/Y')
+  // getFirstDayFromDate (dateStart, dayStr) {
+  //   let dateIni = Moment(dateStart, 'DD/MM/Y').day(dayStr.toLowerCase).format('DD/MM/Y')
+  //   let dateIniA = Moment(dateIni, 'DD/MM/Y').format('DD/MM/Y')
+  //   let dateClassB = Moment(dateStart, 'DD/MM/Y').format('DD/MM/Y')
 
-    if (this.Moment(dateIniA, 'DD/MM/Y').isBefore(dateClassB)) dateIni = this.Moment(dateStart, 'DD/MM/Y').day(this.getDayNumber(dayStr) + 7).format('DD/MM/Y')
+  //   if ( Moment(dateIniA, 'DD/MM/Y').isBefore(dateClassB, 'DD/MM/Y') ){
+  //     dateIni = Moment(dateStart, 'DD/MM/Y').day(this.getDayNumber(dayStr) + 7).format('DD/MM/Y')
+  //   }
+
+  //   return dateIni
+  // }
+
+  getFirstDayFromDate(dateStart,dayStr,formatIn,formatOut){
+    if(!formatIn) formatIn = 'DD/MM/Y'
+    if(!formatOut) formatOut = 'DD/MM/Y'
+    var dayInt = this.getDayNumber(dayStr)
+
+    var dateIni = Moment(dateStart,formatIn).day(dayInt).format(formatOut)
+
+    var dateIniA = Moment(dateIni,formatIn).format('DD/MM/Y')
+    var dateClassB = Moment(dateStart,formatIn).format('DD/MM/Y')
+
+    if(Moment(dateIniA).isBefore(dateClassB)){
+      dateIni = Moment(dateStart,formatIn).day(dayInt + 7).format(formatOut)
+    }
 
     return dateIni
   }
 
   isDateSameOrBefore (classDay, fin) {
-    return this.Moment(classDay, 'DD/MM/Y').isSameOrBefore(this.Moment(fin, 'DD/MM/Y'))
+    return Moment(classDay, 'DD/MM/Y').isSameOrBefore(Moment(fin, 'DD/MM/Y'))
   }
 
   getClassDays (ini, fin, lectivo) {
@@ -66,7 +86,7 @@ class InformeProfesores extends React.Component {
     daysClases.push(classDay)
 
     while (this.isDateSameOrBefore(classDay, fin)) {
-      classDay = this.Moment(classDay, 'DD/MM/Y').add(7, 'days').format('DD/MM/Y')
+      classDay = Moment(classDay, 'DD/MM/Y').add(7, 'days').format('DD/MM/Y')
       if (this.isDateSameOrBefore(classDay, fin) !== false) daysClases.push(classDay)
     }
 
@@ -106,12 +126,14 @@ class InformeProfesores extends React.Component {
         if (clase.clase_sin_clase) clase.clase_sin_clase.map(diaSinClase => { if (diaSinClase) output.bajas.push(diaSinClase) })
 
         // días con clase
-        if (clase.clases_extra_lectivos) clase.clases_extra_lectivos.map(diaConClase => {
-          if (diaConClase.dia && diaConClase.inicio && diaConClase.fin) {
-            diaConClase.precio = clase.clase_precio
-            output.lectivos.push(diaConClase)
-          }
-        })
+        if (clase.clases_extra_lectivos) {
+          clase.clases_extra_lectivos.map(diaConClase => {
+            if (diaConClase.dia && diaConClase.inicio && diaConClase.fin) {
+              diaConClase.precio = clase.clase_precio
+              output.lectivos.push(diaConClase)
+            }
+          })
+        }
         self.calculateDias(clase.clase_fin, clase.clase_ini, clase.clase_precio, clase.clase_recurrentes).map(dia => output.lectivos.push(dia))
       } else {
         let inClaseExtra = false
@@ -125,7 +147,7 @@ class InformeProfesores extends React.Component {
 
         if (!inClaseExtra) {
           clase.clase_recurrentes.map(claseRecurrenteTal => {
-            if (claseRecurrenteTal.dia.toLowerCase() === this.Moment(clase.fecha, 'DD/MM/Y').format('dddd').toLowerCase()) {
+            if (claseRecurrenteTal.dia.toLowerCase() === Moment(clase.fecha, 'DD/MM/Y').format('dddd').toLowerCase()) {
               output.lectivos.push({
                 dia: clase.fecha,
                 inicio: claseRecurrenteTal.inicio,
@@ -180,12 +202,15 @@ class InformeProfesores extends React.Component {
       if (profesor.meta_profe.zona.id && profesor.meta_profe.zona.id > 0 && this.isValidZona(profesor.meta_profe.zona.id)) {
         let calendar = []
         let calendarYearsMonths = []
-
-        calendar = self.createCalendar(profesor.clases, profesor.meta_profe.bajas).filter(dia => { return self.Moment(dia.dia, 'DD/MM/Y').isBetween(self.props.inicio, self.props.fin, null, '[]') })
-        console.log(calendar)
+        console.log('calendar-prev-profesor-clases', profesor.clases)
+        console.log('calendar-prev-profesor-bajas', profesor.meta_profe.bajas)
+        console.log('calendar-prev-profesor-bruta', profesor)
+        calendar = self.createCalendar(profesor.clases, profesor.meta_profe.bajas).filter(dia => { return Moment(dia.dia, 'DD/MM/Y').isBetween(self.props.inicio, self.props.fin, null, '[]') })
+        console.log('calendar', calendar)
         calendar.map(date => {
-          let year = this.Moment(date.dia, 'DD/MM/Y').year()
-          let month = this.Moment(date.dia, 'DD/MM/Y').month() // return 0 to 11 -> 0 == January and 11 == December
+          console.log('date', date)
+          let year = Moment(date.dia, 'DD/MM/Y').year()
+          let month = Moment(date.dia, 'DD/MM/Y').month() // return 0 to 11 -> 0 == January and 11 == December
           if (!calendarYearsMonths[year]) {
             calendarYearsMonths[year] = []
           }
@@ -237,10 +262,11 @@ class InformeProfesores extends React.Component {
   }
 
   createCalendarView (calendar) {
-    console.log(calendar)
+    console.log('createCalendarView', calendar)
     let self = this
     let output = []
     calendar.map((year, keyYear) => year.map((month, keyMonth) => {
+      console.log('createCalendarView-month', month)
       output.push(<div key={keyYear.toString() + keyMonth.toString()}>Mes: {self.getMonthName(keyMonth)}/{keyYear} - horas: {month.horas.toFixed(2)} - Precio Total: {month.precioAcumulado.toFixed(2)}€ - Media: {month.media.toFixed(2)}€/hora - Número de Clases: {month.clases} <div>{this.createDaysView(month.fechas)}</div></div>)
     }))
     return output
@@ -252,7 +278,7 @@ class InformeProfesores extends React.Component {
 
   render () {
     return <div>
-      Datos de profesores de <strong>{this.props.zona}</strong> desde el <strong>{this.Moment(this.props.inicio).format('DD/MM/Y')}</strong> hasta el <strong>{this.Moment(this.props.fin).format('DD/MM/Y')}</strong>
+      Datos de profesores de <strong>{this.props.zona}</strong> desde el <strong>{Moment(this.props.inicio).format('DD/MM/Y')}</strong> hasta el <strong>{Moment(this.props.fin).format('DD/MM/Y')}</strong>
       <div className=''>
         <ul className='listaProfesores'>{this.listProfesores()}</ul>
       </div>
