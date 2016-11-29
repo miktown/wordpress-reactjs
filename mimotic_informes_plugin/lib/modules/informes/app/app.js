@@ -21727,6 +21727,8 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
+	__webpack_require__(222);
+
 	var _selector = __webpack_require__(301);
 
 	var _selector2 = _interopRequireDefault(_selector);
@@ -21758,9 +21760,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var esES = __webpack_require__(222);
-	_moment2.default.locale('es', esES);
 
 	var Informe = function (_React$Component) {
 	  _inherits(Informe, _React$Component);
@@ -39288,6 +39287,8 @@
 
 	var _moment2 = _interopRequireDefault(_moment);
 
+	__webpack_require__(222);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39295,9 +39296,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var esES = __webpack_require__(222);
-	_moment2.default.locale('es', esES);
 
 	var InformeProfesores = function (_React$Component) {
 	  _inherits(InformeProfesores, _React$Component);
@@ -39316,7 +39314,6 @@
 	  }, {
 	    key: 'getDayNumber',
 	    value: function getDayNumber(dayStr) {
-	      console.log('dayStr-prev', dayStr);
 	      var day = 1;
 	      switch (dayStr.toLowerCase()) {
 	        case 'sunday':
@@ -39345,23 +39342,41 @@
 	          break;
 	      }
 
-	      console.log('dayStr-prev-number', day);
+	      return day;
+	    }
+	  }, {
+	    key: 'translateDay',
+	    value: function translateDay(dayEnglish) {
+	      var day = 1;
+	      switch (dayEnglish.toLowerCase()) {
+	        case 'sunday':
+	          day = 'domingo';
+	          break;
+	        case 'monday':
+	          day = 'lunes';
+	          break;
+	        case 'tuesday':
+	          day = 'martes';
+	          break;
+	        case 'wednesday':
+	          day = 'miércoles';
+	          break;
+	        case 'thursday':
+	          day = 'jueves';
+	          break;
+	        case 'friday':
+	          day = 'viernes';
+	          break;
+	        case 'saturday':
+	          day = 'sabado';
+	          break;
+	        default:
+	          day = 'lunes';
+	          break;
+	      }
 
 	      return day;
 	    }
-
-	    // getFirstDayFromDate (dateStart, dayStr) {
-	    //   let dateIni = Moment(dateStart, 'DD/MM/Y').day(dayStr.toLowerCase).format('DD/MM/Y')
-	    //   let dateIniA = Moment(dateIni, 'DD/MM/Y').format('DD/MM/Y')
-	    //   let dateClassB = Moment(dateStart, 'DD/MM/Y').format('DD/MM/Y')
-
-	    //   if ( Moment(dateIniA, 'DD/MM/Y').isBefore(dateClassB, 'DD/MM/Y') ){
-	    //     dateIni = Moment(dateStart, 'DD/MM/Y').day(this.getDayNumber(dayStr) + 7).format('DD/MM/Y')
-	    //   }
-
-	    //   return dateIni
-	    // }
-
 	  }, {
 	    key: 'getFirstDayFromDate',
 	    value: function getFirstDayFromDate(dateStart, dayStr, formatIn, formatOut) {
@@ -39426,9 +39441,7 @@
 	      var output = {};
 	      output.bajas = [];
 	      output.lectivos = [];
-	      bajasProfesor.map(function (baja) {
-	        return output.bajas.push(baja);
-	      });
+	      //bajasProfesor.map(baja => output.bajas.push(baja))
 
 	      clases.map(function (clase) {
 	        if (!clase.hasOwnProperty('fecha')) {
@@ -39436,11 +39449,8 @@
 	          if (clase.colegio_dias_sin_clase) clase.colegio_dias_sin_clase.map(function (diaSinClase) {
 	            if (diaSinClase) output.bajas.push(diaSinClase);
 	          });
-	          if (clase.colegio_calendarios) clase.colegio_calendarios.map(function (calendario) {
-	            return calendario.map(function (diaSinClase) {
-	              if (diaSinClase) output.bajas.push(diaSinClase);
-	            });
-	          });
+	          // lupos me pide quitar los días del calendario
+	          // if (clase.colegio_calendarios) clase.colegio_calendarios.map(calendario => calendario.map(diaSinClase => { if (diaSinClase) output.bajas.push(diaSinClase) }))
 	          if (clase.clase_sin_clase) clase.clase_sin_clase.map(function (diaSinClase) {
 	            if (diaSinClase) output.bajas.push(diaSinClase);
 	          });
@@ -39458,8 +39468,10 @@
 	            return output.lectivos.push(dia);
 	          });
 	        } else {
+
 	          var inClaseExtra = false;
 	          clase.clases_extra_lectivos.map(function (claseExtra) {
+
 	            if (claseExtra.dia === clase.fecha) {
 	              claseExtra.precio = clase.clase_precio;
 	              output.lectivos.push(claseExtra);
@@ -39468,8 +39480,11 @@
 	          });
 
 	          if (!inClaseExtra) {
+
 	            clase.clase_recurrentes.map(function (claseRecurrenteTal) {
-	              if (claseRecurrenteTal.dia.toLowerCase() === (0, _moment2.default)(clase.fecha, 'DD/MM/Y').format('dddd').toLowerCase()) {
+	              console.log('claseRecurrenteTal.dia', claseRecurrenteTal.dia);
+	              console.log('moment', (0, _moment2.default)(clase.fecha, 'DD/MM/Y').format('dddd').toLowerCase());
+	              if (self.translateDay(claseRecurrenteTal.dia) === (0, _moment2.default)(clase.fecha, 'DD/MM/Y').format('dddd').toLowerCase()) {
 	                output.lectivos.push({
 	                  dia: clase.fecha,
 	                  inicio: claseRecurrenteTal.inicio,
@@ -39535,15 +39550,10 @@
 	          (function () {
 	            var calendar = [];
 	            var calendarYearsMonths = [];
-	            console.log('calendar-prev-profesor-clases', profesor.clases);
-	            console.log('calendar-prev-profesor-bajas', profesor.meta_profe.bajas);
-	            console.log('calendar-prev-profesor-bruta', profesor);
 	            calendar = self.createCalendar(profesor.clases, profesor.meta_profe.bajas).filter(function (dia) {
-	              return (0, _moment2.default)(dia.dia, 'DD/MM/Y').isBetween(self.props.inicio, self.props.fin, null, '[]');
+	              return (0, _moment2.default)(dia.dia, 'DD/MM/Y').isBetween(self.props.inicio, self.props.fin, 'days', '[]');
 	            });
-	            console.log('calendar', calendar);
 	            calendar.map(function (date) {
-	              console.log('date', date);
 	              var year = (0, _moment2.default)(date.dia, 'DD/MM/Y').year();
 	              var month = (0, _moment2.default)(date.dia, 'DD/MM/Y').month(); // return 0 to 11 -> 0 == January and 11 == December
 	              if (!calendarYearsMonths[year]) {
@@ -39621,12 +39631,10 @@
 	    value: function createCalendarView(calendar) {
 	      var _this3 = this;
 
-	      console.log('createCalendarView', calendar);
 	      var self = this;
 	      var output = [];
 	      calendar.map(function (year, keyYear) {
 	        return year.map(function (month, keyMonth) {
-	          console.log('createCalendarView-month', month);
 	          output.push(_react2.default.createElement(
 	            'div',
 	            { key: keyYear.toString() + keyMonth.toString() },

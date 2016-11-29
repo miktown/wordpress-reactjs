@@ -2,8 +2,7 @@
 
 import React from 'react'
 import moment from 'moment'
-var esES = require('moment/locale/es.js')
-moment.locale('es', esES)
+import 'moment/locale/es'
 
 import Selector from './selector'
 import Filtros from './filtros'
