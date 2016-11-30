@@ -58,7 +58,7 @@
 			.informeZonas
 				position relative
 				display inline-block
-				width 150px
+				width 250px
 				height 35px
 				margin-bottom -29px
 				user-select none
@@ -92,20 +92,23 @@
 					z-index 1
 					transition all .2s linear
 					border-radius 0px
-					width 150px
+					width 250px
 					display block
 					overflow hidden
 					box-shadow 0 1px 3px rgba(0, 0, 0, 0.28)
 					position absolute
 					cursor default
+					overflow hidden
 					.selector_opcion
 						background white
 						color #666
-						position relative
+						position fixed
 						display block
 						cursor pointer
 					.selector_opcion:not(.selected)
 						border-bottom 1px solid rgba(0, 0, 0, 0.05)
+						position relative
+						font-size 10px
 					.firstNext
 						margin-top 33px
 					.selector_opcion:hover
@@ -116,6 +119,9 @@
 						color white
 						cursor default
 						text-align center
-						width 108px
+						width 210px
 						position absolute
+						margin-top 0
 						top 0
+						z-index 104
+

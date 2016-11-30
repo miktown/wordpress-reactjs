@@ -14,6 +14,27 @@ var rf = new IntlRelativeFormat('es')
 
 class UpdatedInfo extends React.Component {
 
+  constructor (props) {
+    super(props)
+    this.state = {
+      secondsElapsed: 1
+    }
+  }
+
+  componentDidMount () {
+    this.interval = setInterval(() => this.tick(), 5000)
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.interval)
+  }
+
+  tick () {
+    this.setState((prevState) => ({
+      secondsElapsed: prevState.secondsElapsed + 1
+    }))
+  }
+
   doActualizar (e) {
     e.preventDefault()
     this.props.onClick()
@@ -24,7 +45,7 @@ class UpdatedInfo extends React.Component {
   }
 
   render () {
-    return this.props.updated
+    return this.props.updated && this.state.secondsElapsed > 0
       ? (<footer className={'updatedInfo'}>
         <p>Datos de <strong>{this.humanDate(this.props.updated)}</strong><a onClick={this.doActualizar.bind(this)} href='!#1'>¿actualizar?</a></p>
       </footer>) : (<footer>sin datos</footer>)

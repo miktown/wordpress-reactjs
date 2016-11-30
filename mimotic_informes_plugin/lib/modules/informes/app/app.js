@@ -36636,7 +36636,9 @@
 	      var isFirst = true;
 	      var isNextFirstClass = '';
 
-	      this.props.datosMenu.filter(function (value) {
+	      this.props.datosMenu.sort(function (a, b) {
+	        return a.name.localeCompare(b.name);
+	      }).filter(function (value) {
 	        return value.name === 'Informe' ? value.selected : true;
 	      }).map(function (value, i) {
 	        var isSelected = value.selected === true ? ' selected' : '';
@@ -39379,9 +39381,10 @@
 	    }
 	  }, {
 	    key: 'getFirstDayFromDate',
-	    value: function getFirstDayFromDate(dateStart, dayStr, formatIn, formatOut) {
-	      if (!formatIn) formatIn = 'DD/MM/Y';
-	      if (!formatOut) formatOut = 'DD/MM/Y';
+	    value: function getFirstDayFromDate(dateStart, dayStr) {
+	      var formatIn = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 'DD/MM/Y';
+	      var formatOut = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 'DD/MM/Y';
+
 	      var dayInt = this.getDayNumber(dayStr);
 
 	      var dateIni = (0, _moment2.default)(dateStart, formatIn).day(dayInt).format(formatOut);
@@ -39389,7 +39392,7 @@
 	      var dateIniA = (0, _moment2.default)(dateIni, formatIn).format('DD/MM/Y');
 	      var dateClassB = (0, _moment2.default)(dateStart, formatIn).format('DD/MM/Y');
 
-	      if ((0, _moment2.default)(dateIniA).isBefore(dateClassB)) {
+	      if ((0, _moment2.default)(dateIniA, formatIn).isBefore(dateClassB, formatIn)) {
 	        dateIni = (0, _moment2.default)(dateStart, formatIn).day(dayInt + 7).format(formatOut);
 	      }
 
@@ -39398,7 +39401,7 @@
 	  }, {
 	    key: 'isDateSameOrBefore',
 	    value: function isDateSameOrBefore(classDay, fin) {
-	      return (0, _moment2.default)(classDay, 'DD/MM/Y').isSameOrBefore((0, _moment2.default)(fin, 'DD/MM/Y'));
+	      return (0, _moment2.default)(classDay, 'DD/MM/Y').isSameOrBefore((0, _moment2.default)(fin, 'DD/MM/Y'), 'DD/MM/Y');
 	    }
 	  }, {
 	    key: 'getClassDays',
@@ -39624,8 +39627,6 @@
 	  }, {
 	    key: 'createCalendarView',
 	    value: function createCalendarView(calendar) {
-	      var _this3 = this;
-
 	      var self = this;
 	      var output = [];
 	      calendar.map(function (year, keyYear) {
@@ -39633,10 +39634,15 @@
 	          output.push(_react2.default.createElement(
 	            'div',
 	            { key: keyYear.toString() + keyMonth.toString() },
-	            'Mes: ',
-	            self.getMonthName(keyMonth),
-	            '/',
-	            keyYear,
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'strong',
+	              null,
+	              '\xB7 ',
+	              self.getMonthName(keyMonth),
+	              '/',
+	              keyYear
+	            ),
 	            ' - horas: ',
 	            month.horas.toFixed(2),
 	            ' - Precio Total: ',
@@ -39644,13 +39650,7 @@
 	            '\u20AC - Media: ',
 	            month.media.toFixed(2),
 	            '\u20AC/hora - N\xFAmero de Clases: ',
-	            month.clases,
-	            ' ',
-	            _react2.default.createElement(
-	              'div',
-	              null,
-	              _this3.createDaysView(month.fechas)
-	            )
+	            month.clases
 	          ));
 	        });
 	      });
@@ -39677,13 +39677,13 @@
 	        _react2.default.createElement(
 	          'strong',
 	          null,
-	          (0, _moment2.default)(this.props.inicio).format('DD/MM/Y')
+	          (0, _moment2.default)(this.props.inicio, 'DD/MM/Y').format('DD/MM/Y')
 	        ),
 	        ' hasta el ',
 	        _react2.default.createElement(
 	          'strong',
 	          null,
-	          (0, _moment2.default)(this.props.fin).format('DD/MM/Y')
+	          (0, _moment2.default)(this.props.fin, 'DD/MM/Y').format('DD/MM/Y')
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -39743,13 +39743,41 @@
 	var UpdatedInfo = function (_React$Component) {
 	  _inherits(UpdatedInfo, _React$Component);
 
-	  function UpdatedInfo() {
+	  function UpdatedInfo(props) {
 	    _classCallCheck(this, UpdatedInfo);
 
-	    return _possibleConstructorReturn(this, (UpdatedInfo.__proto__ || Object.getPrototypeOf(UpdatedInfo)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (UpdatedInfo.__proto__ || Object.getPrototypeOf(UpdatedInfo)).call(this, props));
+
+	    _this.state = {
+	      secondsElapsed: 1
+	    };
+	    return _this;
 	  }
 
 	  _createClass(UpdatedInfo, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      this.interval = setInterval(function () {
+	        return _this2.tick();
+	      }, 5000);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      clearInterval(this.interval);
+	    }
+	  }, {
+	    key: 'tick',
+	    value: function tick() {
+	      this.setState(function (prevState) {
+	        return {
+	          secondsElapsed: prevState.secondsElapsed + 1
+	        };
+	      });
+	    }
+	  }, {
 	    key: 'doActualizar',
 	    value: function doActualizar(e) {
 	      e.preventDefault();
@@ -39763,7 +39791,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return this.props.updated ? _react2.default.createElement(
+	      return this.props.updated && this.state.secondsElapsed > 0 ? _react2.default.createElement(
 	        'footer',
 	        { className: 'updatedInfo' },
 	        _react2.default.createElement(

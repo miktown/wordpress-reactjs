@@ -108,7 +108,7 @@
 #informesappria #informes_wrapper .headerInformes .informeZonas {
   position: relative;
   display: inline-block;
-  width: 150px;
+  width: 250px;
   height: 35px;
   margin-bottom: -29px;
   -webkit-user-select: none;
@@ -160,23 +160,26 @@
   -ms-transition: all 0.2s linear;
   transition: all 0.2s linear;
   border-radius: 0px;
-  width: 150px;
+  width: 250px;
   display: block;
   overflow: hidden;
   -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.28);
   box-shadow: 0 1px 3px rgba(0,0,0,0.28);
   position: absolute;
   cursor: default;
+  overflow: hidden;
 }
 #informesappria #informes_wrapper .headerInformes .informeZonas .selector.selector_informe:hover .selector_opcion {
   background: #fff;
   color: #666;
-  position: relative;
+  position: fixed;
   display: block;
   cursor: pointer;
 }
 #informesappria #informes_wrapper .headerInformes .informeZonas .selector.selector_informe:hover .selector_opcion:not(.selected) {
   border-bottom: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  font-size: 10px;
 }
 #informesappria #informes_wrapper .headerInformes .informeZonas .selector.selector_informe:hover .firstNext {
   margin-top: 33px;
@@ -190,9 +193,11 @@
   color: #fff;
   cursor: default;
   text-align: center;
-  width: 108px;
+  width: 210px;
   position: absolute;
+  margin-top: 0;
   top: 0;
+  z-index: 104;
 }
 #setting-error-tgmpa,
 #wpfooter,
@@ -304,7 +309,7 @@
 #informesappria #informes_wrapper .headerInformes .informeZonas {
   position: relative;
   display: inline-block;
-  width: 150px;
+  width: 250px;
   height: 35px;
   margin-bottom: -29px;
   -webkit-user-select: none;
@@ -356,23 +361,26 @@
   -ms-transition: all 0.2s linear;
   transition: all 0.2s linear;
   border-radius: 0px;
-  width: 150px;
+  width: 250px;
   display: block;
   overflow: hidden;
   -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.28);
   box-shadow: 0 1px 3px rgba(0,0,0,0.28);
   position: absolute;
   cursor: default;
+  overflow: hidden;
 }
 #informesappria #informes_wrapper .headerInformes .informeZonas .selector.selector_informe:hover .selector_opcion {
   background: #fff;
   color: #666;
-  position: relative;
+  position: fixed;
   display: block;
   cursor: pointer;
 }
 #informesappria #informes_wrapper .headerInformes .informeZonas .selector.selector_informe:hover .selector_opcion:not(.selected) {
   border-bottom: 1px solid rgba(0,0,0,0.05);
+  position: relative;
+  font-size: 10px;
 }
 #informesappria #informes_wrapper .headerInformes .informeZonas .selector.selector_informe:hover .firstNext {
   margin-top: 33px;
@@ -386,9 +394,11 @@
   color: #fff;
   cursor: default;
   text-align: center;
-  width: 108px;
+  width: 210px;
   position: absolute;
+  margin-top: 0;
   top: 0;
+  z-index: 104;
 }
 #informesappria .updatedInfo {
   background: #fff;
@@ -1209,7 +1219,6 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  overflow: hidden;
   height: auto;
   position: relative;
 }

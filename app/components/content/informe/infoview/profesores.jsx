@@ -74,9 +74,7 @@ class InformeProfesores extends React.Component {
     return day
   }
 
-  getFirstDayFromDate (dateStart, dayStr, formatIn, formatOut) {
-    if (!formatIn) formatIn = 'DD/MM/Y'
-    if (!formatOut) formatOut = 'DD/MM/Y'
+  getFirstDayFromDate (dateStart, dayStr, formatIn = 'DD/MM/Y', formatOut = 'DD/MM/Y') {
     var dayInt = this.getDayNumber(dayStr)
 
     var dateIni = moment(dateStart, formatIn).day(dayInt).format(formatOut)
@@ -84,7 +82,7 @@ class InformeProfesores extends React.Component {
     var dateIniA = moment(dateIni, formatIn).format('DD/MM/Y')
     var dateClassB = moment(dateStart, formatIn).format('DD/MM/Y')
 
-    if (moment(dateIniA).isBefore(dateClassB)) {
+    if (moment(dateIniA, formatIn).isBefore(dateClassB, formatIn)) {
       dateIni = moment(dateStart, formatIn).day(dayInt + 7).format(formatOut)
     }
 
@@ -92,7 +90,7 @@ class InformeProfesores extends React.Component {
   }
 
   isDateSameOrBefore (classDay, fin) {
-    return moment(classDay, 'DD/MM/Y').isSameOrBefore(moment(fin, 'DD/MM/Y'))
+    return moment(classDay, 'DD/MM/Y').isSameOrBefore(moment(fin, 'DD/MM/Y'), 'DD/MM/Y')
   }
 
   getClassDays (ini, fin, lectivo) {
@@ -277,7 +275,7 @@ class InformeProfesores extends React.Component {
     let self = this
     let output = []
     calendar.map((year, keyYear) => year.map((month, keyMonth) => {
-      output.push(<div key={keyYear.toString() + keyMonth.toString()}>Mes: {self.getMonthName(keyMonth)}/{keyYear} - horas: {month.horas.toFixed(2)} - Precio Total: {month.precioAcumulado.toFixed(2)}€ - Media: {month.media.toFixed(2)}€/hora - Número de Clases: {month.clases} <div>{this.createDaysView(month.fechas)}</div></div>)
+      output.push(<div key={keyYear.toString() + keyMonth.toString()}><br /><strong>· {self.getMonthName(keyMonth)}/{keyYear}</strong> - horas: {month.horas.toFixed(2)} - Precio Total: {month.precioAcumulado.toFixed(2)}€ - Media: {month.media.toFixed(2)}€/hora - Número de Clases: {month.clases}</div>)
     }))
     return output
   }
@@ -288,7 +286,7 @@ class InformeProfesores extends React.Component {
 
   render () {
     return <div>
-      Datos de profesores de <strong>{this.props.zona}</strong> desde el <strong>{moment(this.props.inicio).format('DD/MM/Y')}</strong> hasta el <strong>{moment(this.props.fin).format('DD/MM/Y')}</strong>
+      Datos de profesores de <strong>{this.props.zona}</strong> desde el <strong>{moment(this.props.inicio,'DD/MM/Y').format('DD/MM/Y')}</strong> hasta el <strong>{moment(this.props.fin,'DD/MM/Y').format('DD/MM/Y')}</strong>
       <div className=''>
         <ul className='listaProfesores'>{this.listProfesores()}</ul>
       </div>
