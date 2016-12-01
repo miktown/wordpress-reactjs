@@ -256,7 +256,7 @@ class InformeProfesores extends React.Component {
         })
 
         profesoresOutput.push(<li key={profesor.meta_profe.id}>
-          {profesor.meta_profe.nombre} (de <strong>{profesor.meta_profe.zona.nombre}</strong>)
+          <span className='profesorIcon'> {profesor.meta_profe.nombre} <strong>{profesor.meta_profe.zona.nombre}</strong></span>
           <div className='calendarData'>{self.createCalendarView(calendarYearsMonths)}</div>
         </li>)
       }
@@ -271,11 +271,17 @@ class InformeProfesores extends React.Component {
     return output
   }
 
+  convertFloatHours (floatHours) {
+    let justHours = parseInt(floatHours)
+    let justMinutes = parseInt(floatHours  * 60 - justHours * 60)
+    return justHours + 'h y ' + justMinutes + 'min'
+  }
+
   createCalendarView (calendar) {
     let self = this
     let output = []
     calendar.map((year, keyYear) => year.map((month, keyMonth) => {
-      output.push(<div key={keyYear.toString() + keyMonth.toString()}><br /><strong>· {self.getMonthName(keyMonth)}/{keyYear}</strong> - horas: {month.horas.toFixed(2)} - Precio Total: {month.precioAcumulado.toFixed(2)}€ - Media: {month.media.toFixed(2)}€/hora - Número de Clases: {month.clases}</div>)
+      output.push(<div style={{paddingLeft:'4em'}} key={keyYear.toString() + keyMonth.toString()}><br />· En <strong> {self.getMonthName(keyMonth)} de {keyYear}</strong> impartió {month.clases} clases ({this.convertFloatHours(month.horas.toFixed(2))}) con un coste total de {month.precioAcumulado.toFixed(2)}€ dando una media de <strong>{month.media.toFixed(2)}€ la hora</strong></div>)
     }))
     return output
   }
@@ -285,10 +291,13 @@ class InformeProfesores extends React.Component {
   }
 
   render () {
+    let dataProfesores = this.listProfesores()
     return <div>
-      Datos de profesores de <strong>{this.props.zona}</strong> desde el <strong>{moment(this.props.inicio,'DD/MM/Y').format('DD/MM/Y')}</strong> hasta el <strong>{moment(this.props.fin,'DD/MM/Y').format('DD/MM/Y')}</strong>
+      <p className='introduction'>
+        Mostrando {dataProfesores.length} profesores de <strong>{this.props.zona}</strong> desde el <strong>{moment(this.props.inicio, 'DD/MM/Y').format('DD/MM/Y')}</strong> hasta el <strong>{moment(this.props.fin, 'DD/MM/Y').format('DD/MM/Y')}</strong>
+      </p>
       <div className=''>
-        <ul className='listaProfesores'>{this.listProfesores()}</ul>
+        <ul className='listaProfesores'>{dataProfesores}</ul>
       </div>
     </div>
   }

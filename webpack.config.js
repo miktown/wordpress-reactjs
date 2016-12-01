@@ -28,7 +28,7 @@ var config = {
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        query: { presets: ['stage-1', 'es2015', 'react'], compact: false }
+        query: { presets: ['stage-1', 'es2015', 'react'], compact: true }
       },
       {
         test: /\.styl$/,
@@ -44,7 +44,7 @@ var config = {
     import: ['~nib/lib/nib/index.styl']
   },
   plugins: [
-    new ExtractTextPlugin('styles.css', {allChunks: false})
+    new ExtractTextPlugin('styles.css', {allChunks: true})
   ]
 }
 
