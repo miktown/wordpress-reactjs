@@ -136,12 +136,113 @@ Class RobotsInformesDataGenerator {
             $this->informesList = array(
                     array('name' => 'Informe','selected' => true),
                     array('name' => 'Profesores','selected' => false),
-                    array('name' => 'Alumnos','selected' => false),
+                    array('name' => 'Piezas','selected' => false),
                     array('name' => 'Pedidos','selected' => false)
                 );
         }
         $this->response['informesMenu'] = $this->informesList;
         $this->response['profesores'] = $this->get_informe_profesores();
+        $this->response['pedidos'] = $this->get_informe_pedidos();
+    }
+
+     /**
+     * Obtener piezas del pedido
+     * @param  [array] $lectivos
+     * @return [array|false]
+     */
+    private function get_piezas($arr){
+
+        $ids = array();
+        $response = false;
+        $piezas = false;
+        $cantidad = array();
+        $temp_in = false;
+        $img_url = false;
+
+        foreach ($arr as $key => $value) {
+
+            $ids[] = $value['_pedidos_pieza_id'];
+            $cantidad[(int)$value['_pedidos_pieza_id']] = $value['_pedidos_cantidad'];
+        }
+
+        $piezas = get_posts( array(
+                    "posts_per_page"   => -1,
+                    "post__in" => $ids,
+                    "post_type" => "piezas",
+                    "orderby" => "post__in"
+                ));
+
+        foreach ($piezas as $key => $value) {
+
+                $temp_in = get_post_meta( (int) $value->ID );
+                $img_url = wp_get_attachment_url( (int)  $temp_in['_thumbnail_id'][0]);
+
+                $cantidadWs = ((int) $cantidad[(int)$value->ID] > 0) ? (int) $cantidad[(int)$value->ID]: 0;
+
+                $response[] = array(
+                        "id" => (int) $value->ID,
+                        "name" => $value->post_title,
+                        "img_url" => $img_url,
+                        "cantidad" => (int) $cantidadWs
+                    );
+
+                //...
+        }
+
+
+        return $response;
+
+        //...
+    }
+
+    private function get_informe_pedidos () {
+
+        $response = array();
+
+         // args pedidos
+        $pedidos_settings = array(
+            'post_type' => 'pedidos',
+            'posts_per_page'   => -1,
+            'post_status'   => array(
+                                'draft',
+                                'procesando',
+                                'sin_stock',
+                                'en_envio',
+                                'completado'
+                                ),
+            'author'   => $this->user_ID
+        );
+
+        // args posts
+        $pedidos_posts = get_posts( $pedidos_settings);
+
+        foreach ($pedidos_posts as $key => $pedido) {
+
+            $piezasIds = get_post_meta($pedido->ID, '_pedidos_piezas', false);
+            $piezasIds = $piezasIds[0];
+
+
+            $profe_nombre = get_user_meta($pedido->post_author, 'first_name', true);
+            $profe_apellidos = get_user_meta($pedido->post_author, 'last_name', true);
+            $zona_profe_id = get_user_meta($pedido->post_author, '_user_zona_asignada', true);
+            $zona_pedido = get_term( $zona_profe_id, 'tax_zonas');
+
+            $response[] = array(
+                    'id' => $pedido->ID,
+                    "piezasids" => $piezasIds,
+                    "profesor" => $profe_nombre . ' ' . $profe_apellidos,
+                    'zona' => array(
+                                'id' => (int) $zona_pedido ->term_id,
+                                'nombre' => $zona_pedido ->name,
+                                'parent' => (int) $zona_pedido ->parent,
+                            ),
+                    "fecha" => $pedido->post_date,
+                    "estado" => $pedido->post_status,
+                    "piezas" => $this->get_piezas($piezasIds)
+                );
+        }
+
+        return $response;
     }
 
     private function clases_to_teachers_reorder ($data) {

@@ -1249,6 +1249,48 @@
   height: 20px;
   width: 20px;
 }
+#informesappria #informes_wrapper .pedidoIcon {
+  padding-left: 3em;
+}
+#informesappria #informes_wrapper .pedidoIcon strong {
+  display: inline-block;
+  background: #0073aa;
+  color: #fff;
+  padding: 0.5em 1em;
+  border-radius: 3px;
+  font-size: 0.8em;
+  font-weight: 300;
+  margin-left: 1em;
+}
+#informesappria #informes_wrapper .pedidoIcon strong.draft {
+  background: #808080;
+}
+#informesappria #informes_wrapper .pedidoIcon strong.procesando {
+  background: #0073aa;
+}
+#informesappria #informes_wrapper .pedidoIcon strong.sin_stock {
+  background: #f00;
+}
+#informesappria #informes_wrapper .pedidoIcon strong.en_envio {
+  background: #008000;
+}
+#informesappria #informes_wrapper .pedidoIcon strong.completado {
+  background: #000;
+}
+#informesappria #informes_wrapper .pedidoIcon::before {
+  content: '';
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAA8CAYAAAAgwDn8AAAAAXNSR0IArs4c6QAAAzVJREFUaAXtWj2LE0EY3t18QIRTCSKiAbGI9tdY2GgjMd+xOCuD1ha2Voo2d3/A/ghWB16+BANBbCQWgo2mCoKFqGkOwYAJSTY+o+bIbt7Z7Ows8RYmsOzMM+/7vB/PZHcunK75+Gm1WvHRaHR7NptdwbUJ6uO6rpsYD3B/h3vHMIy9QqHQ9yus7gdRu90+MRgMtsF1B1fMiROFjLBeiUajT9Lp9BcnWzdr0gVUq9WrSOoZunvOTcAFmwOocRdqNBYw4aEh7LHg0Gg0biD5lx6SZyxx0zTrtVrt3gKl8NCzAs1mc3MymbxFxKhwVKuDielWqVR6boXdzTwVgOSPTafT9+j8JXdhnK2g4s9IJHIxk8l8d7ZcXvW0hSD9fYfkp0iohlClcDh8nl3Y61nM94DPllPQNHBtjMdj9hAQ/ggr0Ol0Yv1+/zMinSai/UKSt4rFYpNY0+r1+jUku4/rJLFuxmKxRCqV+kascSFhBZB8GmxU8looFNriJc8ywBPnNWxyGLJ9b/8Yw+Hwph1cNRcuAITXKVJ0/lU+n39BrS1iuVzuDea7i9h8DGUy87Hbu5cCLnPIn3LwJRjF7i6BAIBfoHAnTLgABDlDEWJrfKRwCkOnP1A4MNGXoSZcAIKfooJns9lPFE5heOb/oHBwb1C4EyZcAMhCFCGUob6YlKmvmJcCfE1AlkzvdrvRXq/3GERlSHhWgvBA0DcuaH9oDrW/YlJJJBIPdRymtpH4g8PVAA1QyA7bQuUA5WxPtWxIbhs74VrnLPfAf4kDX0CYpzleNuRJFX9Ckkdinj2PX5SHZx94BVQBvC2yLlwpsK5O8+IIK/DvHGLhozCLATGhfCiMcLVAwgXAu2Jh+DuhMMLMAlE+FGZxsk+47wG74XyeTCYf4fTKpvMz1J9T4Xzd7d0vHp33ghB9MblN3KsdL0/DK+FR8VMF/G8llAJKAckOqC0k2UBpd6WAdAslCZQCkg2UdlcKSLdQkkApINlAaXelgHQLJQmUApINlHZXCki3UJIg8ApwfxeSbMza3AOvQPAL8PKL8Nr2x4pALHemQGWF3VFerhjsV2JUshMkJViuLGf2vxK/AXdf4JekxR3yAAAAAElFTkSuQmCC);
+  background-repeat: no-repeat;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  background-size: contain;
+  position: absolute;
+  margin-bottom: 0px;
+  margin-left: -30px;
+  margin-top: -1px;
+  height: 20px;
+  width: 20px;
+}
 #informesappria {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

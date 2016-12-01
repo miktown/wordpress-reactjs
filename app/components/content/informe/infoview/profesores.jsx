@@ -6,10 +6,6 @@ import 'moment/locale/es'
 
 class InformeProfesores extends React.Component {
 
-  componentWillMount () {
-    // console.log('dataInit', this.props.workData.profesores)
-  }
-
   getDayNumber (dayStr) {
     var day = 1
     switch (dayStr.toLowerCase()) {
@@ -273,7 +269,7 @@ class InformeProfesores extends React.Component {
 
   convertFloatHours (floatHours) {
     let justHours = parseInt(floatHours)
-    let justMinutes = parseInt(floatHours  * 60 - justHours * 60)
+    let justMinutes = parseInt(floatHours * 60 - justHours * 60)
     return justHours + 'h y ' + justMinutes + 'min'
   }
 
@@ -281,7 +277,7 @@ class InformeProfesores extends React.Component {
     let self = this
     let output = []
     calendar.map((year, keyYear) => year.map((month, keyMonth) => {
-      output.push(<div style={{paddingLeft:'4em'}} key={keyYear.toString() + keyMonth.toString()}><br />· En <strong> {self.getMonthName(keyMonth)} de {keyYear}</strong> impartió {month.clases} clases ({this.convertFloatHours(month.horas.toFixed(2))}) con un coste total de {month.precioAcumulado.toFixed(2)}€ dando una media de <strong>{month.media.toFixed(2)}€ la hora</strong></div>)
+      output.push(<div style={{paddingLeft: '4em'}} key={keyYear.toString() + keyMonth.toString()}><br />· En <strong> {self.getMonthName(keyMonth)} de {keyYear}</strong> impartió {month.clases} clases ({this.convertFloatHours(month.horas.toFixed(2))}) con un coste total de {month.precioAcumulado.toFixed(2)}€ dando una media de <strong>{month.media.toFixed(2)}€ la hora</strong></div>)
     }))
     return output
   }

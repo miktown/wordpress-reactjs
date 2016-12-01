@@ -68,3 +68,35 @@
 			margin-top 0px
 			height 20px
 			width 20px
+		.pedidoIcon
+			padding-left 3em
+			strong
+				display: inline-block
+				background: #0073aa
+				color: white
+				padding: .5em 1em
+				border-radius: 3px
+				font-size: .8em
+				font-weight: 300
+				margin-left: 1em
+			strong.draft
+				background grey
+			strong.procesando
+				background #0073aa
+			strong.sin_stock
+				background red
+			strong.en_envio
+				background green
+			strong.completado
+				background black
+		.pedidoIcon::before
+			content ''
+			background-image url('../../assets/pedido.png')
+			background-repeat no-repeat
+			background-size contain
+			position absolute
+			margin-bottom 0px
+			margin-left -30px
+			margin-top -1px
+			height 20px
+			width 20px
