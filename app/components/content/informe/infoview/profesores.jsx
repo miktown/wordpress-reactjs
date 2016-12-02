@@ -290,7 +290,7 @@ class InformeProfesores extends React.Component {
     let dataProfesores = this.listProfesores()
     return <div>
       <p className='introduction'>
-        Mostrando {dataProfesores.length} profesores de <strong>{this.props.zona}</strong> desde el <strong>{moment(this.props.inicio, 'DD/MM/Y').format('DD/MM/Y')}</strong> hasta el <strong>{moment(this.props.fin, 'DD/MM/Y').format('DD/MM/Y')}</strong>
+        Mostrando {dataProfesores.length} {dataProfesores.length === 1 ? 'profesor' : 'profesores'} de <strong>{this.props.zona}</strong> desde el <strong>{moment(this.props.inicio, 'DD/MM/Y').format('DD/MM/Y')}</strong> hasta el <strong>{moment(this.props.fin, 'DD/MM/Y').format('DD/MM/Y')}</strong>
       </p>
       <div className=''>
         <ul className='listaProfesores'>{dataProfesores}</ul>

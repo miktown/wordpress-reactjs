@@ -80,7 +80,7 @@
 				font-weight: 300
 				margin-left: 1em
 			strong.draft
-				background grey
+				background #1ae22d
 			strong.procesando
 				background #0073aa
 			strong.sin_stock
@@ -88,7 +88,7 @@
 			strong.en_envio
 				background green
 			strong.completado
-				background black
+				background #666
 		.pedidoIcon::before
 			content ''
 			background-image url('../../assets/pedido.png')
@@ -100,3 +100,25 @@
 			margin-top -1px
 			height 20px
 			width 20px
+		.filters
+			span
+				cursor pointer
+				transition all .1s ease-in-out
+				display inline-block
+				padding .5em 1em
+				margin 1em .5em
+				border 1px solid white
+				border-radius 3px
+				box-shadow 0 1px 3px #333
+				background white
+				color #333
+			span.selected
+				transition all .1s ease-in-out
+				display inline-block
+				padding .5em 1em
+				margin 1em .5em
+				border 1px solid #0073aa
+				border-radius 3px
+				box-shadow 0 1px 3px white
+				background #0073aa
+				color white

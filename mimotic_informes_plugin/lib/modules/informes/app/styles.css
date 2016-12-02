@@ -1263,7 +1263,7 @@
   margin-left: 1em;
 }
 #informesappria #informes_wrapper .pedidoIcon strong.draft {
-  background: #808080;
+  background: #1ae22d;
 }
 #informesappria #informes_wrapper .pedidoIcon strong.procesando {
   background: #0073aa;
@@ -1275,7 +1275,7 @@
   background: #008000;
 }
 #informesappria #informes_wrapper .pedidoIcon strong.completado {
-  background: #000;
+  background: #666;
 }
 #informesappria #informes_wrapper .pedidoIcon::before {
   content: '';
@@ -1290,6 +1290,39 @@
   margin-top: -1px;
   height: 20px;
   width: 20px;
+}
+#informesappria #informes_wrapper .filters span {
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin: 1em 0.5em;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 3px #333;
+  box-shadow: 0 1px 3px #333;
+  background: #fff;
+  color: #333;
+}
+#informesappria #informes_wrapper .filters span.selected {
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin: 1em 0.5em;
+  border: 1px solid #0073aa;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 3px #fff;
+  box-shadow: 0 1px 3px #fff;
+  background: #0073aa;
+  color: #fff;
 }
 #informesappria {
   -webkit-box-sizing: border-box;
