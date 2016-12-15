@@ -1291,6 +1291,12 @@
   height: 20px;
   width: 20px;
 }
+#informesappria #informes_wrapper .filters {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 #informesappria #informes_wrapper .filters span {
   cursor: pointer;
   -webkit-transition: all 0.1s ease-in-out;

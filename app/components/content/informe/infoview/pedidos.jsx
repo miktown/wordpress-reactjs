@@ -95,11 +95,11 @@ class InformePedidos extends React.Component {
       </p>
       <div className='filters'>
       Filtros por Estado:
-        <span onClick={this.onClickBtnFilter.bind(this,'draft')} className={this.state.filters.draft ? 'selected' : null}>Nuevo</span>
-        <span onClick={this.onClickBtnFilter.bind(this,'procesando')} className={this.state.filters.procesando ? 'selected' : null}>Procesando</span>
-        <span onClick={this.onClickBtnFilter.bind(this,'sin_stock')} className={this.state.filters.sin_stock ? 'selected' : null}>Sin Stock</span>
-        <span onClick={this.onClickBtnFilter.bind(this,'en_envio')} className={this.state.filters.en_envio ? 'selected' : null}>En Envio</span>
-        <span onClick={this.onClickBtnFilter.bind(this,'completado')} className={this.state.filters.completado ? 'selected' : null}>Completado</span>
+        <span onClick={this.onClickBtnFilter.bind(this, 'draft')} className={this.state.filters.draft ? 'selected' : null}>Nuevo</span>
+        <span onClick={this.onClickBtnFilter.bind(this, 'procesando')} className={this.state.filters.procesando ? 'selected' : null}>Procesando</span>
+        <span onClick={this.onClickBtnFilter.bind(this, 'sin_stock')} className={this.state.filters.sin_stock ? 'selected' : null}>Sin Stock</span>
+        <span onClick={this.onClickBtnFilter.bind(this, 'en_envio')} className={this.state.filters.en_envio ? 'selected' : null}>En Envio</span>
+        <span onClick={this.onClickBtnFilter.bind(this, 'completado')} className={this.state.filters.completado ? 'selected' : null}>Completado</span>
       </div>
       <div className=''>
         <ul className='listaProfesores'>{dataPedidos}</ul>
