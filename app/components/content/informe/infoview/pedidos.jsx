@@ -67,7 +67,7 @@ class InformePedidos extends React.Component {
 
     pedidos.filter(pedido => this.state.filters[pedido.estado]).filter(pedido => this.isValidZona(pedido.zona.id)).sort((a, b) => new Date(b.fecha) - new Date(a.fecha)).map(pedido => {
       pedidosOutput.push(<li key={pedido.id}>
-        <p style={{marginBottom: '1.5em'}} className='pedidoIcon'>
+        <p style={{marginBottom: '1.5em'}} className='pedidoIcon leftGo'>
           <span style={{color: '#333', fontWeight: '800'}}><a target='_blank' href={this.props.url + '/wp-admin/post.php?post=' + pedido.id + '&action=edit'}>{moment(pedido.fecha).format('DD/MM/Y')}</a></span> <strong className={pedido.estado}>{pedido.estado === 'draft' ? 'nuevo' : pedido.estado}</strong>
           <span style={{float: 'right', marginRight: '1em'}}>por <span style={{color: '#333', fontWeight: '800'}}>{pedido.profesor}</span> ({pedido.zona.nombre})</span>
         </p>
@@ -93,15 +93,16 @@ class InformePedidos extends React.Component {
       <p className='introduction'>
         {dataPedidos.length} {dataPedidos.length === 1 ? 'pedido' : 'pedidos'} de <strong>{this.props.zona}</strong> por todos los tiempos <strong>(no le afecta el filtro de fechas)</strong>
       </p>
-      <div className='filters'>
-      Filtros por Estado:
-        <span onClick={this.onClickBtnFilter.bind(this,'draft')} className={this.state.filters.draft ? 'selected' : null}>Nuevo</span>
-        <span onClick={this.onClickBtnFilter.bind(this,'procesando')} className={this.state.filters.procesando ? 'selected' : null}>Procesando</span>
-        <span onClick={this.onClickBtnFilter.bind(this,'sin_stock')} className={this.state.filters.sin_stock ? 'selected' : null}>Sin Stock</span>
-        <span onClick={this.onClickBtnFilter.bind(this,'en_envio')} className={this.state.filters.en_envio ? 'selected' : null}>En Envio</span>
-        <span onClick={this.onClickBtnFilter.bind(this,'completado')} className={this.state.filters.completado ? 'selected' : null}>Completado</span>
+      <div className='filtersWrap'>
+        <div className='filters'>
+          <span onClick={this.onClickBtnFilter.bind(this, 'draft')} className={this.state.filters.draft ? 'selected' : null}>Nuevo</span>
+          <span onClick={this.onClickBtnFilter.bind(this, 'procesando')} className={this.state.filters.procesando ? 'selected' : null}>Procesando</span>
+          <span onClick={this.onClickBtnFilter.bind(this, 'sin_stock')} className={this.state.filters.sin_stock ? 'selected' : null}>Sin Stock</span>
+          <span onClick={this.onClickBtnFilter.bind(this, 'en_envio')} className={this.state.filters.en_envio ? 'selected' : null}>En Envio</span>
+          <span onClick={this.onClickBtnFilter.bind(this, 'completado')} className={this.state.filters.completado ? 'selected' : null}>Completado</span>
+        </div>
       </div>
-      <div className=''>
+      <div>
         <ul className='listaProfesores'>{dataPedidos}</ul>
       </div>
     </div>

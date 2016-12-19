@@ -43,6 +43,12 @@ Class RobotsInformesDataGenerator {
     */
     private $profesores;
 
+    /**
+    * informe de piezas
+    * @var array
+    */
+    private $piezas = array();
+
     public function __construct () {
         if (is_admin())
             add_action( 'wp_ajax_robots_informes_ajax_request', array( $this, 'robots_informes_ajax_request' ) );
@@ -143,6 +149,21 @@ Class RobotsInformesDataGenerator {
         $this->response['informesMenu'] = $this->informesList;
         $this->response['profesores'] = $this->get_informe_profesores();
         $this->response['pedidos'] = $this->get_informe_pedidos();
+        $this->response['piezas'] = $this->get_informe_piezas();
+    }
+
+
+     /**
+     * Obtener piezas del pedido
+     * @param  [array] $lectivos
+     * @return [array|false]
+     */
+    private function get_informe_piezas(){
+        $response = false;
+        foreach ($this->piezas as $pieza) {
+           $response[] = $pieza;
+        }
+        return $response;
     }
 
      /**
@@ -159,6 +180,7 @@ Class RobotsInformesDataGenerator {
         $temp_in = false;
         $img_url = false;
 
+
         foreach ($arr as $key => $value) {
 
             $ids[] = $value['_pedidos_pieza_id'];
@@ -174,25 +196,61 @@ Class RobotsInformesDataGenerator {
 
         foreach ($piezas as $key => $value) {
 
-                $temp_in = get_post_meta( (int) $value->ID );
-                $img_url = wp_get_attachment_url( (int)  $temp_in['_thumbnail_id'][0]);
+            $temp_in = get_post_meta( (int) $value->ID );
+            $img_url = wp_get_attachment_url( (int)  $temp_in['_thumbnail_id'][0]);
 
-                $cantidadWs = ((int) $cantidad[(int)$value->ID] > 0) ? (int) $cantidad[(int)$value->ID]: 0;
+            $cantidadWs = ((int) $cantidad[(int)$value->ID] > 0) ? (int) $cantidad[(int)$value->ID]: 0;
 
-                $response[] = array(
-                        "id" => (int) $value->ID,
-                        "name" => $value->post_title,
-                        "img_url" => $img_url,
-                        "cantidad" => (int) $cantidadWs
-                    );
+            $response[] = array(
+                    "id" => (int) $value->ID,
+                    "name" => $value->post_title,
+                    "img_url" => $img_url,
+                    "cantidad" => (int) $cantidadWs
+                );
 
-                //...
+            // if(isset($this->$piezas[$value->ID])){
+            //     $this->piezas[$value->ID]["cantidad"] = (int) $this->$piezas[$value->ID]["cantidad"] + (int) $cantidadWs;
+            // }else{
+            //     $this->piezas[] = array(
+            //         "id" => (int) $value->ID,
+            //         "name" => $value->post_title,
+            //         "img_url" => $img_url,
+            //         "cantidad" => (int) $cantidadWs
+            //     );
+            // }
+
+            $isOnYet = true;
+            foreach ($this->piezas as $claves => $piezita) {
+                if((int) $piezita['id'] == (int) $value->ID){
+                    $suma = (int) $piezita['cantidad'] + (int) $cantidadWs;
+                    $piezita['cantidad'] = $suma;
+                    $this->piezas[$claves]['cantidad'] = $suma;
+                    $isOnYet = false;
+                }
+            }
+            if($isOnYet){
+                $this->piezas[] = array(
+                    "id" => (int) $value->ID,
+                    "name" => $value->post_title,
+                    "img_url" => $img_url,
+                    "cantidad" => (int) $cantidadWs
+                );
+            }
+            //...
         }
 
 
         return $response;
 
         //...
+    }
+
+    private function mdebug($strg, $sub = ""){
+
+            $f = fopen("/Users/imike/Desktop/debug$sub.txt", "w");
+            fwrite($f, print_r($strg, true));
+            fclose($f);
+
     }
 
     private function get_informe_pedidos () {
