@@ -1301,12 +1301,42 @@
 #informesappria #informes_wrapper .filtersWrap .filters {
   text-align: center;
   position: relative;
+}
+#informesappria #informes_wrapper .filtersWrap .filters {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#informesappria #informes_wrapper .filtersWrap .filters span {
+  cursor: pointer;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin: 1em 0.5em;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  -webkit-box-shadow: 0 1px 3px #333;
+  box-shadow: 0 1px 3px #333;
+  background: #fff;
+  color: #333;
+}
+#informesappria #informes_wrapper .filtersWrap .filters span.selected {
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  -o-transition: all 0.1s ease-in-out;
+  -ms-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
   display: inline-block;
   margin: 0 auto;
   padding: 0.5em 2em;
   border-radius: 5px;
 }
-#informesappria #informes_wrapper .filtersWrap .filters span {
+#informesappria #informes_wrapper .filtersWrap .filters span.selected span {
   cursor: pointer;
   -webkit-transition: all 0.1s ease-in-out;
   -moz-transition: all 0.1s ease-in-out;
@@ -1323,7 +1353,7 @@
   background: #fff;
   color: #333;
 }
-#informesappria #informes_wrapper .filtersWrap .filters span.selected {
+#informesappria #informes_wrapper .filtersWrap .filters span.selected span.selected {
   -webkit-transition: all 0.1s ease-in-out;
   -moz-transition: all 0.1s ease-in-out;
   -o-transition: all 0.1s ease-in-out;
