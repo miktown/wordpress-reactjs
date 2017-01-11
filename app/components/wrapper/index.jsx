@@ -87,6 +87,7 @@ class AppWrapper extends React.Component {
   }
 
   render () {
+    console.log(this.state.workData)
     return <Informe
       url={this.props.url}
       updatedMsg={this.state.updatedMsg}

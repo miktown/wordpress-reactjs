@@ -143,13 +143,15 @@ Class RobotsInformesDataGenerator {
                     array('name' => 'Informe','selected' => true),
                     array('name' => 'Profesores','selected' => false),
                     array('name' => 'Piezas','selected' => false),
-                    array('name' => 'Pedidos','selected' => false)
+                    array('name' => 'Pedidos','selected' => false),
+                    array('name' => 'Passwords','selected' => false)
                 );
         }
         $this->response['informesMenu'] = $this->informesList;
         $this->response['profesores'] = $this->get_informe_profesores();
         $this->response['pedidos'] = $this->get_informe_pedidos();
         $this->response['piezas'] = $this->get_informe_piezas();
+        $this->response['passwords'] = $this->get_informe_passwords();
     }
 
 
@@ -207,17 +209,6 @@ Class RobotsInformesDataGenerator {
                     "img_url" => $img_url,
                     "cantidad" => (int) $cantidadWs
                 );
-
-            // if(isset($this->$piezas[$value->ID])){
-            //     $this->piezas[$value->ID]["cantidad"] = (int) $this->$piezas[$value->ID]["cantidad"] + (int) $cantidadWs;
-            // }else{
-            //     $this->piezas[] = array(
-            //         "id" => (int) $value->ID,
-            //         "name" => $value->post_title,
-            //         "img_url" => $img_url,
-            //         "cantidad" => (int) $cantidadWs
-            //     );
-            // }
 
             $isOnYet = true;
             foreach ($this->piezas as $claves => $piezita) {
@@ -371,6 +362,52 @@ Class RobotsInformesDataGenerator {
         return $profes_output;
     }
 
+    private function get_informe_passwords () {
+
+        $response = array();
+
+        $clases_posts = get_posts( array(
+                        "post_type" => "clases",
+                        'post_status' => 'clase_activo',
+                        'posts_per_page' => -1
+                    )
+                );
+
+        foreach ($clases_posts as $key => $clase) {
+
+            $clase_meta_bruta = get_post_meta( $clase->ID );
+            $colegio_id = (int) $clase_meta_bruta['clase_colegio'][0];
+            $clase_pass = $clase_meta_bruta['_secret_key_colegio'][0];
+            $clase_nombre = get_the_title($clase->ID);
+
+
+            $colegio_meta_bruta = get_post_meta( $colegio_id );
+
+            $colegio_nombre = get_the_title($colegio_id);
+            $colegio_zona = wp_get_post_terms( $colegio_id, 'tax_zonas', array("fields" => "all") );
+
+            $colegio_calendarios = $colegio_meta_bruta['clase_calendarios'];
+            $calendarios_fechas = array();
+
+            $response[] = array(
+                    'id' => $clase->ID,
+                    'name' => $clase_nombre,
+                    'colegio' => $colegio_nombre,
+                    'colegio_id' => $colegio_id,
+                    'pass' => $clase_pass,
+                    'colegio_zona' => array(
+                        'id' => (int) $colegio_zona[0]->term_id,
+                        'nombre' => $colegio_zona[0]->name,
+                        'parent' => (int) $colegio_zona[0]->parent,
+                    )
+                );
+
+        }
+
+        return $response;
+
+    }
+
     private function get_informe_profesores () {
 
         $response = array();
@@ -486,10 +523,6 @@ Class RobotsInformesDataGenerator {
                             ),
                 );
             }
-
-            // TODO -> calendarios clase;
-            // TODO -> calendarios clase;
-
 
             $temp = array(
                         'clase' => array(

@@ -7,6 +7,7 @@ import SinDatos from './sindatos'
 import InformeProfesores from './profesores'
 import InformePedidos from './pedidos'
 import InformePiezas from './piezas'
+import InformePasswords from './passwords'
 
 class InformeView extends React.Component {
 
@@ -30,6 +31,7 @@ class InformeView extends React.Component {
       case 'Profesores': return <InformeProfesores zona={zona} {...this.props} />
       case 'Pedidos': return <InformePedidos zona={zona} {...this.props} />
       case 'Piezas': return <InformePiezas zona={zona} {...this.props} />
+      case 'Passwords': return <InformePasswords zona={zona} {...this.props} />
       default: return <SinDatos informe={informe} />
     }
   }
