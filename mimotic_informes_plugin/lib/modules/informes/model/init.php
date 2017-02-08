@@ -49,6 +49,12 @@ Class RobotsInformesDataGenerator {
     */
     private $piezas = array();
 
+    /**
+    * colegios
+    * @var array
+    */
+    private $colegios = array();
+
     public function __construct () {
         if (is_admin())
             add_action( 'wp_ajax_robots_informes_ajax_request', array( $this, 'robots_informes_ajax_request' ) );
@@ -144,7 +150,8 @@ Class RobotsInformesDataGenerator {
                     array('name' => 'Profesores','selected' => false),
                     array('name' => 'Piezas','selected' => false),
                     array('name' => 'Pedidos','selected' => false),
-                    array('name' => 'Passwords','selected' => false)
+                    array('name' => 'Passwords','selected' => false),
+                    array('name' => 'Colegios','selected' => false),
                 );
         }
         $this->response['informesMenu'] = $this->informesList;
@@ -152,8 +159,49 @@ Class RobotsInformesDataGenerator {
         $this->response['pedidos'] = $this->get_informe_pedidos();
         $this->response['piezas'] = $this->get_informe_piezas();
         $this->response['passwords'] = $this->get_informe_passwords();
+        $this->response['colegios'] = $this->get_informe_colegios();
     }
 
+    /**
+     * Obtener piezas del pedido
+     * @param  [array] $lectivos
+     * @return [array|false]
+     */
+    private function get_informe_colegios(){
+        $response = array();
+        $siteUrl = get_site_url();
+
+        $colegios = get_posts( array(
+                    "post_type" => "colegios",
+                    "posts_per_page"   => -1,
+                    "post_status" => 'published',
+                    "orderby" => 'post_title',
+                    "order" => 'ASC'
+                ));
+
+        foreach ($colegios as $colegio) {
+            $url = $siteUrl . '/wp-admin/post.php?post=' . $colegio->ID . '&action=edit';
+            $tipo = get_post_meta($colegio->ID, 'cold_tipo', true); // provado, concertado, publico
+
+            $colegio_zona = wp_get_post_terms( $colegio->ID, 'tax_zonas', array("fields" => "all") );
+
+            $response[] = array(
+                "id" => $colegio->ID,
+                "url" => $url,
+                "nombre" => $colegio->post_title,
+                "tipo" => $tipo,
+                'zona' => array(
+                        'id' => (int) $colegio_zona[0]->term_id,
+                        'nombre' => $colegio_zona[0]->name,
+                        'parent' => (int) $colegio_zona[0]->parent,
+                    )
+            );
+        }
+
+        $this->colegios = $response;
+
+        return $response;
+    }
 
      /**
      * Obtener piezas del pedido
@@ -238,7 +286,7 @@ Class RobotsInformesDataGenerator {
 
     private function mdebug($strg, $sub = ""){
 
-            $f = fopen("/Users/imike/Desktop/debug$sub.txt", "w");
+            $f = fopen("/Users/mimotic/Desktop/debug$sub.txt", "w");
             fwrite($f, print_r($strg, true));
             fclose($f);
 
