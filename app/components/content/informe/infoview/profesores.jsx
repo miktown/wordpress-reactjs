@@ -126,7 +126,7 @@ class InformeProfesores extends React.Component {
     let output = {}
     output.bajas = []
     output.lectivos = []
-    // bajasProfesor.map(baja => output.bajas.push(baja))
+    bajasProfesor.map(baja => output.bajas.push(baja))
 
     clases.map((clase) => {
       if (!clase.hasOwnProperty('fecha')) {
@@ -209,56 +209,56 @@ class InformeProfesores extends React.Component {
     let profesores = this.props.workData.profesores
     let profesoresOutput = []
 
-    console.log('profesores',profesores)
-
-    profesores.sort((a,b) => a.meta_profe.nombre.localeCompare(b.meta_profe.nombre)).map(profesor => {
-      if (profesor.meta_profe.zona.id && profesor.meta_profe.zona.id > 0 && this.isValidZona(profesor.meta_profe.zona.id)) {
-        let calendar = []
-        let calendarYearsMonths = []
-        calendar = self.createCalendar(profesor.clases, profesor.meta_profe.bajas).filter(dia => { return moment(dia.dia, 'DD/MM/Y').isBetween(self.props.inicio, self.props.fin, 'days', '[]') })
-        calendar.map(date => {
-          let year = moment(date.dia, 'DD/MM/Y').year()
-          let month = moment(date.dia, 'DD/MM/Y').month() // return 0 to 11 -> 0 == January and 11 == December
-          if (!calendarYearsMonths[year]) {
-            calendarYearsMonths[year] = []
-          }
-          let duracionHoras = parseFloat(date.fin) / 60
-
-          if (calendarYearsMonths[year][month]) {
-            let horasAcumulado = calendarYearsMonths[year][month].horas + duracionHoras
-            let precioAcumulado = (duracionHoras * parseFloat(date.precio)) + calendarYearsMonths[year][month].precioAcumulado
-            let laMedia = precioAcumulado / horasAcumulado
-            let clases = calendarYearsMonths[year][month].clases + 1
-            let fechas = calendarYearsMonths[year][month].fechas
-            fechas.push(date.dia)
-            calendarYearsMonths[year][month] = {
-              horas: horasAcumulado,
-              precioAcumulado: precioAcumulado,
-              media: laMedia,
-              clases: clases,
-              fechas: fechas
+    profesores
+      .sort((a, b) => a.meta_profe.nombre.localeCompare(b.meta_profe.nombre))
+      .map(profesor => {
+        if (profesor.meta_profe.zona.id && profesor.meta_profe.zona.id > 0 && this.isValidZona(profesor.meta_profe.zona.id)) {
+          let calendar = []
+          let calendarYearsMonths = []
+          calendar = self.createCalendar(profesor.clases, profesor.meta_profe.bajas).filter(dia => { return moment(dia.dia, 'DD/MM/Y').isBetween(self.props.inicio, self.props.fin, 'days', '[]') })
+          calendar.map(date => {
+            let year = moment(date.dia, 'DD/MM/Y').year()
+            let month = moment(date.dia, 'DD/MM/Y').month() // return 0 to 11 -> 0 == January and 11 == December
+            if (!calendarYearsMonths[year]) {
+              calendarYearsMonths[year] = []
             }
-          } else {
-            let horasNuevo = duracionHoras
-            let precioNuevo = duracionHoras * parseFloat(date.precio)
-            let laMediaNuevo = precioNuevo / horasNuevo
-            let fechas = [date.dia]
-            calendarYearsMonths[year][month] = {
-              horas: horasNuevo,
-              precioAcumulado: precioNuevo,
-              media: laMediaNuevo,
-              clases: 1,
-              fechas: fechas
-            }
-          }
-        })
+            let duracionHoras = parseFloat(date.fin) / 60
 
-        profesoresOutput.push(<li key={profesor.meta_profe.id}>
-          <span className='profesorIcon'> {profesor.meta_profe.nombre} <strong>{profesor.meta_profe.zona.nombre}</strong></span>
-          <div className='calendarData'>{self.createCalendarView(calendarYearsMonths)}</div>
-        </li>)
-      }
-    })
+            if (calendarYearsMonths[year][month]) {
+              let horasAcumulado = calendarYearsMonths[year][month].horas + duracionHoras
+              let precioAcumulado = (duracionHoras * parseFloat(date.precio)) + calendarYearsMonths[year][month].precioAcumulado
+              let laMedia = precioAcumulado / horasAcumulado
+              let clases = calendarYearsMonths[year][month].clases + 1
+              let fechas = calendarYearsMonths[year][month].fechas
+              fechas.push(date.dia)
+              calendarYearsMonths[year][month] = {
+                horas: horasAcumulado,
+                precioAcumulado: precioAcumulado,
+                media: laMedia,
+                clases: clases,
+                fechas: fechas
+              }
+            } else {
+              let horasNuevo = duracionHoras
+              let precioNuevo = duracionHoras * parseFloat(date.precio)
+              let laMediaNuevo = precioNuevo / horasNuevo
+              let fechas = [date.dia]
+              calendarYearsMonths[year][month] = {
+                horas: horasNuevo,
+                precioAcumulado: precioNuevo,
+                media: laMediaNuevo,
+                clases: 1,
+                fechas: fechas
+              }
+            }
+          })
+
+          profesoresOutput.push(<li key={profesor.meta_profe.id}>
+            <span className='profesorIcon'> {profesor.meta_profe.nombre} <strong>{profesor.meta_profe.zona.nombre}</strong></span>
+            <div className='calendarData'>{self.createCalendarView(calendarYearsMonths)}</div>
+          </li>)
+        }
+      })
 
     return profesoresOutput
   }
