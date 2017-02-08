@@ -55,7 +55,7 @@ class InformeColegios extends React.Component {
     .filter(colegio => this.state.filters[colegio.tipo])
     .filter(colegio => this.isValidZona(colegio.zona.id))
     .map(colegio => {
-      colegiosOutput.push(<li style={{padding:'0.5em 0.5em 0.1em'}} key={colegio.id}>
+      colegiosOutput.push(<li style={{padding: '0.5em 0.5em 0.1em'}} key={colegio.id}>
         <p style={{marginBottom: '1.5em'}} className='colegioIcon leftGo'>
           <span style={{color: '#333', fontWeight: '800'}}><a target='_blank' href={colegio.url}>{colegio.nombre}</a></span> <strong className={colegio.tipo}>{this.stringTipoClean(colegio.tipo)}</strong>
           <span style={{float: 'right', marginRight: '1em'}}>de <span style={{color: '#333', fontWeight: '800'}}>{colegio.profesor}</span> ({colegio.zona.nombre})</span>

@@ -152,6 +152,7 @@ Class RobotsInformesDataGenerator {
                     array('name' => 'Pedidos','selected' => false),
                     array('name' => 'Passwords','selected' => false),
                     array('name' => 'Colegios','selected' => false),
+                    array('name' => 'Alumnos','selected' => false),
                 );
         }
         $this->response['informesMenu'] = $this->informesList;
@@ -160,6 +161,7 @@ Class RobotsInformesDataGenerator {
         $this->response['piezas'] = $this->get_informe_piezas();
         $this->response['passwords'] = $this->get_informe_passwords();
         $this->response['colegios'] = $this->get_informe_colegios();
+        $this->response['alumnos'] = $this->get_informe_alumnos();
     }
 
     /**
@@ -199,6 +201,124 @@ Class RobotsInformesDataGenerator {
         }
 
         $this->colegios = $response;
+
+        return $response;
+    }
+
+    private function getClases ($alumno_id, $colegio_id, $clases) {
+
+        // foreach ($clases as $key => $value) {
+
+        // }
+
+        $clases = get_posts( array(
+                    "post_type" => "clases",
+                    "posts_per_page"   => -1,
+                    "post_status" => 'activo',
+                    "orderby" => 'post_title',
+                    "order" => 'ASC'
+                ));
+
+        return $clases;
+    }
+
+    private function is_still_alumno_in_class($alumno_id, $id_asignatura, $id_clase_in){
+
+        $alumnos_asignatura = get_post_meta($id_clase_in, 'clase_alumnos_' . $id_asignatura, true);
+
+        foreach ($alumnos_asignatura['alumnos'] as $alumno_id_in_class_asignatura) {
+            if($alumno_id_in_class_asignatura == $alumno_id) return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param  [array] $lectivos
+     * @return [array|false]
+     */
+    private function get_informe_alumnos(){
+        $response = array();
+        $siteUrl = get_site_url();
+        $clases_all = get_posts( array(
+                    "post_type" => "clases",
+                    "posts_per_page"   => -1,
+                    "post_status" => 'clase_activo',
+                    "orderby" => 'post_title',
+                    "order" => 'ASC'
+                ));
+
+        $alumnos = get_posts( array(
+                    "post_type" => "alumnos",
+                    "posts_per_page"   => -1,
+                    "post_status" => 'activo',
+                    "orderby" => 'post_title',
+                    "order" => 'ASC'
+                ));
+
+        foreach ($alumnos as $alumno) {
+
+            $url = $siteUrl . '/wp-admin/post.php?post=' . $alumno->ID . '&action=edit';
+            $colegio_id = get_post_meta($alumno->ID,'_colegio_asociado_alumno',true);
+            $colegio_zona = wp_get_post_terms( $colegio_id, 'tax_zonas', array("fields" => "all") );
+            $colegio_nombre = get_the_title($colegio_id);
+            $no_asistencia = get_post_meta($alumno->ID, 'alumno_noasistencia', false);
+
+            $curso_edad_nivel = wp_get_post_terms( $alumno->ID, 'tax_cursos', array("fields" => "all") );
+
+            $clases_alumno = get_post_meta($alumno->ID,'_clase_in',false);
+            $clases_alumno_real_in = array();
+
+            foreach ($clases_alumno as $clase) {
+                if( $this->is_still_alumno_in_class($alumno->ID, $clase['asignatura'], $clase['clase'] ) ){
+                    $clase['name'] = get_the_title( $clase['clase']);
+                    $clase['url'] = $siteUrl . '/wp-admin/post.php?post=' . $clase['clase'] . '&action=edit';
+                    $profesores_id = get_post_meta( $clase['clase'], '_profesor_principal', false );
+                    $profes = array();
+                    foreach ($profesores_id as $profe_id) {
+                        $temp_profe = get_userdata( $profe_id );
+                        $profes[] = array(
+                            'id' => $profe_id,
+                            'name' =>$temp_profe->display_name
+                        );
+                    }
+
+                    $clase['profesores'] = $profes;
+
+                    $clases_alumno_real_in[] = $clase;
+                }
+            }
+
+            $response[] = array(
+                "id" => $alumno->ID,
+                "url" => $url,
+                "nombre" => $alumno->post_title,
+                "bajas" => $no_asistencia,
+                "clases" => $clases_alumno_real_in,
+                "profesores" => $profesores,
+                "curso" => array(
+                    "id" => (int) $curso_edad_nivel[0]->term_id,
+                    "nombre" => $curso_edad_nivel[0]->name,
+                ),
+                "colegio" => array(
+                    "id" => $colegio_id,
+                    "nombre" => $colegio_nombre
+                ),
+                "zona" => array(
+                        "id" => (int) $colegio_zona[0]->term_id,
+                        "nombre" => $colegio_zona[0]->name,
+                        "parent" => (int) $colegio_zona[0]->parent,
+                    )
+            );
+        }
+
+
+
+
+        $response = array(
+            'alumnos' => $response,
+            'colegios' => $this->colegios
+        );
 
         return $response;
     }
