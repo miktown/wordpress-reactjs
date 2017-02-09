@@ -210,7 +210,6 @@ class InformeProfesores extends React.Component {
     let profesoresOutput = []
 
     profesores
-      .sort((a, b) => a.meta_profe.nombre.localeCompare(b.meta_profe.nombre))
       .map(profesor => {
         if (profesor.meta_profe.zona.id && profesor.meta_profe.zona.id > 0 && this.isValidZona(profesor.meta_profe.zona.id)) {
           let calendar = []

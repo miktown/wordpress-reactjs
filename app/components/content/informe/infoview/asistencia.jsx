@@ -1,8 +1,10 @@
 'use strict'
 
 import React from 'react'
+import moment from 'moment'
+import 'moment/locale/es'
 
-class InformeAlumnos extends React.Component {
+class InformeAsistencia extends React.Component {
 
   constructor (props) {
     super(props)
@@ -39,10 +41,6 @@ class InformeAlumnos extends React.Component {
     return result
   }
 
-  setAlumnoCurso (curso) {
-    return !curso ? 'sin nivel asignado' : curso
-  }
-
   setFilterColegios () {
     let colegios = this.props.workData.alumnos.colegios
     let output = []
@@ -59,13 +57,33 @@ class InformeAlumnos extends React.Component {
     return txt.value
   }
 
-  getClasesIn (clases, alumnoId) {
-    let output = []
-    clases.map(clase => {
-      output.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={alumnoId + '_' + clase.clase}>- <a style={{color: '#666'}} href={clase.url} target='_blank'>{this.decodeHtml(clase.name)}</a></li>)
+  getBajas (bajas) {
+    let mesesBajas = {}
+    let response = []
+
+    bajas.map(baja => {
+      if (baja !== '') {
+        let mesYear = moment(baja, 'DD/MM/Y').format('MMMY')
+        if (mesesBajas[mesYear] === undefined) {
+          mesesBajas[mesYear] = {
+            total: 1,
+            name: mesYear
+          }
+        } else mesesBajas[mesYear].total++
+      }
     })
 
-    return output
+    Object.keys(mesesBajas).forEach(function (key) {
+      if (mesesBajas[key].total > 1) {
+        response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={mesesBajas[key].name}>en <strong>{mesesBajas[key].name}</strong> - ({mesesBajas[key].total} veces)</li>)
+      }
+    })
+
+    return response
+  }
+
+  setAlumnoCurso (curso) {
+    return !curso ? 'sin nivel asignado' : curso
   }
 
   listAlumnos () {
@@ -79,15 +97,19 @@ class InformeAlumnos extends React.Component {
       return parseInt(alumno.colegio.id) === this.state.colegioFilter
     })
     .map(alumno => {
-      alumnosOutput.push(<li style={{padding: '0.5em 0.5em 0.1em'}} key={alumno.id}>
+      let bajasAlumnos = this.getBajas(alumno.bajas)
+      if (bajasAlumnos.length > 0) {
+        alumnosOutput.push(<li style={{padding: '0.5em 0.5em 0.1em'}} key={alumno.id}>
 
-        <p style={{marginBottom: '1.5em'}} className='studentIcon leftGo'>
-          <span style={{color: '#333', fontWeight: '800'}}><a target='_blank' href={alumno.url}>{alumno.nombre}</a> ({alumno.colegio.nombre})</span>
-          <strong className={alumno.tipo}>{this.setAlumnoCurso(alumno.curso.nombre)}</strong>
-          <span style={{float: 'right', marginRight: '1em'}}>de <span style={{color: '#333', fontWeight: '800'}}>{alumno.profesor}</span> {alumno.zona.nombre}</span>
-        </p>
-        <ul key={alumno.id} style={{marginTop: '-1em', marginBottom: '1em'}}>{this.getClasesIn(alumno.clases, alumno.id)}</ul>
-      </li>)
+          <p style={{marginBottom: '1.5em'}} className='studentIcon leftGo'>
+            <span style={{color: '#333', fontWeight: '800'}}><a target='_blank' href={alumno.url}>{alumno.nombre}</a> ({alumno.colegio.nombre})</span>
+            <strong className={alumno.tipo}>{this.setAlumnoCurso(alumno.curso.nombre)}</strong>
+            <span style={{float: 'right', marginRight: '1em'}}>de <span style={{color: '#333', fontWeight: '800'}}>{alumno.profesor}</span> {alumno.zona.nombre}</span>
+          </p>
+          <ul style={{marginTop: '-1em', marginBottom: '1em'}}>{bajasAlumnos}</ul>
+
+        </li>)
+      }
     })
 
     return alumnosOutput
@@ -120,4 +142,4 @@ class InformeAlumnos extends React.Component {
   }
 }
 
-export default InformeAlumnos
+export default InformeAsistencia

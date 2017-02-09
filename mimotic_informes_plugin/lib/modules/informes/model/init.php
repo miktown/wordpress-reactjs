@@ -153,6 +153,7 @@ Class RobotsInformesDataGenerator {
                     array('name' => 'Passwords','selected' => false),
                     array('name' => 'Colegios','selected' => false),
                     array('name' => 'Alumnos','selected' => false),
+                    array('name' => 'Asistencia','selected' => false),
                 );
         }
         $this->response['informesMenu'] = $this->informesList;
@@ -222,15 +223,131 @@ Class RobotsInformesDataGenerator {
         return $clases;
     }
 
-    private function is_still_alumno_in_class($alumno_id, $id_asignatura, $id_clase_in){
+    private function comprobar_si_sigue_alli($id_asignatura,$id_clase_in){
+      global $post;
+      $output = false;
+      $output2 = false;
+      $output3 = false;
 
-        $alumnos_asignatura = get_post_meta($id_clase_in, 'clase_alumnos_' . $id_asignatura, true);
+      $post->ID; // alumno
+      $id_asignatura; // asignatura
+      $id_clase_in; // clase
+      $is_clase_activa = get_post_status($id_clase_in);
 
-        foreach ($alumnos_asignatura['alumnos'] as $alumno_id_in_class_asignatura) {
-            if($alumno_id_in_class_asignatura == $alumno_id) return true;
+      // 0 - compobar que la clase esté activa.
+      if( $is_clase_activa != 'clase_activo') return false;
+
+      // comprobar que el alumno está en esa clase:
+      // 1.- comprobar que en esa clase está su mismo colegio
+
+      $col_alumno = get_post_meta($post->ID,'_colegio_asociado_alumno');
+      $col_clase = get_post_meta($id_clase_in,'clase_colegio');
+
+      if((int)$col_alumno[0] === (int)$col_clase[0]) $output = true;
+
+
+      // 2.- comprobar que en esa clase está esa asignatura
+      if($output){
+
+        $asignaturas_clase = get_post_meta($id_clase_in,'clase_asignaturas',false);
+
+        foreach ($asignaturas_clase as $key => $value) {
+          if((int)$value === (int)$id_asignatura) $output2 = true;
+        }
+      }
+
+
+
+      // 3.- comprobar que en esa clase y asignatura sigue estando este alumno
+      // if($output && $output2){
+      //   $asignaturas_clase = get_post_meta($post->ID,'clase_asignaturas',false);
+      //   foreach ($asignaturas_clase as $key => $value) {
+      //     if((int)$value[0] === (int)$id_asignatura) $output3 = true;
+      // }
+
+      if($output && $output2) return true;
+      else return false;
+    }
+
+    private function isClaseActiva($claseId){
+        return (get_post_status($claseId) === 'clase_activo');
+    }
+
+    private function isActivaAsignaturaInClass($clase_id,$asignatura_id){
+
+        $asignaturas_clase = get_post_meta($clase_id, 'clase_asignaturas', false);
+
+        foreach ($asignaturas_clase as $asignatura) {
+            if((int)$asignatura === (int)$asignatura_id) return true;
         }
 
         return false;
+    }
+
+    private function isAlumnoOnAsignaturaClaseList ($clase_id, $asignatura_id, $alumno_id) {
+
+        $alumnos_asignatura = get_post_meta($clase_id, 'clase_alumnos_' . $asignatura_id, false);
+
+        foreach ($alumnos_asignatura[0]['alumnos'] as $alumno)
+            if((int)$alumno === (int)$alumno_id) return true;
+
+        return false;
+    }
+
+
+    private function cleanClases($clases, $alumno_id){
+
+        $response = array();
+
+
+
+        foreach ($clases as $clase) {
+            $clase_id = $clase['clase'];
+            $asignatura_id = $clase['asignatura'];
+
+
+
+            // 0 - comprobamos si la clase esta activa
+            $isClaseActiva = $this->isClaseActiva($clase_id);
+            if( $isClaseActiva === false) continue;
+
+
+
+            // 1- comprobamos que sendos colegios asociados son los mismos
+            //    tanto en alumno como en la clase
+            $colegio_alumno = get_post_meta($alumno_id,'_colegio_asociado_alumno',true);
+            $colegio_clase = get_post_meta($clase_id,'clase_colegio',true);
+            if((int)$colegio_alumno !== (int)$colegio_clase) continue;
+
+            // 2- comprobar que la asignatura está activa en la clase
+            $isActivaAsignatura = $this->isActivaAsignaturaInClass($clase_id, $asignatura_id);
+            if($isActivaAsignatura === false) continue;
+
+            // 3.- comprobar que esta ahora en la clase.
+            $isAlumnoInList = $this->isAlumnoOnAsignaturaClaseList($clase_id, $asignatura_id, $alumno_id);
+            if($isAlumnoInList === false) continue;
+
+            // RESULTADO, si todo ok
+            // Añadimos a la respuesta completando metadata de la clase
+            $clase['name'] = get_the_title( $clase_id);
+            $clase['url'] = $siteUrl . '/wp-admin/post.php?post=' . $clase_id . '&action=edit&_%5Bflow%5D=clasesflow&_%5Bflow_page%5D=alumnos';
+            $profesores_ids = get_post_meta( $clase_id, '_profesor_principal', false );
+            $profes = array();
+            foreach ($profesores_ids as $profe_id) {
+                $temp_profe_metadata = get_userdata( $profe_id );
+                $profes[] = array(
+                    'id' => $profe_id,
+                    'name' =>$temp_profe_metadata->display_name
+                );
+            }
+            $clase['profesores'] = $profes;
+
+            // añadimos a la response
+            $response[] = $clase;
+        }
+
+        return $response;
+
     }
 
     /**
@@ -240,6 +357,8 @@ Class RobotsInformesDataGenerator {
     private function get_informe_alumnos(){
         $response = array();
         $siteUrl = get_site_url();
+
+        //obtener todas las clases
         $clases_all = get_posts( array(
                     "post_type" => "clases",
                     "posts_per_page"   => -1,
@@ -248,6 +367,7 @@ Class RobotsInformesDataGenerator {
                     "order" => 'ASC'
                 ));
 
+        //obtener todos los alumnos
         $alumnos = get_posts( array(
                     "post_type" => "alumnos",
                     "posts_per_page"   => -1,
@@ -256,7 +376,10 @@ Class RobotsInformesDataGenerator {
                     "order" => 'ASC'
                 ));
 
+        // recorremos alumnos
         foreach ($alumnos as $alumno) {
+
+
 
             $url = $siteUrl . '/wp-admin/post.php?post=' . $alumno->ID . '&action=edit';
             $colegio_id = get_post_meta($alumno->ID,'_colegio_asociado_alumno',true);
@@ -266,35 +389,18 @@ Class RobotsInformesDataGenerator {
 
             $curso_edad_nivel = wp_get_post_terms( $alumno->ID, 'tax_cursos', array("fields" => "all") );
 
-            $clases_alumno = get_post_meta($alumno->ID,'_clase_in',false);
-            $clases_alumno_real_in = array();
+            $clases_alumno_bruto = get_post_meta($alumno->ID,'_clase_in',false);
 
-            foreach ($clases_alumno as $clase) {
-                if( $this->is_still_alumno_in_class($alumno->ID, $clase['asignatura'], $clase['clase'] ) ){
-                    $clase['name'] = get_the_title( $clase['clase']);
-                    $clase['url'] = $siteUrl . '/wp-admin/post.php?post=' . $clase['clase'] . '&action=edit';
-                    $profesores_id = get_post_meta( $clase['clase'], '_profesor_principal', false );
-                    $profes = array();
-                    foreach ($profesores_id as $profe_id) {
-                        $temp_profe = get_userdata( $profe_id );
-                        $profes[] = array(
-                            'id' => $profe_id,
-                            'name' =>$temp_profe->display_name
-                        );
-                    }
+            $clases_alumno_bruto = $this->array_unique_multidimensional($clases_alumno_bruto);
 
-                    $clase['profesores'] = $profes;
-
-                    $clases_alumno_real_in[] = $clase;
-                }
-            }
+            $clases_alumno = $this->cleanClases($clases_alumno_bruto,$alumno->ID);
 
             $response[] = array(
                 "id" => $alumno->ID,
                 "url" => $url,
                 "nombre" => $alumno->post_title,
                 "bajas" => $no_asistencia,
-                "clases" => $clases_alumno_real_in,
+                "clases" => $clases_alumno,
                 "profesores" => $profesores,
                 "curso" => array(
                     "id" => (int) $curso_edad_nivel[0]->term_id,
@@ -312,13 +418,28 @@ Class RobotsInformesDataGenerator {
             );
         }
 
-
-
-
         $response = array(
             'alumnos' => $response,
             'colegios' => $this->colegios
         );
+
+        return $response;
+    }
+
+    private function array_unique_multidimensional($main_array) {
+
+        $response = array();
+        $temp = array();
+
+        foreach ($main_array as $value) {
+            $temp[] = $value['asignatura'] . $value['clase'];
+        }
+
+        $temp = array_unique($temp);
+
+        foreach ($temp as $key => $value) {
+            $response[] = $main_array[$key];
+        }
 
         return $response;
     }
@@ -349,7 +470,6 @@ Class RobotsInformesDataGenerator {
         $cantidad = array();
         $temp_in = false;
         $img_url = false;
-
 
         foreach ($arr as $key => $value) {
 
@@ -398,7 +518,6 @@ Class RobotsInformesDataGenerator {
             //...
         }
 
-
         return $response;
 
         //...
@@ -406,9 +525,9 @@ Class RobotsInformesDataGenerator {
 
     private function mdebug($strg, $sub = ""){
 
-            $f = fopen("/Users/mimotic/Desktop/debug$sub.txt", "w");
-            fwrite($f, print_r($strg, true));
-            fclose($f);
+        $f = fopen("/Users/mimotic/Desktop/debug$sub.txt", "w");
+        fwrite($f, print_r($strg, true));
+        fclose($f);
 
     }
 
@@ -526,6 +645,10 @@ Class RobotsInformesDataGenerator {
 
             // ...
         }
+
+        usort($profes_output, function($a, $b) {
+            return strcmp(strtolower($a['meta_profe']['nombre']), strtolower($b['meta_profe']['nombre']));
+        });
 
         return $profes_output;
     }
