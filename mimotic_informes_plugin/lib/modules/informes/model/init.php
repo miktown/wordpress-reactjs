@@ -146,6 +146,7 @@ Class RobotsInformesDataGenerator {
         // menú
         if ( $this->is_admin() ) {
             $this->informesList = array(
+                    array('name' => 'Totales','selected' => false),
                     array('name' => 'Informe','selected' => true),
                     array('name' => 'Profesores','selected' => false),
                     array('name' => 'Piezas','selected' => false),
@@ -154,6 +155,7 @@ Class RobotsInformesDataGenerator {
                     array('name' => 'Colegios','selected' => false),
                     array('name' => 'Alumnos','selected' => false),
                     array('name' => 'Asistencia','selected' => false),
+
                 );
         }
         $this->response['informesMenu'] = $this->informesList;
@@ -299,19 +301,13 @@ Class RobotsInformesDataGenerator {
 
         $response = array();
 
-
-
         foreach ($clases as $clase) {
             $clase_id = $clase['clase'];
             $asignatura_id = $clase['asignatura'];
 
-
-
             // 0 - comprobamos si la clase esta activa
             $isClaseActiva = $this->isClaseActiva($clase_id);
             if( $isClaseActiva === false) continue;
-
-
 
             // 1- comprobamos que sendos colegios asociados son los mismos
             //    tanto en alumno como en la clase
@@ -330,6 +326,7 @@ Class RobotsInformesDataGenerator {
             // RESULTADO, si todo ok
             // Añadimos a la respuesta completando metadata de la clase
             $clase['name'] = get_the_title( $clase_id);
+            $clase['asignaturaname'] = get_the_title( $asignatura_id);
             $clase['url'] = $siteUrl . '/wp-admin/post.php?post=' . $clase_id . '&action=edit&_%5Bflow%5D=clasesflow&_%5Bflow_page%5D=alumnos';
             $profesores_ids = get_post_meta( $clase_id, '_profesor_principal', false );
             $profes = array();

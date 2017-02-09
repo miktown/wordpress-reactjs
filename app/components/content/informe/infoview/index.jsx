@@ -11,6 +11,7 @@ import InformePasswords from './passwords'
 import InformeColegios from './colegios'
 import InformeAlumnos from './alumnos'
 import InformeAsistencia from './asistencia'
+import InformeTotales from './totales'
 
 class InformeView extends React.Component {
 
@@ -38,6 +39,7 @@ class InformeView extends React.Component {
       case 'Colegios': return <InformeColegios zona={zona} {...this.props} />
       case 'Alumnos': return <InformeAlumnos zona={zona} {...this.props} />
       case 'Asistencia': return <InformeAsistencia zona={zona} {...this.props} />
+      case 'Totales': return <InformeTotales zona={zona} {...this.props} />
       default: return <SinDatos informe={informe} />
     }
   }

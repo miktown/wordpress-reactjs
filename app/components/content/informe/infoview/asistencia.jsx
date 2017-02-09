@@ -57,12 +57,18 @@ class InformeAsistencia extends React.Component {
     return txt.value
   }
 
+  isDateBetween (day) {
+    let start = moment(this.props.inicio, 'DD/MM/Y')
+    let finish = moment(this.props.fin, 'DD/MM/Y')
+    return moment(day, 'DD/MM/Y').isBetween(start, finish, 'days', '[]')
+  }
+
   getBajas (bajas) {
     let mesesBajas = {}
     let response = []
 
     bajas.map(baja => {
-      if (baja !== '') {
+      if (baja !== '' && this.isDateBetween(baja)) {
         let mesYear = moment(baja, 'DD/MM/Y').format('MMMY')
         if (mesesBajas[mesYear] === undefined) {
           mesesBajas[mesYear] = {
