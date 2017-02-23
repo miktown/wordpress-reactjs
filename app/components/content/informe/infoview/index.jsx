@@ -34,15 +34,15 @@ class InformeView extends React.Component {
 
     switch (informe) {
       case 'Informe': return <NoInformeSelected />
-      case 'Nóminas': return <InformeHoras zona={zona} {...this.props} />
-      case 'Profesores': return <InformeProfesores zona={zona} {...this.props} />
-      case 'Pedidos': return <InformePedidos zona={zona} {...this.props} />
-      case 'Piezas': return <InformePiezas zona={zona} {...this.props} />
-      case 'Passwords': return <InformePasswords zona={zona} {...this.props} />
-      case 'Colegios': return <InformeColegios zona={zona} {...this.props} />
-      case 'Alumnos': return <InformeAlumnos zona={zona} {...this.props} />
-      case 'Asistencia': return <InformeAsistencia zona={zona} {...this.props} />
-      case 'Totales': return <InformeTotales zona={zona} {...this.props} />
+      case 'Nóminas': return <InformeHoras informe={informe} zona={zona} {...this.props} />
+      case 'Profesores': return <InformeProfesores informe={informe} zona={zona} {...this.props} />
+      case 'Pedidos': return <InformePedidos informe={informe} zona={zona} {...this.props} />
+      case 'Piezas': return <InformePiezas informe={informe} zona={zona} {...this.props} />
+      case 'Passwords': return <InformePasswords informe={informe} zona={zona} {...this.props} />
+      case 'Colegios': return <InformeColegios informe={informe} zona={zona} {...this.props} />
+      case 'Alumnos': return <InformeAlumnos informe={informe} zona={zona} {...this.props} />
+      case 'Asistencia': return <InformeAsistencia informe={informe} zona={zona} {...this.props} />
+      case 'Totales': return <InformeTotales informe={informe} zona={zona} {...this.props} />
       default: return <SinDatos informe={informe} />
     }
   }

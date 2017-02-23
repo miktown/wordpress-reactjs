@@ -1,8 +1,21 @@
 'use strict'
 
 import React from 'react'
+import {CSVLink} from 'react-csv'
+
+
+
 
 class InformeProfesores extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.csv = {
+      headers:["Profesor","Clase"],
+      data: []
+    }
+  }
 
   isValidZona (zonaTargetId) {
     let zonaSelected = this.props.workData.zonas.filter(zona => zona.selected)[0]
@@ -32,17 +45,22 @@ class InformeProfesores extends React.Component {
     return result
   }
 
-  createClases (clases, profeId) {
+  createClases (clases, profeId, profeNombre) {
     // let self = this
     let clasesOutput = []
 
-    if (clases.length < 1) return (<span></span>)
+    if (clases.length < 1) return (<span />)
 
-    clasesOutput.push(<div style={{marginTop:'1em'}}></div>)
+    clasesOutput.push(<div style={{marginTop: '1em'}} />)
 
     clases.map(clase => {
+
+      this.csv.data.push(
+        { PROFESOR: profeNombre , CLASE: clase.name }
+      )
+
       let url = `${this.props.url}/wp-admin/post.php?post=${clase.id}&action=edit`
-      clasesOutput.push(<div style={{marginLeft:'3.5em',color:'#a7a7a7',marginTop:'.5em'}} key={clase.id + '_' + profeId}>- <a href={url} target="_blank">{clase.name}</a></div>)
+      clasesOutput.push(<div style={{marginLeft: '3.5em', color: '#a7a7a7', marginTop: '.5em'}} key={clase.id + '_' + profeId}>- <a href={url} target='_blank'>{clase.name}</a></div>)
     })
     return clasesOutput
   }
@@ -57,7 +75,7 @@ class InformeProfesores extends React.Component {
         if (profesor.meta_profe.zona.id && profesor.meta_profe.zona.id > 0 && this.isValidZona(profesor.meta_profe.zona.id)) {
           profesoresOutput.push(<li key={profesor.meta_profe.id}>
             <span className='profesorIcon'> {profesor.meta_profe.nombre} ({profesor.clases.length}) <strong>{profesor.meta_profe.zona.nombre}</strong></span>
-            <div className='calendarData'>{self.createClases(profesor.clases, profesor.meta_profe.id)}</div>
+            <div className='calendarData'>{self.createClases(profesor.clases, profesor.meta_profe.id, profesor.meta_profe.nombre)}</div>
           </li>)
         }
       })
@@ -65,11 +83,42 @@ class InformeProfesores extends React.Component {
     return profesoresOutput
   }
 
+
+  getFileName () {
+    let date = new Date()
+    return `${this.props.informe}_${this.props.zona}_${date}`
+  }
+  getDataCsv () {
+    return [
+      ['Alfreds Futterkiste', 'Maria Anders'],
+      ['Rathath IT', 'Abdennour TM'],
+      ['Laughing Bacchus Winecellars', 'Yoshi Tannamuri'],
+      ['Auto1', 'Petter'],
+      ['Estifeda', 'Yousri K'],
+      ['Nine 10ᵗʰ', 'Amjed Idris'],
+      ['Tamkeen', 'Mohamed Alshibi'],
+      ['Packet Publishing', 'David Become'],
+      ['Software hourse', 'Soro']
+    ]
+  }
+
+  componentWillReceiveProps(nextProps) {
+  // You don't have to do this check first, but it can help prevent an unneeded render
+    if (nextProps !== this.props) {
+      this.csv.data = []
+    }
+  }
+
   render () {
+
     let dataProfesores = this.listProfesores()
+
     return <div>
+
+
       <p className='introduction'>
         Mostrando {dataProfesores.length} {dataProfesores.length === 1 ? 'profesor' : 'profesores'} de <strong>{this.props.zona}</strong>
+        <CSVLink filename={this.getFileName()} data={this.csv.data} separator={";"} style={{float: 'right', marginRight: '1em',marginLeft: '-1em'}}>descargar CSV</CSVLink>
       </p>
       <div className=''>
         <ul className='listaProfesores'>{dataProfesores}</ul>

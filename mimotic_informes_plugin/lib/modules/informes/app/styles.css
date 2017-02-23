@@ -1435,6 +1435,12 @@
 #informesappria #informes_wrapper strong.col_concertado {
   background-color: #83a7c5;
 }
+#informesappria #informes_wrapper .btnCsv {
+  height: 100px;
+  width: 100px;
+  background: #f00;
+  border-radius: 50%;
+}
 #informesappria {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

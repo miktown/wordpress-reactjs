@@ -28,7 +28,7 @@ var config = {
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        query: { presets: ['stage-1', 'es2015', 'react'], compact: true }
+        query: { presets: ['stage-3', 'es2015', 'react'], compact: true }
       },
       {
         test: /\.styl$/,
