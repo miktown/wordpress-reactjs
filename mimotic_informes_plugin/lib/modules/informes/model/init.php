@@ -148,18 +148,19 @@ Class RobotsInformesDataGenerator {
             $this->informesList = array(
                     array('name' => 'Totales','selected' => false),
                     array('name' => 'Informe','selected' => true),
-                    array('name' => 'Profesores','selected' => false),
+                    array('name' => 'Nóminas','selected' => false),
                     array('name' => 'Piezas','selected' => false),
                     array('name' => 'Pedidos','selected' => false),
                     array('name' => 'Passwords','selected' => false),
                     array('name' => 'Colegios','selected' => false),
                     array('name' => 'Alumnos','selected' => false),
                     array('name' => 'Asistencia','selected' => false),
+                    array('name' => 'Profesores','selected' => false),
 
                 );
         }
         $this->response['informesMenu'] = $this->informesList;
-        $this->response['profesores'] = $this->get_informe_profesores();
+        $this->response['horas'] = $this->get_informe_profesores();
         $this->response['pedidos'] = $this->get_informe_pedidos();
         $this->response['piezas'] = $this->get_informe_piezas();
         $this->response['passwords'] = $this->get_informe_passwords();

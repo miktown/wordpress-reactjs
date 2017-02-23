@@ -15,17 +15,13 @@ class InformeTotales extends React.Component {
 
   isValidZona (zonaTargetId) {
     let zonaSelected = this.props.workData.zonas.filter(zona => zona.selected)[0]
-
     if (zonaTargetId === zonaSelected.id) return true
-
     return this.isZonaChild(zonaSelected, zonaTargetId)
   }
 
   isZonaChild (zonaSelected, zonaTargetId) {
     let self = this
-
     let zonaID = zonaSelected.id
-
     let result = false
 
     let sonZonasSelected = this.props.workData.zonas.filter(zona => zona.parentId === zonaID)
@@ -67,9 +63,9 @@ class InformeTotales extends React.Component {
   }
 
   isDateBetween (day) {
-    let start = moment(this.props.inicio, 'DD/MM/Y')
-    let finish = moment(this.props.fin, 'DD/MM/Y')
-    return moment(day, 'DD/MM/Y').isBetween(start, finish, 'days', '[]')
+    // let start = moment(this.props.inicio, 'DD/MM/Y')
+    // let finish = moment(this.props.fin, 'DD/MM/Y')
+    return moment(day, 'DD/MM/Y').isBetween(this.props.inicio, this.props.fin, 'days', '[]')
   }
 
   createViewEdad (totales) {
@@ -90,12 +86,12 @@ class InformeTotales extends React.Component {
 
     // colegios
     Object.keys(totales.colegio).forEach(function (key) {
-      if (key === 'total') response.push(<li style={{boxShadow: 'none', margin: '1em 0 0 0', padding: '1em 0 1em 4em'}} key={'total'}><strong> ∑ {totales.colegio[key]}</strong></li>)
-      else if (!totales.colegio[key].name) response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={'sinasignar'}><strong>Sin Asignar</strong> - ({totales.colegio[key].total} en total)</li>)
-      else response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={totales.colegio[key].id}><strong>{totales.colegio[key].name} ({totales.colegio[key].zona})</strong> -> {totales.colegio[key].total} alumnos</li>)
+      if (key === 'total') response.push(<li style={{boxShadow: 'none', margin: '1em 0 0 0', padding: '1em 0 1em 4em'}} key={'zzzz'}><strong> ∑ {totales.colegio[key]}</strong></li>)
+      else if (!totales.colegio[key].name) response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={'aaa'}><strong>Sin Asignar</strong> - ({totales.colegio[key].total} en total)</li>)
+      else response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={totales.colegio[key].name + totales.colegio[key].id}><strong>{totales.colegio[key].name} ({totales.colegio[key].zona})</strong> -> {totales.colegio[key].total} alumnos</li>)
     })
 
-    return response
+    return response.sort((a, b) => a.key.localeCompare(b.key))
   }
 
   createViewClases (totales) {
@@ -105,10 +101,10 @@ class InformeTotales extends React.Component {
     Object.keys(totales.clase).forEach(function (key) {
       if (key === 'total') response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={'total'}><strong> ∑ {totales.clase[key]}</strong></li>)
       else if (!totales.clase[key].name) response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={'sinasignar'}><strong>Sin Asignar</strong> - ({totales.clase[key].total} en total)</li>)
-      else response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={totales.clase[key].id}>en <strong><a href={totales.clase[key].url} target="_blank">{totales.clase[key].name}</a> ({totales.clase[key].zona})</strong> - ({totales.clase[key].total} en total)</li>)
+      else response.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={totales.clase[key].name + totales.clase[key].id}>en <strong><a href={totales.clase[key].url} target='_blank'>{totales.clase[key].name}</a> ({totales.clase[key].zona})</strong> - ({totales.clase[key].total} en total)</li>)
     })
 
-    return response
+    return response.sort((a, b) => a.key.localeCompare(b.key))
   }
 
   createViewAsignatura (totales) {
@@ -140,52 +136,52 @@ class InformeTotales extends React.Component {
     totales.asignatura = {}
 
     alumnos.map(alumno => {
-      if(this.isValidZona(alumno.zona.id) && this.isInThisSchool(alumno.colegio.id)){
+      if (this.isValidZona(alumno.zona.id) && this.isInThisSchool(alumno.colegio.id)) {
           // colegio
-          totales.colegio['total']++
-          if (totales.colegio[alumno.colegio.id] === undefined) {
-            totales.colegio[alumno.colegio.id] = {
-              total: 1,
-              name: alumno.colegio.nombre,
-              id: alumno.colegio.id,
-              zona: alumno.zona.nombre
-            }
-          } else totales.colegio[alumno.colegio.id].total++
+        totales.colegio['total']++
+        if (totales.colegio[alumno.colegio.id] === undefined) {
+          totales.colegio[alumno.colegio.id] = {
+            total: 1,
+            name: alumno.colegio.nombre,
+            id: alumno.colegio.id,
+            zona: alumno.zona.nombre
+          }
+        } else totales.colegio[alumno.colegio.id].total++
 
           // edad
-          totales.edad['total']++
-          if (totales.edad[alumno.curso.id] === undefined) {
-            totales.edad[alumno.curso.id] = {
-              total: 1,
-              name: alumno.curso.nombre,
-              id: alumno.curso.id
-            }
-          } else totales.edad[alumno.curso.id].total++
+        totales.edad['total']++
+        if (totales.edad[alumno.curso.id] === undefined) {
+          totales.edad[alumno.curso.id] = {
+            total: 1,
+            name: alumno.curso.nombre,
+            id: alumno.curso.id
+          }
+        } else totales.edad[alumno.curso.id].total++
 
-          alumno.clases.map(clase => {
+        alumno.clases.map(clase => {
               // clase
-            if (totales.clase[clase.clase] === undefined) {
-              totales.clase[clase.clase] = {
-                total: 1,
-                name: clase.name,
-                id: clase.clase,
-                url: clase.url,
-                zona: alumno.zona.nombre
-              }
-            } else totales.clase[clase.clase].total++
+          if (totales.clase[clase.clase] === undefined) {
+            totales.clase[clase.clase] = {
+              total: 1,
+              name: clase.name,
+              id: clase.clase,
+              url: clase.url,
+              zona: alumno.zona.nombre
+            }
+          } else totales.clase[clase.clase].total++
 
               // asignatura
-            if (totales.asignatura[clase.asignatura] === undefined) {
-              totales.asignatura[clase.asignatura] = {
-                total: 1,
-                name: clase.asignaturaname,
-                id: clase.asignatura
-              }
-            } else totales.asignatura[clase.asignatura].total++
-          })
+          if (totales.asignatura[clase.asignatura] === undefined) {
+            totales.asignatura[clase.asignatura] = {
+              total: 1,
+              name: clase.asignaturaname,
+              id: clase.asignatura
+            }
+          } else totales.asignatura[clase.asignatura].total++
+        })
       }
     })
-    console.log('totales', totales)
+
     return totales
   }
 
@@ -195,6 +191,7 @@ class InformeTotales extends React.Component {
     let colegio = this.createViewColegio(dataTotales)
     let clase = this.createViewClases(dataTotales)
     let asignatura = this.createViewAsignatura(dataTotales)
+
     return <div>
       <p className='introduction'>
         {dataTotales.length} {dataTotales.length === 1 ? 'alumno' : 'alumnos'} en <strong>{this.props.zona}</strong>
@@ -212,10 +209,10 @@ class InformeTotales extends React.Component {
         <ul className='listaProfesores'>{edad}</ul>
         <h2>Colegios</h2>
         <ul className='listaProfesores'>{colegio}</ul>
-        <h2>Clases</h2>
-        <ul className='listaProfesores'>{clase}</ul>
         <h2>Asignaturas</h2>
         <ul className='listaProfesores'>{asignatura}</ul>
+        <h2>Clases</h2>
+        <ul className='listaProfesores'>{clase}</ul>
       </div>
     </div>
   }

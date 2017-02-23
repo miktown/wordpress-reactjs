@@ -62,7 +62,7 @@ class InformeAlumnos extends React.Component {
   getClasesIn (clases, alumnoId) {
     let output = []
     clases.map(clase => {
-      output.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={alumnoId + '_' + clase.clase}>- <a style={{color: '#666'}} href={clase.url} target='_blank'>{this.decodeHtml(clase.name)}</a></li>)
+      output.push(<li style={{boxShadow: 'none', margin: 0, padding: '0.2em 0 0 4em'}} key={alumnoId + '_' + clase.clase + '_' + clase.asignatura}>- <a style={{color: '#666'}} href={clase.url} target='_blank'>{this.decodeHtml(clase.name)}</a></li>)
     })
 
     return output

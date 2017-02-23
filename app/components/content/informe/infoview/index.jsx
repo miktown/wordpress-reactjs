@@ -4,6 +4,7 @@ import React from 'react'
 import NoInformeSelected from './sinseleccion'
 import SinDatos from './sindatos'
 
+import InformeHoras from './horas'
 import InformeProfesores from './profesores'
 import InformePedidos from './pedidos'
 import InformePiezas from './piezas'
@@ -30,8 +31,10 @@ class InformeView extends React.Component {
   whatInforme () {
     let informe = this.getInformeSelected().name
     let zona = this.getZonaSelected().name
+
     switch (informe) {
       case 'Informe': return <NoInformeSelected />
+      case 'Nóminas': return <InformeHoras zona={zona} {...this.props} />
       case 'Profesores': return <InformeProfesores zona={zona} {...this.props} />
       case 'Pedidos': return <InformePedidos zona={zona} {...this.props} />
       case 'Piezas': return <InformePiezas zona={zona} {...this.props} />
