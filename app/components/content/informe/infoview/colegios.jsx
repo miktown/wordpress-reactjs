@@ -1,6 +1,7 @@
 'use strict'
 
 import React from 'react'
+import {CSVLink} from 'react-csv'
 
 class InformeColegios extends React.Component {
 
@@ -12,6 +13,9 @@ class InformeColegios extends React.Component {
         col_concertado: true,
         col_privado: true
       }
+    }
+    this.csv = {
+      data: []
     }
   }
 
@@ -61,6 +65,9 @@ class InformeColegios extends React.Component {
           <span style={{float: 'right', marginRight: '1em'}}>de <span style={{color: '#333', fontWeight: '800'}}>{colegio.profesor}</span> {colegio.zona.nombre}</span>
         </p>
       </li>)
+      this.csv.data.push(
+          { Colegio: colegio.nombre, tipo: this.stringTipoClean(colegio.tipo), zona: colegio.zona.nombre }
+      )
     })
 
     return colegiosOutput
@@ -79,6 +86,7 @@ class InformeColegios extends React.Component {
     return <div>
       <p className='introduction'>
         {dataColegios.length} {dataColegios.length === 1 ? 'colegio' : 'colegios'} en <strong>{this.props.zona}</strong>
+        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={";"} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
       </p>
       <div className='filtersWrap'>
         <div className='filters'>

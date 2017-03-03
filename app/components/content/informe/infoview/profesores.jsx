@@ -3,16 +3,13 @@
 import React from 'react'
 import {CSVLink} from 'react-csv'
 
-
-
-
 class InformeProfesores extends React.Component {
 
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
 
     this.csv = {
-      headers:["Profesor","Clase"],
+      headers: ['Profesor', 'Clase'],
       data: []
     }
   }
@@ -54,9 +51,8 @@ class InformeProfesores extends React.Component {
     clasesOutput.push(<div style={{marginTop: '1em'}} />)
 
     clases.map(clase => {
-
       this.csv.data.push(
-        { PROFESOR: profeNombre , CLASE: clase.name }
+        { PROFESOR: profeNombre, CLASE: clase.name }
       )
 
       let url = `${this.props.url}/wp-admin/post.php?post=${clase.id}&action=edit`
@@ -84,41 +80,20 @@ class InformeProfesores extends React.Component {
   }
 
 
-  getFileName () {
-    let date = new Date()
-    return `${this.props.informe}_${this.props.zona}_${date}`
-  }
-  getDataCsv () {
-    return [
-      ['Alfreds Futterkiste', 'Maria Anders'],
-      ['Rathath IT', 'Abdennour TM'],
-      ['Laughing Bacchus Winecellars', 'Yoshi Tannamuri'],
-      ['Auto1', 'Petter'],
-      ['Estifeda', 'Yousri K'],
-      ['Nine 10ᵗʰ', 'Amjed Idris'],
-      ['Tamkeen', 'Mohamed Alshibi'],
-      ['Packet Publishing', 'David Become'],
-      ['Software hourse', 'Soro']
-    ]
-  }
-
-  componentWillReceiveProps(nextProps) {
-  // You don't have to do this check first, but it can help prevent an unneeded render
+  componentWillReceiveProps (nextProps) {
     if (nextProps !== this.props) {
       this.csv.data = []
     }
   }
 
   render () {
-
     let dataProfesores = this.listProfesores()
 
     return <div>
 
-
       <p className='introduction'>
         Mostrando {dataProfesores.length} {dataProfesores.length === 1 ? 'profesor' : 'profesores'} de <strong>{this.props.zona}</strong>
-        <CSVLink filename={this.getFileName()} data={this.csv.data} separator={";"} style={{float: 'right', marginRight: '1em',marginLeft: '-1em'}}>descargar CSV</CSVLink>
+        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={";"} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
       </p>
       <div className=''>
         <ul className='listaProfesores'>{dataProfesores}</ul>

@@ -1,8 +1,17 @@
 'use strict'
 
 import React from 'react'
+import {CSVLink} from 'react-csv'
 
 class InformePass extends React.Component {
+
+  constructor (props) {
+    super(props)
+
+    this.csv = {
+      data: []
+    }
+  }
 
   isValidZona (zonaTargetId) {
     let zonaSelected = this.props.workData.zonas.filter(zona => zona.selected)[0]
@@ -38,6 +47,9 @@ class InformePass extends React.Component {
 
     piezas.sort((a, b) => b.colegio_id - a.colegio_id).map(password => {
       if (password.colegio_zona.id && password.colegio_zona.id > 0 && this.isValidZona(password.colegio_zona.id)) {
+        this.csv.data.push(
+          { clase: password.name, token: password.pass, zona: password.colegio_zona.nombre }
+        )
         passOutput.push(<div style={{background: 'white', margin: '.5em auto', padding: '.5em 1em', display: 'block', width: '100%', boxShadow: '0 1px 2px #999', height: 'auto', position: 'relative', overflow: 'hidden'}} key={password.id}>
           <p style={{marginLeft: '2em', float: 'left', width: '450px'}}> {password.name} </p>
           <p style={{marginLeft: '2em', float: 'left'}}> {password.pass} </p>
@@ -49,11 +61,18 @@ class InformePass extends React.Component {
     return passOutput
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps !== this.props) {
+      this.csv.data = []
+    }
+  }
+
   render () {
     let dataPiezas = this.listPasswords()
     return <div>
       <p className='introduction'>
         {dataPiezas.length} {dataPiezas.length === 1 ? 'password' : 'passwords'} de las clases activas por todos los tiempos <strong>(no le afecta el filtro de fechas)</strong>
+        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={";"} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
       </p>
       <div>
         <div className='listaPiezas'>{dataPiezas}</div>
