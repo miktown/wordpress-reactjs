@@ -72,7 +72,7 @@ class InformePass extends React.Component {
     return <div>
       <p className='introduction'>
         {dataPiezas.length} {dataPiezas.length === 1 ? 'password' : 'passwords'} de las clases activas por todos los tiempos <strong>(no le afecta el filtro de fechas)</strong>
-        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={";"} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
+        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={';'} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
       </p>
       <div>
         <div className='listaPiezas'>{dataPiezas}</div>

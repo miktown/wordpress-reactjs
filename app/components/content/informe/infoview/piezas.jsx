@@ -36,7 +36,7 @@ class InformePiezas extends React.Component {
     return <div>
       <p className='introduction'>
         {dataPiezas.length} {dataPiezas.length === 1 ? 'pieza' : 'piezas'} de todos los pedidos existentes por todos los tiempos <strong>(no le afecta el filtro de fechas ni el de zona)</strong>
-        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={";"} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
+        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={';'} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
       </p>
       <div>
         <div className='listaPiezas'>{dataPiezas}</div>

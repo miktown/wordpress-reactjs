@@ -56,7 +56,7 @@ class InformeProfesores extends React.Component {
       )
 
       let url = `${this.props.url}/wp-admin/post.php?post=${clase.id}&action=edit`
-      clasesOutput.push(<div style={{marginLeft: '3.5em', color: '#a7a7a7', marginTop: '.5em'}} key={clase.id + '_' + profeId}>- <a href={url} target='_blank'>{clase.name}</a></div>)
+      clasesOutput.push(<div style={{marginLeft: '3.5em', color: '#a7a7a7', marginTop: '.5em'}} key={clase.id + '_' + profeId}>- <a href={url} target='_blank'>{clase.name}{clase.sustituto === 1 ? ' (sustituto)' : null}</a></div>)
     })
     return clasesOutput
   }
@@ -79,7 +79,6 @@ class InformeProfesores extends React.Component {
     return profesoresOutput
   }
 
-
   componentWillReceiveProps (nextProps) {
     if (nextProps !== this.props) {
       this.csv.data = []
@@ -93,7 +92,7 @@ class InformeProfesores extends React.Component {
 
       <p className='introduction'>
         Mostrando {dataProfesores.length} {dataProfesores.length === 1 ? 'profesor' : 'profesores'} de <strong>{this.props.zona}</strong>
-        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={";"} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
+        <CSVLink filename={`${this.props.informe}_${this.props.zona}.csv`} data={this.csv.data} separator={';'} style={{float: 'right', marginRight: '1em', marginLeft: '-1em'}}>descargar CSV</CSVLink>
       </p>
       <div className=''>
         <ul className='listaProfesores'>{dataProfesores}</ul>
