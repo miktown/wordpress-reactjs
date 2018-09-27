@@ -23,6 +23,7 @@ class AppWrapper extends React.Component {
     this.setDataStored('infomes_updated', new Date().getTime())
     this.setDataStored('infomes_data_work', data)
 
+
     this.dataStateEval()
   }
 

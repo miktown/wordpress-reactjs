@@ -74,7 +74,7 @@
     "test": "standard | snazzy && ava --verbose",
     "lint": "standard | snazzy",
     "dev": "rm -rf mimotic_informes_plugin/lib/modules/informes/app && standard --fix | snazzy && mkdir mimotic_informes_plugin/lib/modules/informes/app && cp assets/* mimotic_informes_plugin/lib/modules/informes/app && webpack --colors --watch",
-    "devv": "rm -rf mimotic_informes_plugin/lib/modules/informes/app && standard --fix | snazzy && mkdir mimotic_informes_plugin/lib/modules/informes/app && cp assets/* mimotic_informes_plugin/lib/modules/informes/app && webpack -p --colors --watch",
+    "devv":"rm -rf mimotic_informes_plugin/lib/modules/informes/app && standard --fix | snazzy && mkdir mimotic_informes_plugin/lib/modules/informes/app && cp assets/* mimotic_informes_plugin/lib/modules/informes/app && webpack -p --colors --watch",
     "build": "standard --fix | snazzy && webpack -p"
   }
 }
