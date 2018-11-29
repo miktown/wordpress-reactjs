@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f93bef00-d8e8-460f-8d2f-b0a98b62ddc0" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php" beforeDir="false" afterPath="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/app/" />
@@ -47,72 +48,26 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="json" value="9" />
-          <entry key="jsx" value="2258" />
+          <entry key="jsx" value="2259" />
+          <entry key="php" value="29" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="9" />
-          <entry key="JSX Harmony" value="2258" />
+          <entry key="JSX Harmony" value="2259" />
+          <entry key="PHP" value="29" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1488">
-              <caret line="62" column="22" lean-forward="true" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="832" column="64" lean-forward="true" selection-start-line="832" selection-start-column="64" selection-end-line="832" selection-end-column="64" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/app/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="19" column="53" lean-forward="true" selection-start-line="19" selection-start-column="53" selection-end-line="19" selection-end-column="53" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/profesores.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1200">
-              <caret line="51" lean-forward="true" selection-start-line="51" selection-end-line="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/index.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
-              <folding>
-                <element signature="e#14#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/horas.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="817">
-              <caret line="260" lean-forward="true" selection-start-line="260" selection-end-line="260" />
+            <state relative-caret-position="457">
+              <caret line="159" column="37" selection-end-line="858" />
             </state>
           </provider>
         </entry>
@@ -120,8 +75,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/fotos.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24">
-              <caret line="152" lean-forward="true" selection-end-line="187" />
+            <state relative-caret-position="407">
+              <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
               <folding>
                 <element signature="e#14#39#0" expanded="true" />
               </folding>
@@ -289,12 +244,12 @@
       <workItem from="1538056753766" duration="4618000" />
       <workItem from="1538406865047" duration="1187000" />
       <workItem from="1543350950903" duration="1280000" />
-      <workItem from="1543407100646" duration="21858000" />
+      <workItem from="1543407100646" duration="23281000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28943000" />
+    <option name="totallyTimeSpent" value="30366000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -439,13 +394,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/horas.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="817">
-          <caret line="260" lean-forward="true" selection-start-line="260" selection-end-line="260" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -456,10 +404,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/horas.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="785">
+          <caret line="191" column="22" lean-forward="true" selection-start-line="191" selection-start-column="22" selection-end-line="191" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/fotos.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24">
-          <caret line="152" lean-forward="true" selection-end-line="187" />
+        <state relative-caret-position="407">
+          <caret line="123" lean-forward="true" selection-start-line="123" selection-end-line="123" />
           <folding>
             <element signature="e#14#39#0" expanded="true" />
           </folding>
@@ -468,8 +423,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="832" column="64" lean-forward="true" selection-start-line="832" selection-start-column="64" selection-end-line="832" selection-end-column="64" />
+        <state relative-caret-position="457">
+          <caret line="159" column="37" selection-end-line="858" />
         </state>
       </provider>
     </entry>

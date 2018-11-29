@@ -156,8 +156,15 @@ Class RobotsInformesDataGenerator {
             $idImg = (int) $idImg;
             if($idImg < 1 ) continue;
             $dateImg = get_post_meta($idImg,'_media_clase_fecha', true);
-            if ($dateImg && !in_array($dateImg, $response)) {
-                $response[] = $dateImg;
+
+            if ($dateImg) {
+                $dateImg = explode("-", $dateImg);
+                $dateImg = $dateImg ? $dateImg[2] . '/' . $dateImg[1] . '/' . $dateImg[0]: '' ;
+                if(!in_array($dateImg, $response)) {
+                    $response[] = $dateImg;
+                }else{
+                    continue;
+                }
             } else {
                 continue;
             }
