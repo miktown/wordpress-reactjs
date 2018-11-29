@@ -75,7 +75,6 @@
     "lint": "standard | snazzy",
     "dev": "rm -rf mimotic_informes_plugin/lib/modules/informes/app && standard --fix | snazzy && mkdir mimotic_informes_plugin/lib/modules/informes/app && cp assets/* mimotic_informes_plugin/lib/modules/informes/app && webpack --colors --watch",
     "devv":"rm -rf mimotic_informes_plugin/lib/modules/informes/app && standard --fix | snazzy && mkdir mimotic_informes_plugin/lib/modules/informes/app && cp assets/* mimotic_informes_plugin/lib/modules/informes/app && webpack -p --colors --watch",
-    "dev2":"rm -rf ../robotsinactionforge/public/wp-content/plugins/mimotic_informes_plugin/lib/modules/informes/app && standard --fix | snazzy && mkdir ../robotsinactionforge/public/wp-content/plugins/mimotic_informes_plugin/lib/modules/informes/app && cp assets/* ../robotsinactionforge/public/wp-content/plugins/mimotic_informes_plugin/lib/modules/informes/app && webpack -p --colors --watch",
     "build": "standard --fix | snazzy && webpack -p"
   }
 }

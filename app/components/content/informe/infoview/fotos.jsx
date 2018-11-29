@@ -96,23 +96,25 @@ class InformeSinFotos extends React.Component {
     return dateIni
   }
 
+  isDateBetween (date, format = 'DD/MM/YYYY') {
+    return moment(date, format).isBetween(moment(this.props.inicio, 'DD/MM/YYYY').subtract(1, 'days'), moment(this.props.fin, 'DD/MM/YYYY'))
+  }
+
   getClassDays (ini, fin, lectivo) {
     let daysClases = []
     let classDay = this.getFirstDayFromDate(ini, lectivo.clase_semana_dias[0])
 
-    daysClases.push(classDay)
+    if (this.isDateBetween(classDay)) daysClases.push(classDay)
 
     while (this.isDateSameOrBefore(classDay, fin)) {
-      let classDayMoment = moment(classDay, 'DD/MM/YYYY')
-      classDay = classDayMoment.add(7, 'days').format('DD/MM/YYYY')
-      if (!classDayMoment.isBetween(moment(this.props.inicio, 'DD/MM/YYYY'), moment(this.props.fin, 'DD/MM/YYYY'))) continue
+      classDay = moment(classDay, 'DD/MM/YYYY').add(7, 'days').format('DD/MM/YYYY')
+      if (!this.isDateBetween(classDay)) continue
       if (this.isDateSameOrBefore(classDay, fin) === false) {
         continue
       } else {
         daysClases.push(classDay)
       }
     }
-
     return daysClases
   }
 
