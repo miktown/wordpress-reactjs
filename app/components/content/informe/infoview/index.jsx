@@ -14,6 +14,7 @@ import InformeAlumnos from './alumnos'
 import InformeAsistencia from './asistencia'
 import InformeTotales from './totales'
 import InformeSinAsignaturas from './sinasignaturas'
+import InformeSinFotos from './fotos'
 
 class InformeView extends React.Component {
 
@@ -32,7 +33,7 @@ class InformeView extends React.Component {
   whatInforme () {
     let informe = this.getInformeSelected().name
     let zona = this.getZonaSelected().name
-    console.log(informe);
+    console.log(informe)
     switch (informe) {
       case 'Informe': return <NoInformeSelected />
       case 'Nóminas': return <InformeHoras informe={informe} zona={zona} {...this.props} />
@@ -45,6 +46,7 @@ class InformeView extends React.Component {
       case 'Asistencia': return <InformeAsistencia informe={informe} zona={zona} {...this.props} />
       case 'Totales': return <InformeTotales informe={informe} zona={zona} {...this.props} />
       case 'Sin Asignaturas': return <InformeSinAsignaturas informe={informe} zona={zona} {...this.props} />
+      case 'Sin Fotos': return <InformeSinFotos informe={informe} zona={zona} {...this.props} />
       default: return <SinDatos informe={informe} />
     }
   }

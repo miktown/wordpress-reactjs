@@ -14,45 +14,41 @@ if ( ! defined( 'WPINC' ) ) die;
 Class RobotsInformesDataGenerator {
 
     /**
-    * response
-    * @var array
-    */
+     * response
+     * @var array
+     */
     private $response = array();
 
+    private $clasesCache = false;
+
     /**
-    * roles
-    * @var string | array
-    */
+     * roles
+     * @var string | array
+     */
     private $userRoles;
 
     /**
-    * zonas
-    * @var string | array
-    */
+     * zonas
+     * @var string | array
+     */
     private $userZonas;
 
     /**
-    * lista de informes disponibles
-    * @var array
-    */
+     * lista de informes disponibles
+     * @var array
+     */
     private $informesList;
 
     /**
-    * informe de profesores
-    * @var array
-    */
-    private $profesores;
-
-    /**
-    * informe de piezas
-    * @var array
-    */
+     * informe de piezas
+     * @var array
+     */
     private $piezas = array();
 
     /**
-    * colegios
-    * @var array
-    */
+     * colegios
+     * @var array
+     */
     private $colegios = array();
 
     public function __construct () {
@@ -66,18 +62,18 @@ Class RobotsInformesDataGenerator {
     }
 
     private function get_user_zonas(){
-      $user_zona = get_user_meta($this->userId, '_user_zona_asignada', true);
-      $term_id = (int)$user_zona;
-      $termchildren = get_term_children( $term_id, 'tax_zonas' );
-      if (is_array($termchildren)) array_push($termchildren,$term_id);
-      $response_names = array();
-      foreach ( $termchildren as $childID ) {
-        $term = get_term_by( 'id', $childID, 'tax_zonas' );
-        $selected = ($childID === $term_id) ? true: false;
+        $user_zona = get_user_meta($this->userId, '_user_zona_asignada', true);
+        $term_id = (int)$user_zona;
+        $termchildren = get_term_children( $term_id, 'tax_zonas' );
+        if (is_array($termchildren)) array_push($termchildren,$term_id);
+        $response_names = array();
+        foreach ( $termchildren as $childID ) {
+            $term = get_term_by( 'id', $childID, 'tax_zonas' );
+            $selected = ($childID === $term_id) ? true: false;
 
-        $response_names[] = array('name' => $term->name, "id"=> $childID,"parentId" => $term->parent, "selected" => $selected);
-      }
-      return $response_names;
+            $response_names[] = array('name' => $term->name, "id"=> $childID,"parentId" => $term->parent, "selected" => $selected);
+        }
+        return $response_names;
     }
 
     private function set_user_data () {
@@ -101,12 +97,12 @@ Class RobotsInformesDataGenerator {
     }
 
     public function robots_informes_ajax_request () {
+
         $this->set_user_data();
 
         if ( isset($_REQUEST) ) {
             $this->informes_for_current_user();
-            echo  json_encode($this->response);
-            wp_die();
+            echo json_encode($this->response);
         }
 
         wp_die();
@@ -114,29 +110,29 @@ Class RobotsInformesDataGenerator {
 
     private function get_colegios_zonas_in(){
 
-      $ids_colegios = array();
-      $zona_del_coordinador = get_user_zona();
+        $ids_colegios = array();
+        $zona_del_coordinador = get_user_zona();
 
-      $related = get_posts(array(
-          'post_type' => 'colegios' // Set post type you are relating to.
-          ,'posts_per_page' => -1
-          ,'post_status' => 'publish'
-          ,'orderby' => 'post_title'
-          ,'order' => 'ASC'
-          ,'suppress_filters' => false // This must be set to false
-          ,'tax_query' => array(
-              array(
-                'taxonomy' => 'tax_zonas',
-                'field' => 'id',
-                'terms' => $zona_del_coordinador,
-                'include_children' => true,
-              )
+        $related = get_posts(array(
+            'post_type' => 'colegios' // Set post type you are relating to.
+        ,'posts_per_page' => -1
+        ,'post_status' => 'publish'
+        ,'orderby' => 'post_title'
+        ,'order' => 'ASC'
+        ,'suppress_filters' => false // This must be set to false
+        ,'tax_query' => array(
+                array(
+                    'taxonomy' => 'tax_zonas',
+                    'field' => 'id',
+                    'terms' => $zona_del_coordinador,
+                    'include_children' => true,
+                )
             )
-      ));
-      foreach ($related as $key => $value) {
-          $ids_colegios[] = (int)$value->ID;
-      }
-      return $ids_colegios;
+        ));
+        foreach ($related as $key => $value) {
+            $ids_colegios[] = (int)$value->ID;
+        }
+        return $ids_colegios;
     }
 
     private function informes_for_current_user () {
@@ -146,18 +142,19 @@ Class RobotsInformesDataGenerator {
         // menú
         if ( $this->is_admin() ) {
             $this->informesList = array(
-                    array('name' => 'Totales','selected' => false),
-                    array('name' => 'Informe','selected' => true),
-                    array('name' => 'Nóminas','selected' => false),
-                    array('name' => 'Piezas','selected' => false),
-                    array('name' => 'Pedidos','selected' => false),
-                    array('name' => 'Passwords','selected' => false),
-                    array('name' => 'Colegios','selected' => false),
-                    array('name' => 'Alumnos','selected' => false),
-                    array('name' => 'Asistencia','selected' => false),
-                    array('name' => 'Profesores','selected' => false),
-
-                );
+                array('name' => 'Totales','selected' => false),
+                array('name' => 'Informe','selected' => true),
+                array('name' => 'Nóminas','selected' => false),
+                array('name' => 'Piezas','selected' => false),
+                array('name' => 'Pedidos','selected' => false),
+                array('name' => 'Passwords','selected' => false),
+                array('name' => 'Colegios','selected' => false),
+                array('name' => 'Alumnos','selected' => false),
+                array('name' => 'Asistencia','selected' => false),
+                array('name' => 'Profesores','selected' => false),
+                array('name' => 'Sin Asignaturas','selected' => false),
+                array('name' => 'Sin Fotos','selected' => false),
+            );
         }
         $this->response['informesMenu'] = $this->informesList;
         $this->response['horas'] = $this->get_informe_profesores();
@@ -166,6 +163,169 @@ Class RobotsInformesDataGenerator {
         $this->response['passwords'] = $this->get_informe_passwords();
         $this->response['colegios'] = $this->get_informe_colegios();
         $this->response['alumnos'] = $this->get_informe_alumnos();
+        $this->response['sinfotos'] = $this->get_informe_sinfotos();
+    }
+
+    private function get_clase_profesores_principales ($id_clase){
+        $profesores_ids = get_post_meta( $id_clase, '_profesor_principal', false );
+        $profes = array();
+        foreach ($profesores_ids as $profe_id) {
+            $temp_profe_metadata = get_userdata( $profe_id );
+            $profes[] = array(
+                'id' => $profe_id,
+                'name' =>$temp_profe_metadata->display_name
+            );
+        }
+        return $profes;
+    }
+
+    private function pillaLoQUePuedas ($clase_id) {
+
+        $clase_meta_bruta = get_post_meta( $clase_id );
+        $colegio_id = (int) $clase_meta_bruta['clase_colegio'][0];
+        $clase_inicio = $clase_meta_bruta['_clase_inicio'][0];
+        $clase_fin = $clase_meta_bruta['_clase_fin'][0];
+        $clase_dias_sin_clase = $clase_meta_bruta['_clase_dias_sin_clase'];
+        $clase_coste = $clase_meta_bruta['_clase_coste'][0];
+
+
+        $colegio_meta_bruta = get_post_meta( $colegio_id );
+
+        $colegio_nombre = get_the_title($colegio_id);
+        $colegio_zona = wp_get_post_terms( $colegio_id, 'tax_zonas', array("fields" => "all") );
+
+        $colegio_calendarios = $colegio_meta_bruta['clase_calendarios'];
+        $calendarios_fechas = array();
+
+        if ( is_array($colegio_calendarios) ){
+            foreach ($colegio_calendarios as $key => $calendario) {
+
+                $calendario_id = explode("opt_", $calendario);
+                $calendario_id = (int) $calendario_id[1];
+
+                if($calendario_id > 0){
+                    $title_calendario = get_the_title($calendario_id);
+                    $calendarios_fechas[] = get_post_meta($calendario_id, 'fecha_calendario', false);
+                }
+
+            }
+        }
+
+        $colegio_dias_sin_clase = $colegio_meta_bruta['_clase_dias_sin_clase_colegio'];
+
+        $clase_dias_recurrentes = maybe_unserialize($clase_meta_bruta['clase_semana'][0]);
+        $clase_dias_recurrentes_output = array();
+
+        foreach ($clase_dias_recurrentes as $key => $recurrentes) {
+            $clase_dias_recurrentes_output[] = array(
+                'dia' => $recurrentes['clase_semana_dias'][0],
+                'inicio' => $recurrentes['clase_semana_ini'][0],
+                'fin' => $recurrentes['clase_semana_end'][0]
+            );
+        }
+
+        $clase_extra_lectivos = maybe_unserialize($clase_meta_bruta['_clase_dias_extra_lectivos'][0]);
+        $clase_extra_lectivos_output = array();
+
+        foreach ($clase_extra_lectivos as $key => $extra) {
+            $clase_extra_lectivos_output[] = array(
+                'dia' => $extra['fecha'],
+                'inicio' => $extra['clase_semana_ini'],
+                'fin' => $extra['clase_semana_end']
+            );
+        }
+    }
+
+    /**
+     * consige las urls con los ids de las imágenes
+     * @param  [array] $images_ids [array de ids]
+     * @return mixed [array|false]
+     */
+    private function get_meta_date($images_ids){
+        $response = array();
+        if(count($images_ids) < 1) return $response;
+        foreach ($images_ids as $key => $idImg) {
+            $idImg = (int) $idImg;
+            if($idImg < 1 ) continue;
+            $dateImg = get_post_meta($idImg,'_media_clase_fecha', true);
+            if ($dateImg && !in_array($dateImg, $response)) {
+                $response[] = $dateImg;
+            } else {
+                continue;
+            }
+        }
+        return $response;
+    }
+
+    /**
+     * Ordenar calendario dias lectivos serializados + custom days
+     * @param  [array] $festivos
+     * @return [array|false]
+     */
+    private function get_calendar_festivos_mergeado( $festivos_clase ,  $festivos_calendarios, $festivos_colegio){
+
+        $festivos_clase  = (array) $festivos_clase;
+        $response = array();
+
+        foreach ($festivos_calendarios as $key => $value) {
+            $splited = explode("_", $value);
+            $splited = (int) end($splited);
+
+            $temp = get_post_meta( $splited, 'fecha_calendario' );
+
+            $response = array_merge($response,$temp);
+        }
+
+        if(!empty($festivos_colegio)){
+            $festivos_colegio = mimotic_array_clean_empty($festivos_colegio);
+            $response = array_merge($response, $festivos_colegio);
+        }
+
+        if (count($festivos_clase) > 0) $response = array_merge($response, $festivos_clase);
+
+        $response = mimotic_array_uniq($response);
+
+        return $response;
+
+        //...
+    }
+
+    private function set_clase_calendar ($clase) {
+
+        $clase_meta_bruta = get_post_meta( $clase->ID );
+        $colegio_id = (int) $clase_meta_bruta['clase_colegio'][0];
+        $colegio_meta_bruta = get_post_meta( $colegio_id );
+
+        $festivos_colegio = get_post_meta($colegio_id,'_clase_dias_sin_clase_colegio',false);
+        $festivos_calendario = maybe_unserialize($colegio_meta_bruta['clase_calendarios']);
+        $festivos_clase = $clase_meta_bruta['_clase_dias_sin_clase'];
+
+        return [
+            "recurrentes" => maybe_unserialize($clase_meta_bruta['clase_semana'][0]),
+            "extra_lectivos" => maybe_unserialize($clase_meta_bruta['_clase_dias_extra_lectivos'][0]),
+            "id_clase" => $clase->ID,
+            "nombre_clase" => $clase->post_title,
+            "profes" => $this->get_clase_profesores_principales($clase->ID),
+            "inicio_clase" => $clase_meta_bruta['_clase_inicio'][0],
+            "fin_clase" => $clase_meta_bruta['_clase_fin'][0],
+            "festivos" => $this->get_calendar_festivos_mergeado($festivos_colegio, $festivos_calendario, $festivos_clase),
+            "colegio_id" => $colegio_id,
+            "colegio_nombre" => get_the_title($colegio_id),
+            "colegio_zona" => wp_get_post_terms( $colegio_id, 'tax_zonas', array("fields" => "all") ),
+            "media" => $this->get_meta_date($clase_meta_bruta['_imagenes_profesor'])
+        ];
+    }
+
+    private function get_informe_sinfotos () {
+
+        $response = Array();
+        $clases =  $this->getClases();
+
+        foreach ($clases as $clase){
+            $response[] = $this->set_clase_calendar($clase);
+        }
+
+        return $response;
     }
 
     /**
@@ -176,14 +336,13 @@ Class RobotsInformesDataGenerator {
     private function get_informe_colegios(){
         $response = array();
         $siteUrl = get_site_url();
-
         $colegios = get_posts( array(
-                    "post_type" => "colegios",
-                    "posts_per_page"   => -1,
-                    "post_status" => 'published',
-                    "orderby" => 'post_title',
-                    "order" => 'ASC'
-                ));
+            "post_type" => "colegios",
+            "posts_per_page"   => -1,
+            "post_status" => 'published',
+            "orderby" => 'post_title',
+            "order" => 'ASC'
+        ));
 
         foreach ($colegios as $colegio) {
             $url = $siteUrl . '/wp-admin/post.php?post=' . $colegio->ID . '&action=edit';
@@ -197,10 +356,10 @@ Class RobotsInformesDataGenerator {
                 "nombre" => $colegio->post_title,
                 "tipo" => $tipo,
                 'zona' => array(
-                        'id' => (int) $colegio_zona[0]->term_id,
-                        'nombre' => $colegio_zona[0]->name,
-                        'parent' => (int) $colegio_zona[0]->parent,
-                    )
+                    'id' => (int) $colegio_zona[0]->term_id,
+                    'nombre' => $colegio_zona[0]->name,
+                    'parent' => (int) $colegio_zona[0]->parent,
+                )
             );
         }
 
@@ -209,67 +368,16 @@ Class RobotsInformesDataGenerator {
         return $response;
     }
 
-    private function getClases ($alumno_id, $colegio_id, $clases) {
-
-        // foreach ($clases as $key => $value) {
-
-        // }
-
-        $clases = get_posts( array(
-                    "post_type" => "clases",
-                    "posts_per_page"   => -1,
-                    "post_status" => 'activo',
-                    "orderby" => 'post_title',
-                    "order" => 'ASC'
-                ));
-
-        return $clases;
-    }
-
-    private function comprobar_si_sigue_alli($id_asignatura,$id_clase_in){
-      global $post;
-      $output = false;
-      $output2 = false;
-      $output3 = false;
-
-      $post->ID; // alumno
-      $id_asignatura; // asignatura
-      $id_clase_in; // clase
-      $is_clase_activa = get_post_status($id_clase_in);
-
-      // 0 - compobar que la clase esté activa.
-      if( $is_clase_activa != 'clase_activo') return false;
-
-      // comprobar que el alumno está en esa clase:
-      // 1.- comprobar que en esa clase está su mismo colegio
-
-      $col_alumno = get_post_meta($post->ID,'_colegio_asociado_alumno');
-      $col_clase = get_post_meta($id_clase_in,'clase_colegio');
-
-      if((int)$col_alumno[0] === (int)$col_clase[0]) $output = true;
-
-
-      // 2.- comprobar que en esa clase está esa asignatura
-      if($output){
-
-        $asignaturas_clase = get_post_meta($id_clase_in,'clase_asignaturas',false);
-
-        foreach ($asignaturas_clase as $key => $value) {
-          if((int)$value === (int)$id_asignatura) $output2 = true;
+    private function getClases () {
+        if($this->clasesCache == false) {
+            $this->clasesCache =  get_posts( array(
+                    'post_type' => 'clases',
+                    'post_status' => 'clase_activo',
+                    'posts_per_page' => -1
+                )
+            );
         }
-      }
-
-
-
-      // 3.- comprobar que en esa clase y asignatura sigue estando este alumno
-      // if($output && $output2){
-      //   $asignaturas_clase = get_post_meta($post->ID,'clase_asignaturas',false);
-      //   foreach ($asignaturas_clase as $key => $value) {
-      //     if((int)$value[0] === (int)$id_asignatura) $output3 = true;
-      // }
-
-      if($output && $output2) return true;
-      else return false;
+        return $this->clasesCache;
     }
 
     private function isClaseActiva($claseId){
@@ -291,7 +399,7 @@ Class RobotsInformesDataGenerator {
 
         $alumnos_asignatura = get_post_meta($clase_id, 'clase_alumnos_' . $asignatura_id, false);
 
-        foreach ($alumnos_asignatura[0]['alumnos'] as $alumno)
+        foreach ($alumnos_asignatura as $alumno)
             if((int)$alumno === (int)$alumno_id) return true;
 
         return false;
@@ -356,28 +464,17 @@ Class RobotsInformesDataGenerator {
         $response = array();
         $siteUrl = get_site_url();
 
-        //obtener todas las clases
-        $clases_all = get_posts( array(
-                    "post_type" => "clases",
-                    "posts_per_page"   => -1,
-                    "post_status" => 'clase_activo',
-                    "orderby" => 'post_title',
-                    "order" => 'ASC'
-                ));
-
         //obtener todos los alumnos
         $alumnos = get_posts( array(
-                    "post_type" => "alumnos",
-                    "posts_per_page"   => -1,
-                    "post_status" => 'activo',
-                    "orderby" => 'post_title',
-                    "order" => 'ASC'
-                ));
+            "post_type" => "alumnos",
+            "posts_per_page"   => -1,
+            "post_status" => 'activo',
+            "orderby" => 'post_title',
+            "order" => 'ASC'
+        ));
 
         // recorremos alumnos
         foreach ($alumnos as $alumno) {
-
-
 
             $url = $siteUrl . '/wp-admin/post.php?post=' . $alumno->ID . '&action=edit';
             $colegio_id = get_post_meta($alumno->ID,'_colegio_asociado_alumno',true);
@@ -409,10 +506,10 @@ Class RobotsInformesDataGenerator {
                     "nombre" => $colegio_nombre
                 ),
                 "zona" => array(
-                        "id" => (int) $colegio_zona[0]->term_id,
-                        "nombre" => $colegio_zona[0]->name,
-                        "parent" => (int) $colegio_zona[0]->parent,
-                    )
+                    "id" => (int) $colegio_zona[0]->term_id,
+                    "nombre" => $colegio_zona[0]->name,
+                    "parent" => (int) $colegio_zona[0]->parent,
+                )
             );
         }
 
@@ -442,7 +539,7 @@ Class RobotsInformesDataGenerator {
         return $response;
     }
 
-     /**
+    /**
      * Obtener piezas del pedido
      * @param  [array] $lectivos
      * @return [array|false]
@@ -450,12 +547,12 @@ Class RobotsInformesDataGenerator {
     private function get_informe_piezas(){
         $response = false;
         foreach ($this->piezas as $pieza) {
-           $response[] = $pieza;
+            $response[] = $pieza;
         }
         return $response;
     }
 
-     /**
+    /**
      * Obtener piezas del pedido
      * @param  [array] $lectivos
      * @return [array|false]
@@ -464,10 +561,7 @@ Class RobotsInformesDataGenerator {
 
         $ids = array();
         $response = false;
-        $piezas = false;
         $cantidad = array();
-        $temp_in = false;
-        $img_url = false;
 
         foreach ($arr as $key => $value) {
 
@@ -476,11 +570,11 @@ Class RobotsInformesDataGenerator {
         }
 
         $piezas = get_posts( array(
-                    "posts_per_page"   => -1,
-                    "post__in" => $ids,
-                    "post_type" => "piezas",
-                    "orderby" => "post__in"
-                ));
+            "posts_per_page"   => -1,
+            "post__in" => $ids,
+            "post_type" => "piezas",
+            "orderby" => "post__in"
+        ));
 
         foreach ($piezas as $key => $value) {
 
@@ -490,11 +584,11 @@ Class RobotsInformesDataGenerator {
             $cantidadWs = ((int) $cantidad[(int)$value->ID] > 0) ? (int) $cantidad[(int)$value->ID]: 0;
 
             $response[] = array(
-                    "id" => (int) $value->ID,
-                    "name" => $value->post_title,
-                    "img_url" => $img_url,
-                    "cantidad" => (int) $cantidadWs
-                );
+                "id" => (int) $value->ID,
+                "name" => $value->post_title,
+                "img_url" => $img_url,
+                "cantidad" => (int) $cantidadWs
+            );
 
             $isOnYet = true;
             foreach ($this->piezas as $claves => $piezita) {
@@ -521,29 +615,21 @@ Class RobotsInformesDataGenerator {
         //...
     }
 
-    private function mdebug($strg, $sub = ""){
-
-        $f = fopen("/Users/mimotic/Desktop/debug$sub.txt", "w");
-        fwrite($f, print_r($strg, true));
-        fclose($f);
-
-    }
-
     private function get_informe_pedidos () {
 
         $response = array();
 
-         // args pedidos
+        // args pedidos
         $pedidos_settings = array(
             'post_type' => 'pedidos',
             'posts_per_page'   => -1,
             'post_status'   => array(
-                                'draft',
-                                'procesando',
-                                'sin_stock',
-                                'en_envio',
-                                'completado'
-                                ),
+                'draft',
+                'procesando',
+                'sin_stock',
+                'en_envio',
+                'completado'
+            ),
             'author'   => $this->user_ID
         );
 
@@ -562,18 +648,18 @@ Class RobotsInformesDataGenerator {
             $zona_pedido = get_term( $zona_profe_id, 'tax_zonas');
 
             $response[] = array(
-                    'id' => $pedido->ID,
-                    "piezasids" => $piezasIds,
-                    "profesor" => $profe_nombre . ' ' . $profe_apellidos,
-                    'zona' => array(
-                                'id' => (int) $zona_pedido ->term_id,
-                                'nombre' => $zona_pedido ->name,
-                                'parent' => (int) $zona_pedido ->parent,
-                            ),
-                    "fecha" => $pedido->post_date,
-                    "estado" => $pedido->post_status,
-                    "piezas" => $this->get_piezas($piezasIds)
-                );
+                'id' => $pedido->ID,
+                "piezasids" => $piezasIds,
+                "profesor" => $profe_nombre . ' ' . $profe_apellidos,
+                'zona' => array(
+                    'id' => (int) $zona_pedido ->term_id,
+                    'nombre' => $zona_pedido ->name,
+                    'parent' => (int) $zona_pedido ->parent,
+                ),
+                "fecha" => $pedido->post_date,
+                "estado" => $pedido->post_status,
+                "piezas" => $this->get_piezas($piezasIds)
+            );
         }
 
         return $response;
@@ -582,7 +668,6 @@ Class RobotsInformesDataGenerator {
     private function clases_to_teachers_reorder ($data) {
 
         $profesores_list = array();
-        $profesores_en_la_clase = array();
 
         foreach ($data as $clase) {
 
@@ -597,8 +682,8 @@ Class RobotsInformesDataGenerator {
 
                 if( !isset($profesores_list[$profesor_en_la_clase['id']]) ){
                     $profesores_list[$profesor_en_la_clase['id']] = array(
-                            'meta_profe' => $profesor_en_la_clase
-                        );
+                        'meta_profe' => $profesor_en_la_clase
+                    );
                 }
                 $profesores_list[$profesor_en_la_clase['id']]['clases'][$datos_clase['id']] = $datos_clase;
 
@@ -610,8 +695,8 @@ Class RobotsInformesDataGenerator {
 
                 if( !isset($profesores_list[$sustituto_en_la_clase['id']]) ){
                     $profesores_list[$sustituto_en_la_clase['id']] = array(
-                            'meta_profe' => $sustituto_en_la_clase
-                        );
+                        'meta_profe' => $sustituto_en_la_clase
+                    );
                 }
                 $profesores_list[$sustituto_en_la_clase['id']]['sustituciones'][$sustituto_en_la_clase['fecha']][$datos_clase['id']] = $datos_clase;
                 $profesores_list[$sustituto_en_la_clase['id']]['sustituciones'][$sustituto_en_la_clase['fecha']][$datos_clase['id']]['fecha'] = $sustitutos_en_la_clase;
@@ -623,7 +708,6 @@ Class RobotsInformesDataGenerator {
 
             foreach ($profesores_list as $profesor) {
                 $clases_profe = array();
-                $sustituciones_profe = array();
 
                 foreach ($profesor['clases'] as $clase) {
                     $clases_profe[] = $clase;
@@ -655,13 +739,10 @@ Class RobotsInformesDataGenerator {
     private function get_informe_passwords () {
 
         $response = array();
+        $siteUrl = get_site_url();
 
-        $clases_posts = get_posts( array(
-                        "post_type" => "clases",
-                        'post_status' => 'clase_activo',
-                        'posts_per_page' => -1
-                    )
-                );
+        $clases_posts = $this->getClases();
+
 
         foreach ($clases_posts as $key => $clase) {
 
@@ -676,21 +757,34 @@ Class RobotsInformesDataGenerator {
             $colegio_nombre = get_the_title($colegio_id);
             $colegio_zona = wp_get_post_terms( $colegio_id, 'tax_zonas', array("fields" => "all") );
 
-            $colegio_calendarios = $colegio_meta_bruta['clase_calendarios'];
-            $calendarios_fechas = array();
+            // tiene asignaturas ?
+            $ria_asignaturas = get_post_meta($clase->ID,'clase_asignaturas',false);
+
+            if(is_array($ria_asignaturas) && count($ria_asignaturas) == 1 && $ria_asignaturas[0] == 0){
+                $is_asignaturas = false;
+            }else if(is_array($ria_asignaturas) && count($ria_asignaturas) > 0){
+                $is_asignaturas = true;
+            }else{
+                $is_asignaturas = false;
+            }
+
+            $url = $siteUrl . '/wp-admin/post.php?post=' . $clase->ID . '&action=edit';
 
             $response[] = array(
-                    'id' => $clase->ID,
-                    'name' => $clase_nombre,
-                    'colegio' => $colegio_nombre,
-                    'colegio_id' => $colegio_id,
-                    'pass' => $clase_pass,
-                    'colegio_zona' => array(
-                        'id' => (int) $colegio_zona[0]->term_id,
-                        'nombre' => $colegio_zona[0]->name,
-                        'parent' => (int) $colegio_zona[0]->parent,
-                    )
-                );
+                'id' => $clase->ID,
+                'name' => $clase_nombre,
+                'colegio' => $colegio_nombre,
+                'colegio_id' => $colegio_id,
+                'pass' => $clase_pass,
+                'url' => $url,
+                'meta' => $colegio_meta_bruta,
+                'isasignaturas' => $is_asignaturas,
+                'colegio_zona' => array(
+                    'id' => (int) $colegio_zona[0]->term_id,
+                    'nombre' => $colegio_zona[0]->name,
+                    'parent' => (int) $colegio_zona[0]->parent,
+                )
+            );
 
         }
 
@@ -703,11 +797,11 @@ Class RobotsInformesDataGenerator {
         $response = array();
 
         $clases_posts = get_posts( array(
-                        "post_type" => "clases",
-                        'post_status' => 'clase_activo',
-                        'posts_per_page' => -1
-                    )
-                );
+                "post_type" => "clases",
+                'post_status' => 'clase_activo',
+                'posts_per_page' => -1
+            )
+        );
 
         foreach ($clases_posts as $key => $clase) {
 
@@ -785,10 +879,10 @@ Class RobotsInformesDataGenerator {
                     'nombre' => $zona_profe_nombre . ' ' . $zona_profe_apellidos,
                     'bajas' => $zona_profe_bajas ,
                     'zona' => array(
-                                'id' => (int) $zona_profe->term_id,
-                                'nombre' => $zona_profe->name,
-                                'parent' => (int) $zona_profe->parent,
-                            ),
+                        'id' => (int) $zona_profe->term_id,
+                        'nombre' => $zona_profe->name,
+                        'parent' => (int) $zona_profe->parent,
+                    ),
                 );
             }
 
@@ -807,48 +901,44 @@ Class RobotsInformesDataGenerator {
                     'bajas' => $zona_profe_bajas ,
                     'fecha' => $sustituto['fecha'],
                     'zona' => array(
-                                'id' => (int) $zona_profe->term_id,
-                                'nombre' => $zona_profe->name,
-                                'parent' => (int) $zona_profe->parent,
-                            ),
+                        'id' => (int) $zona_profe->term_id,
+                        'nombre' => $zona_profe->name,
+                        'parent' => (int) $zona_profe->parent,
+                    ),
                 );
             }
 
             $temp = array(
-                        'clase' => array(
-                                'id' => $clase->ID,
-                                'name' => $clase->post_title,
-                                'colegio_id' => $colegio_id,
-                                'colegio_name' => $colegio_nombre,
-                                'colegio_calendarios' => $calendarios_fechas,
-                                'colegio_dias_sin_clase' => $colegio_dias_sin_clase,
-                                'colegio_zona' => array(
-                                        'id' => (int) $colegio_zona[0]->term_id,
-                                        'nombre' => $colegio_zona[0]->name,
-                                        'parent' => (int) $colegio_zona[0]->parent,
-                                    ),
-                                'clase_recurrentes' => $clase_dias_recurrentes_output ,
-                                'clases_extra_lectivos' => $clase_extra_lectivos_output,
-                                'clase_sin_clase' => $clase_dias_sin_clase ,
-                                'clase_ini' => $clase_inicio,
-                                'clase_fin' => $clase_fin,
-                                'clase_precio' => (int) $clase_coste,
-                             ),
-                        'profesores' => $profesores_output,
-                        'sustitutos' => $profesores_sustitutos_output
-                   );
+                'clase' => array(
+                    'id' => $clase->ID,
+                    'name' => $clase->post_title,
+                    'colegio_id' => $colegio_id,
+                    'colegio_name' => $colegio_nombre,
+                    'colegio_calendarios' => $calendarios_fechas,
+                    'colegio_dias_sin_clase' => $colegio_dias_sin_clase,
+                    'colegio_zona' => array(
+                        'id' => (int) $colegio_zona[0]->term_id,
+                        'nombre' => $colegio_zona[0]->name,
+                        'parent' => (int) $colegio_zona[0]->parent,
+                    ),
+                    'clase_recurrentes' => $clase_dias_recurrentes_output ,
+                    'clases_extra_lectivos' => $clase_extra_lectivos_output,
+                    'clase_sin_clase' => $clase_dias_sin_clase ,
+                    'clase_ini' => $clase_inicio,
+                    'clase_fin' => $clase_fin,
+                    'clase_precio' => (int) $clase_coste,
+                ),
+                'profesores' => $profesores_output,
+                'sustitutos' => $profesores_sustitutos_output
+            );
 
-
-
-
-
-           array_push($response,$temp);
+            array_push($response,$temp);
         }
 
         return $this->clases_to_teachers_reorder($response);
     }
 
-  //...
+    //...
 }
 
 new RobotsInformesDataGenerator();
