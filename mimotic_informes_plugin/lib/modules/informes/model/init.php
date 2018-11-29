@@ -325,8 +325,14 @@ Class RobotsInformesDataGenerator {
             $response[] = $this->set_clase_calendar($clase);
         }
 
+        usort($response, function($a, $b) {
+            return $a['profes'][0]['name'] <=> $b['profes'][0]['name'];
+        });
+
         return $response;
     }
+
+
 
     /**
      * Obtener piezas del pedido
@@ -861,7 +867,6 @@ Class RobotsInformesDataGenerator {
                 );
             }
 
-
             $profesores = maybe_unserialize($clase_meta_bruta['_profesor_principal']);
             $profesores_output = array();
 
@@ -871,8 +876,6 @@ Class RobotsInformesDataGenerator {
                 $zona_profe_nombre = get_user_meta($profe, 'first_name', true);
                 $zona_profe_apellidos = get_user_meta($profe, 'last_name', true);
                 $zona_profe_bajas = get_user_meta($profe, '_profesor_no_asistencia', false);
-
-
 
                 $profesores_output[] = array(
                     'id' => (int) $profe,
