@@ -82,15 +82,7 @@ Class RobotsInformesDataGenerator {
         $this->userZonas = $this->get_user_zonas();
     }
 
-    private function is_coordinador(){
-        $user = wp_get_current_user();
-        if ( is_array($this->userRoles) && in_array( 'coordinadorzonas', $this->userRoles )  ) return true;
-        else if ( is_string($this->userRoles) && 'coordinadorzonas' === $this->userRoles ) return true;
-        return false;
-    }
-
     private function is_admin () {
-        $user = wp_get_current_user();
         if ( is_array($this->userRoles) && (in_array( 'administrator', $this->userRoles ) || in_array( 'fakeadmin', $this->userRoles ) ) ) return true;
         else if ( is_string($this->userRoles) && ('administrator' === $this->userRoles || 'fakeadmin' === $this->userRoles) ) return true;
         return false;
@@ -106,33 +98,6 @@ Class RobotsInformesDataGenerator {
         }
 
         wp_die();
-    }
-
-    private function get_colegios_zonas_in(){
-
-        $ids_colegios = array();
-        $zona_del_coordinador = get_user_zona();
-
-        $related = get_posts(array(
-            'post_type' => 'colegios' // Set post type you are relating to.
-        ,'posts_per_page' => -1
-        ,'post_status' => 'publish'
-        ,'orderby' => 'post_title'
-        ,'order' => 'ASC'
-        ,'suppress_filters' => false // This must be set to false
-        ,'tax_query' => array(
-                array(
-                    'taxonomy' => 'tax_zonas',
-                    'field' => 'id',
-                    'terms' => $zona_del_coordinador,
-                    'include_children' => true,
-                )
-            )
-        ));
-        foreach ($related as $key => $value) {
-            $ids_colegios[] = (int)$value->ID;
-        }
-        return $ids_colegios;
     }
 
     private function informes_for_current_user () {
@@ -179,63 +144,6 @@ Class RobotsInformesDataGenerator {
         return $profes;
     }
 
-    private function pillaLoQUePuedas ($clase_id) {
-
-        $clase_meta_bruta = get_post_meta( $clase_id );
-        $colegio_id = (int) $clase_meta_bruta['clase_colegio'][0];
-        $clase_inicio = $clase_meta_bruta['_clase_inicio'][0];
-        $clase_fin = $clase_meta_bruta['_clase_fin'][0];
-        $clase_dias_sin_clase = $clase_meta_bruta['_clase_dias_sin_clase'];
-        $clase_coste = $clase_meta_bruta['_clase_coste'][0];
-
-
-        $colegio_meta_bruta = get_post_meta( $colegio_id );
-
-        $colegio_nombre = get_the_title($colegio_id);
-        $colegio_zona = wp_get_post_terms( $colegio_id, 'tax_zonas', array("fields" => "all") );
-
-        $colegio_calendarios = $colegio_meta_bruta['clase_calendarios'];
-        $calendarios_fechas = array();
-
-        if ( is_array($colegio_calendarios) ){
-            foreach ($colegio_calendarios as $key => $calendario) {
-
-                $calendario_id = explode("opt_", $calendario);
-                $calendario_id = (int) $calendario_id[1];
-
-                if($calendario_id > 0){
-                    $title_calendario = get_the_title($calendario_id);
-                    $calendarios_fechas[] = get_post_meta($calendario_id, 'fecha_calendario', false);
-                }
-
-            }
-        }
-
-        $colegio_dias_sin_clase = $colegio_meta_bruta['_clase_dias_sin_clase_colegio'];
-
-        $clase_dias_recurrentes = maybe_unserialize($clase_meta_bruta['clase_semana'][0]);
-        $clase_dias_recurrentes_output = array();
-
-        foreach ($clase_dias_recurrentes as $key => $recurrentes) {
-            $clase_dias_recurrentes_output[] = array(
-                'dia' => $recurrentes['clase_semana_dias'][0],
-                'inicio' => $recurrentes['clase_semana_ini'][0],
-                'fin' => $recurrentes['clase_semana_end'][0]
-            );
-        }
-
-        $clase_extra_lectivos = maybe_unserialize($clase_meta_bruta['_clase_dias_extra_lectivos'][0]);
-        $clase_extra_lectivos_output = array();
-
-        foreach ($clase_extra_lectivos as $key => $extra) {
-            $clase_extra_lectivos_output[] = array(
-                'dia' => $extra['fecha'],
-                'inicio' => $extra['clase_semana_ini'],
-                'fin' => $extra['clase_semana_end']
-            );
-        }
-    }
-
     /**
      * consige las urls con los ids de las imágenes
      * @param  [array] $images_ids [array de ids]
@@ -276,7 +184,7 @@ Class RobotsInformesDataGenerator {
             $response = array_merge($response,$temp);
         }
 
-        if(!empty($festivos_colegio)){
+        if (!empty($festivos_colegio)) {
             $festivos_colegio = mimotic_array_clean_empty($festivos_colegio);
             $response = array_merge($response, $festivos_colegio);
         }
@@ -286,7 +194,6 @@ Class RobotsInformesDataGenerator {
         $response = mimotic_array_uniq($response);
 
         return $response;
-
         //...
     }
 
@@ -867,6 +774,7 @@ Class RobotsInformesDataGenerator {
                 );
             }
 
+
             $profesores = maybe_unserialize($clase_meta_bruta['_profesor_principal']);
             $profesores_output = array();
 
@@ -876,6 +784,8 @@ Class RobotsInformesDataGenerator {
                 $zona_profe_nombre = get_user_meta($profe, 'first_name', true);
                 $zona_profe_apellidos = get_user_meta($profe, 'last_name', true);
                 $zona_profe_bajas = get_user_meta($profe, '_profesor_no_asistencia', false);
+
+
 
                 $profesores_output[] = array(
                     'id' => (int) $profe,

@@ -72,8 +72,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="616">
-              <caret line="868" selection-start-line="868" selection-end-line="868" />
+            <state relative-caret-position="279">
+              <caret line="832" column="64" lean-forward="true" selection-start-line="832" selection-start-column="64" selection-end-line="832" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -289,12 +289,12 @@
       <workItem from="1538056753766" duration="4618000" />
       <workItem from="1538406865047" duration="1187000" />
       <workItem from="1543350950903" duration="1280000" />
-      <workItem from="1543407100646" duration="21243000" />
+      <workItem from="1543407100646" duration="21858000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28328000" />
+    <option name="totallyTimeSpent" value="28943000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -468,8 +468,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="868" selection-start-line="868" selection-end-line="868" />
+        <state relative-caret-position="279">
+          <caret line="832" column="64" lean-forward="true" selection-start-line="832" selection-start-column="64" selection-end-line="832" selection-end-column="64" />
         </state>
       </provider>
     </entry>
