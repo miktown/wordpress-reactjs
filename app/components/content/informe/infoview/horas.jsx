@@ -229,25 +229,30 @@ class InformeHoras extends React.Component {
               let laMedia = precioAcumulado / horasAcumulado
               let clases = calendarYearsMonths[year][month].clases + 1
               let fechas = calendarYearsMonths[year][month].fechas
+              let desglose = calendarYearsMonths[year][month].desglose
               fechas.push(date.dia)
+              desglose.push(self.setDesgloseString(date))
               calendarYearsMonths[year][month] = {
                 horas: horasAcumulado,
-                precioAcumulado: precioAcumulado,
+                precioAcumulado,
                 media: laMedia,
-                clases: clases,
-                fechas: fechas
+                desglose,
+                clases,
+                fechas
               }
             } else {
               let horasNuevo = duracionHoras
               let precioNuevo = duracionHoras * parseFloat(date.precio)
               let laMediaNuevo = precioNuevo / horasNuevo
               let fechas = [date.dia]
+              let desglose = [self.setDesgloseString(date)]
               calendarYearsMonths[year][month] = {
                 horas: horasNuevo,
                 precioAcumulado: precioNuevo,
                 media: laMediaNuevo,
+                desglose,
                 clases: 1,
-                fechas: fechas
+                fechas
               }
             }
           })
@@ -262,17 +267,30 @@ class InformeHoras extends React.Component {
     return profesoresOutput
   }
 
+  setDesgloseString (date) {
+    let endDate = moment(date.inicio, 'HH:mm').add(date.fin, 'minutes').format('HH:mm')
+    return `El día ${date.dia} entró a las ${date.inicio} y salió a las ${endDate}`
+  }
+
   convertFloatHours (floatHours) {
     let justHours = parseInt(floatHours)
     let justMinutes = parseInt(floatHours * 60 - justHours * 60)
     return justHours + 'h y ' + justMinutes + 'min'
   }
 
+  createListDesgloseView (desglose) {
+    let output = []
+    desglose.sort().map((desglosado, index) => {
+      output.push(<div style={{paddingLeft: '2em', color: '#8e3d74'}} key={index}><br /><span className="dashicons dashicons-backup"></span> <strong>{desglosado}</strong></div>)
+    })
+    return output
+  }
+
   createCalendarView (calendar) {
     let self = this
     let output = []
     calendar.map((year, keyYear) => year.map((month, keyMonth) => {
-      output.push(<div style={{paddingLeft: '4em'}} key={keyYear.toString() + keyMonth.toString()}><br />· En <strong> {self.getMonthName(keyMonth)} de {keyYear}</strong> impartió {month.clases} clases ({this.convertFloatHours(month.horas.toFixed(2))}) con un coste total de {month.precioAcumulado.toFixed(2)}€ dando una media de <strong>{month.media.toFixed(2)}€</strong></div>)
+      output.push(<div style={{paddingLeft: '4em'}} key={keyYear.toString() + keyMonth.toString()}><br />· En <strong> {self.getMonthName(keyMonth)} de {keyYear}</strong> impartió {month.clases} clases ({this.convertFloatHours(month.horas.toFixed(2))}) {self.createListDesgloseView(month.desglose)}</div>)
     }))
     return output
   }
