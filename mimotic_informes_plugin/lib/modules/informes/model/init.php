@@ -109,7 +109,7 @@ Class RobotsInformesDataGenerator {
             $this->informesList = array(
                 array('name' => 'Totales','selected' => false),
                 array('name' => 'Informe','selected' => true),
-                array('name' => 'Nóminas','selected' => false),
+                array('name' => 'Presencia','selected' => false),
                 array('name' => 'Piezas','selected' => false),
                 array('name' => 'Pedidos','selected' => false),
                 array('name' => 'Passwords','selected' => false),
@@ -213,6 +213,7 @@ Class RobotsInformesDataGenerator {
         $festivos_colegio = get_post_meta($colegio_id,'_clase_dias_sin_clase_colegio',false);
         $festivos_calendario = maybe_unserialize($colegio_meta_bruta['clase_calendarios']);
         $festivos_clase = $clase_meta_bruta['_clase_dias_sin_clase'];
+        $images_teacher = (isset($clase_meta_bruta['_imagenes_profesor'])) ? $clase_meta_bruta['_imagenes_profesor']: array();
 
         return [
             "recurrentes" => maybe_unserialize($clase_meta_bruta['clase_semana'][0]),
@@ -226,7 +227,7 @@ Class RobotsInformesDataGenerator {
             "colegio_id" => $colegio_id,
             "colegio_nombre" => get_the_title($colegio_id),
             "colegio_zona" => wp_get_post_terms( $colegio_id, 'tax_zonas', array("fields" => "all") ),
-            "media" => $this->get_meta_date($clase_meta_bruta['_imagenes_profesor'])
+            "media" => $this->get_meta_date($images_teacher)
         ];
     }
 
@@ -329,6 +330,7 @@ Class RobotsInformesDataGenerator {
     private function cleanClases($clases, $alumno_id){
 
         $response = array();
+        $siteUrl = get_site_url();
 
         foreach ($clases as $clase) {
             $clase_id = $clase['clase'];
@@ -404,6 +406,10 @@ Class RobotsInformesDataGenerator {
 
             $curso_edad_nivel = wp_get_post_terms( $alumno->ID, 'tax_cursos', array("fields" => "all") );
 
+            $curso_edad_nivel_term_id = (isset($curso_edad_nivel[0]) && $curso_edad_nivel[0]->term_id) ? $curso_edad_nivel[0]->term_id : '';
+            $curso_edad_nivel_name = (isset($curso_edad_nivel[0]) && $curso_edad_nivel[0]->name) ? $curso_edad_nivel[0]->name : '';
+
+
             $clases_alumno_bruto = get_post_meta($alumno->ID,'_clase_in',false);
 
             $clases_alumno_bruto = $this->array_unique_multidimensional($clases_alumno_bruto);
@@ -416,10 +422,10 @@ Class RobotsInformesDataGenerator {
                 "nombre" => $alumno->post_title,
                 "bajas" => $no_asistencia,
                 "clases" => $clases_alumno,
-                "profesores" => $profesores,
+                "profesores" => '',
                 "curso" => array(
-                    "id" => (int) $curso_edad_nivel[0]->term_id,
-                    "nombre" => $curso_edad_nivel[0]->name,
+                    "id" => (int) $curso_edad_nivel_term_id,
+                    "nombre" => $curso_edad_nivel_name
                 ),
                 "colegio" => array(
                     "id" => $colegio_id,
@@ -629,14 +635,19 @@ Class RobotsInformesDataGenerator {
             foreach ($profesores_list as $profesor) {
                 $clases_profe = array();
 
-                foreach ($profesor['clases'] as $clase) {
-                    $clases_profe[] = $clase;
+                if(isset($profesor['clases'])){
+                    foreach ($profesor['clases'] as $clase) {
+                        $clases_profe[] = $clase;
+                    }
                 }
 
-                foreach ($profesor['sustituciones'] as $key => $sustituciones) {
-                    foreach ($sustituciones as $sustituciones_clase) {
-                        $sustituciones_clase['fecha'] = $key;
-                        $clases_profe[] = $sustituciones_clase;
+
+                if(isset($profesor['sustituciones']) && is_array($profesor['sustituciones'])){
+                    foreach ($profesor['sustituciones'] as $key => $sustituciones) {
+                        foreach ($sustituciones as $sustituciones_clase) {
+                            $sustituciones_clase['fecha'] = $key;
+                            $clases_profe[] = $sustituciones_clase;
+                        }
                     }
                 }
 

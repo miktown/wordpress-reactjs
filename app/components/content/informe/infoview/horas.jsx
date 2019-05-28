@@ -132,8 +132,8 @@ class InformeHoras extends React.Component {
       if (!clase.hasOwnProperty('fecha')) {
         // días sin clase
         if (clase.colegio_dias_sin_clase) clase.colegio_dias_sin_clase.map(diaSinClase => { if (diaSinClase) output.bajas.push(diaSinClase) })
-        // lupos me pide quitar los días del calendario
-        // if (clase.colegio_calendarios) clase.colegio_calendarios.map(calendario => calendario.map(diaSinClase => { if (diaSinClase) output.bajas.push(diaSinClase) }))
+        // lupos me pide quitar los días del calendario // para control de presencia vuelvo a activarlos
+        if (clase.colegio_calendarios) clase.colegio_calendarios.map(calendario => calendario.map(diaSinClase => { if (diaSinClase) output.bajas.push(diaSinClase) }))
         if (clase.clase_sin_clase) clase.clase_sin_clase.map(diaSinClase => { if (diaSinClase) output.bajas.push(diaSinClase) })
 
         // días con clase
@@ -262,12 +262,6 @@ class InformeHoras extends React.Component {
     return profesoresOutput
   }
 
-  createDaysView (days) {
-    let output = []
-    days.map((day, key) => output.push(<p key={key}>{day}</p>))
-    return output
-  }
-
   convertFloatHours (floatHours) {
     let justHours = parseInt(floatHours)
     let justMinutes = parseInt(floatHours * 60 - justHours * 60)
@@ -278,7 +272,7 @@ class InformeHoras extends React.Component {
     let self = this
     let output = []
     calendar.map((year, keyYear) => year.map((month, keyMonth) => {
-      output.push(<div style={{paddingLeft: '4em'}} key={keyYear.toString() + keyMonth.toString()}><br />· En <strong> {self.getMonthName(keyMonth)} de {keyYear}</strong> impartió {month.clases} clases ({this.convertFloatHours(month.horas.toFixed(2))}) con un coste total de {month.precioAcumulado.toFixed(2)}€ dando una media de <strong>{month.media.toFixed(2)}€ la hora</strong></div>)
+      output.push(<div style={{paddingLeft: '4em'}} key={keyYear.toString() + keyMonth.toString()}><br />· En <strong> {self.getMonthName(keyMonth)} de {keyYear}</strong> impartió {month.clases} clases ({this.convertFloatHours(month.horas.toFixed(2))}) con un coste total de {month.precioAcumulado.toFixed(2)}€ dando una media de <strong>{month.media.toFixed(2)}€</strong></div>)
     }))
     return output
   }
@@ -289,6 +283,7 @@ class InformeHoras extends React.Component {
 
   render () {
     let dataProfesores = this.listProfesores()
+
     return <div>
       <p className='introduction'>
         Mostrando {dataProfesores.length} {dataProfesores.length === 1 ? 'profesor' : 'profesores'} de <strong>{this.props.zona}</strong> desde el <strong>{moment(this.props.inicio, 'DD/MM/Y').format('DD/MM/Y')}</strong> hasta el <strong>{moment(this.props.fin, 'DD/MM/Y').format('DD/MM/Y')}</strong>
