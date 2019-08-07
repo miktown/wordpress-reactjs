@@ -281,7 +281,7 @@ class InformeHoras extends React.Component {
   createListDesgloseView (desglose) {
     let output = []
     desglose.sort().map((desglosado, index) => {
-      output.push(<div style={{paddingLeft: '2em', color: '#8e3d74'}} key={index}><br /><span className="dashicons dashicons-backup"></span> <strong>{desglosado}</strong></div>)
+      output.push(<div style={{paddingLeft: '2em', color: '#8e3d74'}} key={index}><br /><span className='dashicons dashicons-backup' /> <strong>{desglosado}</strong></div>)
     })
     return output
   }

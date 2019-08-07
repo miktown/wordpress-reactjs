@@ -699,10 +699,16 @@ Class RobotsInformesDataGenerator {
                 $is_asignaturas = false;
             }
 
+            $profe = get_post_meta($clase->ID, "_profesor_principal", true);
+            $nombre = get_user_meta($profe, 'first_name', true);
+            $apellidos = get_user_meta($profe, 'last_name', true);
+            $nombre_completo = $nombre . ' ' . $apellidos;
+
             $url = $siteUrl . '/wp-admin/post.php?post=' . $clase->ID . '&action=edit';
 
             $response[] = array(
                 'id' => $clase->ID,
+                'profe' => $nombre_completo,
                 'name' => $clase_nombre,
                 'colegio' => $colegio_nombre,
                 'colegio_id' => $colegio_id,
@@ -742,7 +748,6 @@ Class RobotsInformesDataGenerator {
             $clase_inicio = $clase_meta_bruta['_clase_inicio'][0];
             $clase_fin = $clase_meta_bruta['_clase_fin'][0];
             $clase_dias_sin_clase = $clase_meta_bruta['_clase_dias_sin_clase'];
-            $clase_coste = $clase_meta_bruta['_clase_coste'][0];
 
 
             $colegio_meta_bruta = get_post_meta( $colegio_id );
@@ -857,7 +862,7 @@ Class RobotsInformesDataGenerator {
                     'clase_sin_clase' => $clase_dias_sin_clase ,
                     'clase_ini' => $clase_inicio,
                     'clase_fin' => $clase_fin,
-                    'clase_precio' => (int) $clase_coste,
+                    'clase_precio' => 0,
                 ),
                 'profesores' => $profesores_output,
                 'sustitutos' => $profesores_sustitutos_output
