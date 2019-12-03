@@ -52,7 +52,7 @@ class InformePass extends React.Component {
         )
         passOutput.push(<div style={{background: 'white', margin: '.5em auto', padding: '.5em 1em', display: 'block', width: '100%', boxShadow: '0 1px 2px #999', height: 'auto', position: 'relative', overflow: 'hidden'}} key={password.id}>
           <p style={{marginLeft: '2em', float: 'left', width: '450px'}}><a href={password.url}>{password.name}</a></p>
-          <p style={{marginLeft: '2em', float: 'left'}}> id: {password.colegio_id} </p>
+          <p style={{marginLeft: '2em', float: 'left'}}> id: {password.id} </p>
           <span style={{display: 'inline-block', background: '#0073aa', padding: '0.5em 1em', borderRadius: '3px', fontSize: '0.6em', color: 'white', fontWeight: '300', float: 'right', marginRight: '3em', marginTop: '1em'}}><strong>{password.colegio_zona.nombre}</strong></span>
         </div>)
       }

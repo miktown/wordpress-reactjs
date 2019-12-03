@@ -48,7 +48,7 @@ class InformePass extends React.Component {
     piezas.sort((a, b) => b.colegio_id - a.colegio_id).map(password => {
       if (password.colegio_zona.id && password.colegio_zona.id > 0 && this.isValidZona(password.colegio_zona.id)) {
         this.csv.data.push(
-          { clase: password.name, token: password.pass, profe: password.profe, zona: password.colegio_zona.nombre }
+          { clase: password.name, token: password.pass, profesor: password.profe, zona: password.colegio_zona.nombre }
         )
         passOutput.push(<div style={{background: 'white', margin: '.5em auto', padding: '.5em 1em', display: 'block', width: '100%', boxShadow: '0 1px 2px #999', height: 'auto', position: 'relative', overflow: 'hidden'}} key={password.id}>
           <p style={{marginLeft: '2em', float: 'left', width: '450px'}}> {password.name} | profe: {password.profe} </p>
