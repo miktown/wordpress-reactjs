@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f93bef00-d8e8-460f-8d2f-b0a98b62ddc0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/components/content/informe/infoview/passwords.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/content/informe/infoview/passwords.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/components/content/informe/infoview/sinasignaturas.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/content/informe/infoview/sinasignaturas.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/content/informe/infoview/colegios.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/content/informe/infoview/colegios.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/app/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/app/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php" beforeDir="false" afterPath="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/app/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -16,12 +18,12 @@
     <session id="-1938286816">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="9" />
+          <entry key="project.closed" value="10" />
           <entry key="project.open.time.1" value="4" />
-          <entry key="project.open.time.2" value="1" />
+          <entry key="project.open.time.2" value="2" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="4" />
-          <entry key="project.opened" value="10" />
+          <entry key="project.opened" value="11" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -29,9 +31,9 @@
           <entry key="css" value="1" />
           <entry key="js" value="11" />
           <entry key="json" value="7" />
-          <entry key="jsx" value="36" />
+          <entry key="jsx" value="39" />
           <entry key="md" value="1" />
-          <entry key="php" value="9" />
+          <entry key="php" value="13" />
           <entry key="styl" value="1" />
         </counts>
       </usages-collector>
@@ -39,22 +41,22 @@
         <counts>
           <entry key="CSS" value="1" />
           <entry key="JSON" value="7" />
-          <entry key="JSX Harmony" value="36" />
+          <entry key="JSX Harmony" value="39" />
           <entry key="JavaScript" value="11" />
           <entry key="Markdown" value="1" />
-          <entry key="PHP" value="9" />
+          <entry key="PHP" value="13" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
-          <entry key="StandardJSService" value="8" />
+          <entry key="StandardJSService" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="json" value="9" />
-          <entry key="jsx" value="2827" />
+          <entry key="jsx" value="2860" />
           <entry key="php" value="100" />
           <entry key="styl" value="1" />
         </counts>
@@ -62,7 +64,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JSON" value="9" />
-          <entry key="JSX Harmony" value="2827" />
+          <entry key="JSX Harmony" value="2860" />
           <entry key="PHP" value="100" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
@@ -72,78 +74,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/mimotic_informes_app.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="471">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
-              <folding>
-                <element signature="e#6#934#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/server.js">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/passwords.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="57" column="7" lean-forward="true" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/sinasignaturas.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
-              <caret line="54" column="79" lean-forward="true" selection-start-line="54" selection-start-column="79" selection-end-line="54" selection-end-column="79" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/alumnos.jsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="30" column="40" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="711">
-              <caret line="77" column="10" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="10" />
+            <state relative-caret-position="1095">
+              <caret line="76" column="9" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/webpack.config.js">
+        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/fotos.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-441" />
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/package-lock.json">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="24">
-                <caret line="1" selection-start-line="1" selection-end-line="1" />
-              </first_editor>
-              <second_editor />
+            <state relative-caret-position="253">
+              <caret line="159" column="24" selection-start-line="159" selection-start-column="24" selection-end-line="159" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -151,11 +94,50 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/horas.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2664">
-              <caret line="113" column="21" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
+            <state relative-caret-position="423">
+              <caret line="94" selection-start-line="94" selection-end-line="94" />
               <folding>
                 <element signature="e#14#39#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/alumnos.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="591">
+              <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="549">
+              <caret line="243" column="62" selection-start-line="243" selection-start-column="62" selection-end-line="243" selection-end-column="62" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/index.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="462">
+              <caret line="37" column="39" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
+              <folding>
+                <element signature="e#14#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/colegios.jsx">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="630">
+              <caret line="57" column="12" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -164,8 +146,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>term_taxonomy_id</find>
-      <find>under</find>
       <find>forEach</find>
       <find>foreac</find>
       <find>leng</find>
@@ -194,6 +174,8 @@
       <find>BANCARIA</find>
       <find>profe</find>
       <find>csv</find>
+      <find>get_informe_colegios</find>
+      <find>sort</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -205,15 +187,16 @@
         <option value="$PROJECT_DIR$/app/components/wrapper/index.jsx" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/app/app.js" />
-        <option value="$PROJECT_DIR$/app/components/content/informe/infoview/fotos.jsx" />
         <option value="$PROJECT_DIR$/app/components/content/informe/infoview/horas.jsx" />
         <option value="$PROJECT_DIR$/app/components/content/informe/infoview/alumnos.jsx" />
         <option value="$PROJECT_DIR$/app/components/content/informe/infoview/index.jsx" />
-        <option value="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php" />
         <option value="$PROJECT_DIR$/app/stylus/reset.styl" />
         <option value="$PROJECT_DIR$/mimotic_informes_plugin/mimotic_informes_app.php" />
         <option value="$PROJECT_DIR$/app/components/content/informe/infoview/passwords.jsx" />
         <option value="$PROJECT_DIR$/app/components/content/informe/infoview/sinasignaturas.jsx" />
+        <option value="$PROJECT_DIR$/app/components/content/informe/infoview/colegios.jsx" />
+        <option value="$PROJECT_DIR$/app/components/content/informe/infoview/fotos.jsx" />
+        <option value="$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php" />
       </list>
     </option>
   </component>
@@ -242,7 +225,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -303,10 +285,28 @@
               <item name="lib" type="462c0819:PsiDirectoryNode" />
               <item name="modules" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="wordpress-reactjs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wordpress-reactjs" type="462c0819:PsiDirectoryNode" />
+              <item name="mimotic_informes_plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="informes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wordpress-reactjs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wordpress-reactjs" type="462c0819:PsiDirectoryNode" />
+              <item name="mimotic_informes_plugin" type="462c0819:PsiDirectoryNode" />
+              <item name="lib" type="462c0819:PsiDirectoryNode" />
+              <item name="modules" type="462c0819:PsiDirectoryNode" />
+              <item name="informes" type="462c0819:PsiDirectoryNode" />
+              <item name="model" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -357,18 +357,19 @@
       <workItem from="1559041983118" duration="2124000" />
       <workItem from="1565177751989" duration="5280000" />
       <workItem from="1565200317275" duration="45000" />
-      <workItem from="1575377807343" duration="714000" />
+      <workItem from="1575377807343" duration="1057000" />
+      <workItem from="1579709807648" duration="2337000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="45191000" />
+    <option name="totallyTimeSpent" value="47871000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2771673" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2802198" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -421,9 +422,6 @@
         <state relative-caret-position="-2793" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/index.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/components/wrapper/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="256">
@@ -453,13 +451,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/colegios.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="62" column="54" selection-start-line="62" selection-start-column="54" selection-end-line="62" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/profesores.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1200">
@@ -468,24 +459,10 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/app/app.js" />
-    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/fotos.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3672">
-          <caret line="155" column="45" selection-start-line="155" selection-start-column="45" selection-end-line="155" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/components/content/informe/index.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1728">
           <caret line="81" column="22" lean-forward="true" selection-start-line="81" selection-start-column="22" selection-end-line="81" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16608">
-          <caret line="700" selection-start-line="700" selection-end-line="700" />
         </state>
       </provider>
     </entry>
@@ -496,10 +473,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/index.jsx">
+    <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/mimotic_informes_app.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="37" column="39" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
+        <state relative-caret-position="471">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+          <folding>
+            <element signature="e#6#934#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/sinasignaturas.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="48">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
             <element signature="e#14#39#0" expanded="true" />
           </folding>
@@ -516,62 +503,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/horas.jsx">
+    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/passwords.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2664">
-          <caret line="113" column="21" selection-start-line="113" selection-start-column="21" selection-end-line="113" selection-end-column="21" />
+        <state relative-caret-position="746">
+          <caret line="57" column="7" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/server.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="32" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/index.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/colegios.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="630">
+          <caret line="57" column="12" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1095">
+          <caret line="76" column="9" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/index.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="462">
+          <caret line="37" column="39" selection-start-line="37" selection-start-column="39" selection-end-line="37" selection-end-column="39" />
           <folding>
             <element signature="e#14#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/server.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/mimotic_informes_app.php">
+    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/alumnos.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="471">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        <state relative-caret-position="591">
+          <caret line="46" column="39" selection-start-line="46" selection-start-column="39" selection-end-line="46" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/horas.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="94" selection-start-line="94" selection-end-line="94" />
           <folding>
-            <element signature="e#6#934#0#PHP" expanded="true" />
+            <element signature="e#14#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.config.js">
+    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/fotos.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-441" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package-lock.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/alumnos.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="30" column="40" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="40" />
+        <state relative-caret-position="253">
+          <caret line="159" column="24" selection-start-line="159" selection-start-column="24" selection-end-line="159" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
+    <entry file="file://$PROJECT_DIR$/mimotic_informes_plugin/lib/modules/informes/model/init.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="711">
-          <caret line="77" column="10" selection-start-line="77" selection-start-column="5" selection-end-line="77" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/passwords.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="57" column="7" lean-forward="true" selection-start-line="57" selection-start-column="7" selection-end-line="57" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/components/content/informe/infoview/sinasignaturas.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
-          <caret line="54" column="79" lean-forward="true" selection-start-line="54" selection-start-column="79" selection-end-line="54" selection-end-column="79" />
+        <state relative-caret-position="549">
+          <caret line="243" column="62" selection-start-line="243" selection-start-column="62" selection-end-line="243" selection-end-column="62" />
         </state>
       </provider>
     </entry>

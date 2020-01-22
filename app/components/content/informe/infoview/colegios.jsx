@@ -52,7 +52,7 @@ class InformeColegios extends React.Component {
   }
 
   listColegios () {
-    let colegios = this.props.workData.colegios
+    let colegios = this.props.workData.alumnos.colegios
     let colegiosOutput = []
 
     colegios

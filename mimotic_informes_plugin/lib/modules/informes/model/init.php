@@ -126,7 +126,7 @@ Class RobotsInformesDataGenerator {
         $this->response['pedidos'] = $this->get_informe_pedidos();
         $this->response['piezas'] = $this->get_informe_piezas();
         $this->response['passwords'] = $this->get_informe_passwords();
-        $this->response['colegios'] = $this->get_informe_colegios();
+        $this->get_informe_colegios();
         $this->response['alumnos'] = $this->get_informe_alumnos();
         $this->response['sinfotos'] = $this->get_informe_sinfotos();
     }
@@ -241,7 +241,7 @@ Class RobotsInformesDataGenerator {
         }
 
         usort($response, function($a, $b) {
-            return $a['profes'][0]['name'] <=> $b['profes'][0]['name'];
+            return $a['colegio_nombre'] <=> $b['colegio_nombre'];
         });
 
         return $response;
