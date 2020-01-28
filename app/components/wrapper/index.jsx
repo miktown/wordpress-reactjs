@@ -20,14 +20,20 @@ class AppWrapper extends React.Component {
   }
 
   dataUpdateSetter (data) {
-    this.setDataStored('infomes_updated', new Date().getTime())
-    this.setDataStored('infomes_data_work', data)
+    // this.setDataStored('infomes_updated', new Date().getTime())
+    // this.setDataStored('infomes_data_work', data)
+
+    this.setState({
+      updated: new Date().getTime(),
+      workData: data
+    })
 
     this.dataStateEval()
   }
 
   getDataStored (key) {
     return JSON.parse(window.localStorage.getItem(key)) || false
+    // return JSON.parse(window.localStorage.getItem(key)) || false
   }
 
   setDataStored (key, data) {
@@ -58,8 +64,11 @@ class AppWrapper extends React.Component {
   }
 
   dataStateEval () {
-    let informesUpdated = this.getDataStored('infomes_updated')
-    let informesWorkData = this.getDataStored('infomes_data_work')
+    let informesUpdated = this.state.updated
+    let informesWorkData = this.state.workData
+    // let informesUpdated = this.getDataStored('infomes_updated')
+    //
+    // let informesWorkData = this.getDataStored('infomes_data_work')
     return informesUpdated && informesWorkData ? this.actualizarVista(informesUpdated, informesWorkData) : this.doActualizar()
   }
 
